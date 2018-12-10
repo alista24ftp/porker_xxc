@@ -2,10 +2,11 @@
 <view class="m-ucenter g-row greybg">
     <view class="m-uc-top">
         <view class="m-profile">
-            <image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>
+            <!--<image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>-->
+            <image class="avatar" src="{{user.user_photo}}" alt=""></image>
             <view class="info">
                 <view class="nickname">
-                    camel1059205
+                    {{user.user_name}}
                 </view>
                 <view class="membershipLevel">
                     <text class="memberTitle1">驼客</text>

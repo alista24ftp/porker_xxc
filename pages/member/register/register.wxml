@@ -18,6 +18,7 @@
 
 
     <view class="userProfile">
+      
         <view class="avatar">
             <view class="wrap">
                 <image class="pic" mode="widthFix" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>
@@ -33,14 +34,14 @@
             <view class="item">
                 <text class="label">手机号</text>
                 <view class="right">
-                   <input type="text" class="txtInput" value="" placeholder="请输入手机号" />
-                   <button class="verify">获取验证码</button>
+                   <input type="text" class="txtInput" value="" placeholder="请输入手机号" bindinput="bindPhone" />
+                   <button bindtap="getVerify" class="verify" data-phone="{{phoneNum}}">获取验证码</button>
                 </view>
             </view>
             <view class="item">
                 <text class="label">验证码</text>
                 <view class="right">
-                   <input type="text" class="txtInput" value="" placeholder="请输入验证码" />
+                   <input type="text" class="txtInput" value="{{verifyCode}}" placeholder="请输入验证码" />
                 </view>
             </view>
             <view class="item">
@@ -85,8 +86,9 @@
         </view>
         <view class="orderRFT">
             <view class="left">取消</view>
-            <view class="right">注册</view>
+            <view class="right" bindtap="submitReg">注册</view>
         </view>
+      
     </view>
 
 </view>

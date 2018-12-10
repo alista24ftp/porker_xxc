@@ -7,10 +7,10 @@ Page({
     },
     pud: function (e) {
         console.log(e)
-        var img = e.currentTarget.dataset.img,
-            text = e.currentTarget.dataset.text;
+        var cid = e.currentTarget.dataset.cid;
+        let cname = e.currentTarget.dataset.cname;
         wx.navigateTo({
-            url: '../news/news?img=' + img + '&text=' + text
+            url: '../product/productList/productList?cid=' + cid + '&cname=' + cname
         })
     },
     onLoad: function (options) {

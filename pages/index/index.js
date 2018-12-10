@@ -18,6 +18,28 @@ Page({
         circular: true
     },
     onLoad: function(options){
-      console.log(app.globalData.apiHost);
+      //console.log(app.globalData.apiHost);
+      /*
+      wx.clearStorage({
+        success: function(res){
+          console.log(res);
+        },
+        fail: function(err){
+          console.error(err);
+        }
+      });
+      */
+      
+    },
+    onShow: function(options){
+      wx.getStorage({
+        key: 'logintoken',
+        success: function (res) {
+          console.log(res.data);
+        },
+        fail: function (err) {
+          console.error(err);
+        }
+      });
     }
 })

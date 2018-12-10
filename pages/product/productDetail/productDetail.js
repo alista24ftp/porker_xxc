@@ -13,5 +13,12 @@ Page({
         interval: 5000,
         duration: 500,
         circular: true
+    },
+
+    onLoad: function(options){
+      let productId = options.prodid;
+      this.setData({
+        productId: productId
+      });
     }
 })

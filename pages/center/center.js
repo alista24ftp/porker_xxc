@@ -13,6 +13,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    let that = this;
     wx.login({
       success(res){
         if(res.code){
@@ -39,7 +40,29 @@ Page({
                       Only: loginToken
                     },
                     success: function (user) {
-                      console.log(user);
+                      if(user.data.code == 200){
+                        let userInfo = user.data.data;
+                        userInfo.user_photo = config.default.ApiHost + userInfo.user_photo;
+                        wx.setStorage({
+                          key: 'userinfo', 
+                          data: {
+                            loginToken: loginToken,
+                            user: userInfo
+                          },
+                          success: function(info){
+                            
+                            that.setData({
+                              user: userInfo
+                            });
+                          },
+                          fail: function(err){
+                            console.error(err);
+                          }
+                        });
+                        
+                      }else{
+                        console.error('Unable to get user info');
+                      }
                     }
                   });
                 }else{

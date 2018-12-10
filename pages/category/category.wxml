@@ -32,7 +32,7 @@
 				<block wx:for="{{item.child}}" wx:for-item="subcat">
 					<view class="navRight-main-item-list">
 						<!--<block wx:for="{{subitem.subList}}" wx:for-item="descitem" >-->
-							<navigator bindtap="pud" data-img="{{apiHost + subcat.cat_img}}" data-text="{{subcat.cat_name}}">
+							<navigator bindtap="pud" data-cid="{{subcat.cat_id}}" data-cname="{{subcat.cat_name}}">
 								<!-- <view> -->
 									<image src="{{apiHost + subcat.cat_img}}"></image>
 									<text>{{subcat.cat_name}}</text>

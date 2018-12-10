@@ -1087,7 +1087,8 @@ m-indexHd .inner {
 }
 
 .m-goods-grid .list .item {
-    display: inline-block;
+    /*display: inline-block;*/
+    float: left;
     width: 350rpx;
     overflow:hidden;
     margin-left: 19rpx;
