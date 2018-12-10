@@ -16,5 +16,8 @@ Page({
         interval: 5000,
         duration: 500,
         circular: true
+    },
+    onLoad: function(options){
+      console.log(app.globalData.apiHost);
     }
 })

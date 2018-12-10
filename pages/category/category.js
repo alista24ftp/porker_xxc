@@ -1,5 +1,6 @@
 // pages/zx/zx.js
-var categoryData = require("../../data/classiFication.js")
+var categoryData = require("../../data/classiFication.js");
+const config = require('../../config.js');
 Page({
     data: {
         currentIndex: 0
@@ -13,11 +14,33 @@ Page({
         })
     },
     onLoad: function (options) {
+        /*
         //console.log(options)
         // 页面初始化 options为页面跳转所带来的参数
         this.setData({
             categoryData: categoryData.default.data
         })
+        */
+      var that = this;
+      wx.request({
+        url: config.default.ApiHost + '/xcc/material/category.html',
+        method: 'POST',
+        success: function(res){
+          if(res.data.code == 200){
+            console.log(res.data.data);
+            let categories = res.data.data;
+            that.setData({
+              categories: categories,
+              apiHost: config.default.ApiHost
+            });
+          }else{
+            console.error(res);
+            that.setData({
+              categories: []
+            });
+          }
+        }
+      });
     },
     onAside: function (options) {
         //console.log(options)

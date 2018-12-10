@@ -1,0 +1,9 @@
+/* pages/member/register/register.wxss */
+.userProfile .infos .item .right .verify {
+    width: 30%;
+    float: right;
+    font-size: 26rpx;
+    border: 0;
+    color: #666;
+    text-align: center;
+}

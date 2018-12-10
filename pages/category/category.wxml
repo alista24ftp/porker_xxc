@@ -21,24 +21,24 @@
     <view class="wrap">
     <!-- 左侧导航 -->
         <view class="navLeft">
-            <block wx:for="{{categoryData}}">
-			    <text catchtap="onAside" data-index="{{index}}" class="{{currentIndex == index?'active':''}}">{{item.title}}</text>
+            <block wx:for="{{categories}}">
+			    <text catchtap="onAside" data-index="{{index}}" class="{{currentIndex == index?'active':''}}">{{item.cat_name}}</text>
 		    </block>
         </view>
         <!-- 右侧内容 -->
 	<view class="navRight">
-		<block wx:for="{{categoryData}}">
+		<block wx:for="{{categories}}">
 			<view class="navRight-main-item" wx:if="{{currentIndex == index}}">
-				<block wx:for="{{item.list}}" wx:for-item="subitem">
+				<block wx:for="{{item.child}}" wx:for-item="subcat">
 					<view class="navRight-main-item-list">
-						<block wx:for="{{subitem.subList}}" wx:for-item="descitem" >
-							<navigator bindtap="pud" data-img="{{descitem.descUrl}}" data-text="{{descitem.descTitlt}}">
+						<!--<block wx:for="{{subitem.subList}}" wx:for-item="descitem" >-->
+							<navigator bindtap="pud" data-img="{{apiHost + subcat.cat_img}}" data-text="{{subcat.cat_name}}">
 								<!-- <view> -->
-									<image src="{{descitem.descUrl}}"></image>
-									<text>{{descitem.descTitlt}}</text>
+									<image src="{{apiHost + subcat.cat_img}}"></image>
+									<text>{{subcat.cat_name}}</text>
 								<!-- </view> -->
 							</navigator>
-						</block>
+						<!--</block>-->
 					</view>
 				</block>
 			</view>
