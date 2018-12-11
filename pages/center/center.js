@@ -157,11 +157,85 @@ Page({
             });
           }
         },
-        fail: function (err) {
-          console.error(err);
-          that.setData({
-            loggedIn: false,
-            user: null
+        fail: function (err) { // 没登录, 需要登录
+          wx.login({
+            success(res) {
+              if (res.code) {
+                wx.request({
+                  url: config.default.ApiHost + '/xcc/Login/index',
+                  method: 'POST',
+                  data: {
+                    code: res.code
+                  },
+                  success: function (data) {
+
+                    if (data.data.code == 200) {
+                      let registered = (data.data.type == 1);
+                      let loginData = data.data.data;
+                      //console.log('Registered: ' + (registered ? 'yes' : 'no'));
+                      //console.log(loginData);
+                      if (registered) {
+                        let loginToken = loginData;
+                        console.log(loginToken);
+                        // Get user info
+                        wx.request({
+                          url: config.default.ApiHost + '/xcc/Login/getInfo',
+                          method: 'POST',
+                          data: {
+                            Only: loginToken
+                          },
+                          success: function (user) {
+                            if (user.data.code == 200) {
+                              let userInfo = user.data.data;
+                              userInfo.user_photo = config.default.ApiHost + userInfo.user_photo;
+                              wx.setStorage({
+                                key: 'userinfo',
+                                data: {
+                                  loginToken: loginToken,
+                                  user: userInfo
+                                },
+                                success: function (info) {
+
+                                  that.setData({
+                                    user: userInfo,
+                                    loggedIn: true
+                                  });
+                                },
+                                fail: function (err) {
+                                  console.error(err);
+                                }
+                              });
+
+                            } else {
+                              console.error('Unable to get user info');
+                            }
+                          }
+                        });
+                      } else {
+                        let openId = loginData;
+                        // Register
+                        wx.redirectTo({
+                          url: '../member/register/register?id=' + openId,
+                        })
+                      }
+
+                    } else {
+                      console.error('Login unsuccessful');
+                      wx.redirectTo({
+                        url: '../member/register/register'
+                      });
+                    }
+                  }
+                });
+
+              } else {
+                console.error('Unable to login: no login code');
+              }
+            },
+            fail(err) {
+              console.error('请重新登录微信');
+              console.error(err);
+            }
           })
         }
       })
