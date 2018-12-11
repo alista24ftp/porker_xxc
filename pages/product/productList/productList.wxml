@@ -95,13 +95,13 @@
         <view class="m-goods-grid">
             <view class="list" wx:for="{{productList}}">
                 <view class="item">
-                  <navigator url='../productDetail/productDetail?prodid={{item.goods_id}}'>
+                  <view data-pid="{{item.goods_id}}" bindtap="chooseProduct" bindlongtap="chooseProduct">
                     <view class="wraper">
                         <view class="hd">
                             <image class="pic" src="{{item.goods_img}}" alt=""></image>
                             <view class="specification">
                                 <view class="count">{{item.goods_nums}}</view>
-                                <!-- react-text: 4122 -->色可选
+                                <!-- react-text: 4122 -->剩余
                                 <!-- /react-text -->
                             </view>
                         </view>
@@ -114,7 +114,7 @@
                             <!-- /react-text -->
                         </view>
                     </view>
-                  </navigator>
+                  </view>
                 </view>
             </view>
         </view>

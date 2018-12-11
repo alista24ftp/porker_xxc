@@ -19,6 +19,7 @@
         </view>
     </view> -->
 
+    <!--
     <view class="zw-banner detail-swiper">
         <swiper indicator-dots="{{indicatorDots}}" indicator-color="{{indicatorColor}}" circular="{{circular}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
             <block wx:for="{{imgUrls}}">
@@ -30,16 +31,32 @@
             </block>
         </swiper>
     </view>
+    -->
+    <view class="zw-banner detail-swiper">
+        <swiper indicator-dots="{{indicatorDots}}" indicator-color="{{indicatorColor}}" circular="{{circular}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+            <block wx:for="{{product.goods_album}}">
+                <swiper-item>
+                    <view>
+                        <image src="{{item}}" class="slide-image" width="750" height="376" />
+                    </view>
+                </swiper-item>
+            </block>
+        </swiper>
+    </view>
 
     <view class="dt-section">
         <view class="m-detailBase">
             <view class="info">
+              <!--
                 <view class="name">Camel骆驼运动跑鞋 男女休闲透气运动鞋 轻便耐磨跑步鞋</view>
                 <view class="desc">中国田径协会马拉松赛指定款 竞速级跑步体验</view>
                 <view class="price">￥140.00</view>
                 <!-- <view class="taglist">
                     <view class="wrap"></view>
                 </view> -->
+                <view class="name">{{product.goods_name}}</view>
+                <view class="desc"></view>
+                <view class="price">￥{{product.goods_newprice}}</view>
             </view>
             <view class="comment collet">
                 <view class="wrap">
@@ -120,14 +137,29 @@
                 <view class="attrList">
                     <view class="tt">商品参数</view>
                     <view class="item">
+                      <view class="left">货号</view>
+                        <view class="right">
+                            <view class="con">{{product.goods_sn}}</view>
+                        </view>
+                      <view wx:for="{{product.goods_stuff}}">
+                      <!--
                         <view class="left">货号</view>
                         <view class="right">
                             <view class="con">A712357085</view>
                         </view>
+                      -->
+                        <view class="left">{{item.k}}</view>
+                        <view class="right">
+                            <view class="con">{{item.v}}</view>
+                        </view>
+                      </view>
                     </view>
                 </view>
             </view>
-            <image src="https://img01.camel.com.cn/product/detail/A712357085/7b743ca4-54fe-408a-aeb6-380603f20c73.jpg" alt="" mode="widthFix"></image>
+            <!--<image src="https://img01.camel.com.cn/product/detail/A712357085/7b743ca4-54fe-408a-aeb6-380603f20c73.jpg" alt="" mode="widthFix"></image>-->
+            <view wx:for="{{product.goods_des}}">
+              <image src="{{item}}" alt="" mode="widthFix"></image>
+            </view>
         </view>
         <view class="m-commonIssues m-rmcdGoods">
             <view class="tt">

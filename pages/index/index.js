@@ -19,21 +19,11 @@ Page({
     },
     onLoad: function(options){
       //console.log(app.globalData.apiHost);
-      /*
-      wx.clearStorage({
-        success: function(res){
-          console.log(res);
-        },
-        fail: function(err){
-          console.error(err);
-        }
-      });
-      */
       
     },
     onShow: function(options){
       wx.getStorage({
-        key: 'logintoken',
+        key: 'userinfo',
         success: function (res) {
           console.log(res.data);
         },

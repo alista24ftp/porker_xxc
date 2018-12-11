@@ -6,32 +6,38 @@ Page({
    * 页面的初始数据
    */
   data: {
-  
+    loggedIn: false,
+    user: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+  },
+
+  login: function(e){
     let that = this;
     wx.login({
-      success(res){
-        if(res.code){
+      success(res) {
+        if (res.code) {
           wx.request({
             url: config.default.ApiHost + '/xcc/Login/index',
             method: 'POST',
             data: {
               code: res.code
             },
-            success: function(data){
+            success: function (data) {
 
-              if(data.data.code == 200){
+              if (data.data.code == 200) {
                 let registered = (data.data.type == 1);
                 let loginData = data.data.data;
                 //console.log('Registered: ' + (registered ? 'yes' : 'no'));
                 //console.log(loginData);
-                if(registered){
+                if (registered) {
                   let loginToken = loginData;
+                  console.log(loginToken);
                   // Get user info
                   wx.request({
                     url: config.default.ApiHost + '/xcc/Login/getInfo',
@@ -40,40 +46,41 @@ Page({
                       Only: loginToken
                     },
                     success: function (user) {
-                      if(user.data.code == 200){
+                      if (user.data.code == 200) {
                         let userInfo = user.data.data;
                         userInfo.user_photo = config.default.ApiHost + userInfo.user_photo;
                         wx.setStorage({
-                          key: 'userinfo', 
+                          key: 'userinfo',
                           data: {
                             loginToken: loginToken,
                             user: userInfo
                           },
-                          success: function(info){
-                            
+                          success: function (info) {
+
                             that.setData({
-                              user: userInfo
+                              user: userInfo,
+                              loggedIn: true
                             });
                           },
-                          fail: function(err){
+                          fail: function (err) {
                             console.error(err);
                           }
                         });
-                        
-                      }else{
+
+                      } else {
                         console.error('Unable to get user info');
                       }
                     }
                   });
-                }else{
+                } else {
                   let openId = loginData;
                   // Register
                   wx.redirectTo({
                     url: '../member/register/register?id=' + openId,
                   })
                 }
-                
-              }else{
+
+              } else {
                 console.error('Login unsuccessful');
                 wx.redirectTo({
                   url: '../member/register/register'
@@ -81,15 +88,41 @@ Page({
               }
             }
           });
-          
-        }else{
+
+        } else {
           console.error('Unable to login: no login code');
         }
       },
-      fail(err){
+      fail(err) {
+        console.error('请重新登录微信');
         console.error(err);
       }
     })
+  },
+
+  logout: function(e){
+    let that = this;
+    wx.clearStorage({
+      success: function(msg){
+        console.log(msg);
+        that.setData({
+          loggedIn: false,
+          user: null
+        });
+        wx.reLaunch({
+          url: './center',
+          success: function(msg){
+            console.log('Logged out');
+          },
+          fail: function(err){
+            console.error(err);
+          }
+        })
+      },
+      fail: function(err){
+        console.error(err);
+      }
+    });
   },
 
   /**
@@ -103,7 +136,37 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    let that = this;
+    if(!this.data.loggedIn || !this.data.user){
+      wx.getStorage({
+        key: 'userinfo',
+        success: function (data) {
+          let loginToken = data.data.loginToken;
+          let userInfo = data.data.user;
+          console.log(loginToken);
+          console.log(userInfo);
+          if (!loginToken || !userInfo) {
+            that.setData({
+              loggedIn: false,
+              user: null
+            });
+          } else {
+            that.setData({
+              loggedIn: true,
+              user: userInfo
+            });
+          }
+        },
+        fail: function (err) {
+          console.error(err);
+          that.setData({
+            loggedIn: false,
+            user: null
+          })
+        }
+      })
+    }
+    
   },
 
   /**

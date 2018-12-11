@@ -1,7 +1,8 @@
 <!--pages/center/center.wxml-->
 <view class="m-ucenter g-row greybg">
     <view class="m-uc-top">
-        <view class="m-profile">
+        <view class="m-profile" wx:if="{{loggedIn}}">
+          
             <!--<image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>-->
             <image class="avatar" src="{{user.user_photo}}" alt=""></image>
             <view class="info">
@@ -9,12 +10,18 @@
                     {{user.user_name}}
                 </view>
                 <view class="membershipLevel">
-                    <text class="memberTitle1">驼客</text>
+                    <!--<text class="memberTitle1">驼客</text>-->
+                    <text class="memberPoints">积分: {{user.user_score}}</text>
                 </view>
                 <view class="icon ion-ios-arrow-right top_right"></view>
             </view>
+          
+        </view>
+        <view class="m-profile" wx:else>
+          <text class="please-login">请先登录</text>
         </view>
     </view>
+    <view wx:if="{{loggedIn}}">
     <view class="m-uc-wrap">
         <view class="m-uc-wraptit">
             <text class="txt">我的订单</text>
@@ -116,5 +123,11 @@
             </view>
         </view>
     </view>
-    <button class="w-button ">退出</button>
+    </view>
+    <view wx:if="{{!loggedIn}}">
+      <button class="w-button " bindtap="login">登录</button>
+    </view>
+    <view wx:if="{{loggedIn}}">
+      <button class="w-button " bindtap="logout">退出</button>
+    </view>
 </view>

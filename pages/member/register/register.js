@@ -47,6 +47,9 @@ Page({
         }else{
           console.error(res);
         }
+      },
+      fail: function(err){
+        console.error(err);
       }
     });
   },
@@ -65,12 +68,18 @@ Page({
           if(res.data.type == 1){
             console.log('Registration success');
             let loginToken = res.data.data;
+            let userInfo = res.data.user;
+            userInfo.user_photo = config.default.ApiHost + userInfo.user_photo;
             console.log(loginToken);
+            console.log(userInfo);
             wx.setStorage({
-              key: 'logintoken',
-              data: loginToken,
+              key: 'userinfo',
+              data: {
+                loginToken: loginToken,
+                user: userInfo
+              },
               success: function (info) {
-                wx.redirectTo({
+                wx.reLaunch({
                   url: '../../center/center',
                   success: function(r){
                     console.log(r);

@@ -1,1 +1,10 @@
 /* pages/center/center.wxss */
+.m-profile .please-login {
+  font-size: 37rpx;
+  color: #fff;
+}
+
+.m-profile .memberPoints {
+  color: #b4a078;
+  font-size: 27rpx;
+}
