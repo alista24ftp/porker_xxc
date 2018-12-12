@@ -100,8 +100,8 @@
                         <view class="hd">
                             <image class="pic" src="{{item.goods_img}}" alt=""></image>
                             <view class="specification">
-                                <view class="count">{{item.goods_nums}}</view>
-                                <!-- react-text: 4122 -->剩余
+                                已卖<view class="count">{{item.goods_nums}}</view>
+                                <!-- react-text: 4122 -->件
                                 <!-- /react-text -->
                             </view>
                         </view>

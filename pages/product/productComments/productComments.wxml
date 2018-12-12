@@ -1,0 +1,42 @@
+<!--pages/product/productComments/productComments.wxml-->
+<view class="comment-list-title">
+  <text class="txt">用户评价({{commentsNum}})</text>
+</view>
+
+<view class="comment-list">
+  <view class="comment-item" wx:for="{{comments}}">
+    
+      <view class="comment-hd">
+          <view class="link">
+              <image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>
+              <!--<text class="name">匿名***</text>-->
+              <text class="name">{{item.name}}</text>
+          </view>
+      </view>
+      <view class="extraInfo">
+        <!--
+          <text class="time">2017年09月19日 17:54:00</text>
+          <text class="skus">女,粉红38</text>
+          -->
+          <text class="time">{{item.com_time}}</text>
+          <text class="skus">{{item.sku_id}}</text>
+      </view>
+      <view class="content">
+        <!--
+          <p class="txt">物有所值，希望大家购买，穿着十分轻便、透气，优良鞋底很厚，鞋子是正品，鞋底防滑效果不错，价格也便宜，是运动健身很好的选择，推荐给大家放心、舒心、安心的购买</p>-->
+          <p class="txt">{{item.com_des}}</p>
+      </view>
+      <view class="commentPics">
+          <ul class="list">
+            <view wx:if="{{item.com_type == 1}}">
+              <view wx:for="{{item.com_img}}" wx:for-item="commentimg" class="item">
+                <li>
+                  <image src="{{commentimg}}" class="img"></image>
+                </li>
+              </view>
+            </view>
+          </ul>
+      </view>
+    
+  </view>
+</view>

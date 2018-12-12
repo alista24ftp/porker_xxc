@@ -1,1 +1,37 @@
 /* pages/product/productDetail/productDetail.wxss */
+.commentPics .list {
+    list-style: none;
+}
+
+.commentPics .item {
+  margin-right: 15rpx;
+  margin-top: 15rpx;
+  display: inline-block;
+}
+
+.commentPics .item .img {
+  width: 200rpx;
+  height: 200rpx;
+}
+
+.rec-item {
+  display: inline-block;
+  width: 50%;
+  margin-bottom: 40rpx;
+}
+
+.rec-item .rec-item-img {
+  width: 100%;
+}
+
+.rec-item .rec-item-name {
+  display: block;
+  font-size: 26rpx;
+  text-align: center;
+}
+
+.rec-item .rec-item-price {
+  display: block;
+  color: red;
+  text-align: center;
+}

@@ -49,11 +49,8 @@ Page({
 
   chooseProduct: function(e){
     let pid = e.currentTarget.dataset.pid;
-    let product = this.data.productList.filter(prod=>prod.goods_id==pid)[0];
-    product.goods_album = product.goods_album.map(img=>config.default.ApiHost + img);
-    product.goods_des = product.goods_des.map(img => config.default.ApiHost + img);
     wx.navigateTo({
-      url: '../productDetail/productDetail?product=' + JSON.stringify(product),
+      url: '../productDetail/productDetail?pid=' + pid,
       fail: function(err){
         console.error(err);
       }

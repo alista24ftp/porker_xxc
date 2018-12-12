@@ -1,0 +1,13 @@
+<!--pages/product/productSpec/productSpec.wxml-->
+<view>
+  <form bindsubmit="done" bindreset="resetQuantity">
+    <view class="item">
+      <text>请选择购物数量</text>
+      <input type="text" name="quantity" value="{{quantity}}" bindinput="enterQuantity" />
+      <button bindtap="increase">+</button>
+      <button bindtap="decrease">-</button>
+    </view>
+    <button form-type="reset">重置</button>
+    <button form-type="submit">完成</button>
+  </form>
+</view>

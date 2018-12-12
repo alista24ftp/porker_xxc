@@ -75,7 +75,7 @@
                 <text class="txt">请选择规格数量</text>
             </view>
             <view class="middle"></view>
-            <view class="right">
+            <view class="right" bindtap="selectSku">
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
@@ -104,30 +104,48 @@
     <view class="dt-section-2 dt-section-3 dt-comment">
         <view class="m-listItem">
             <view class="left">
-                <text class="txt">用户评价(999)</text>
+                <!--<text class="txt">用户评价(999)</text>-->
+                <text class="txt">用户评价({{comments.com.sums}})</text>
             </view>
             <view class="middle"></view>
-            <view class="right">
+            <view class="right" bindtap="seeComments">
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
         <view class="comment-item">
+          <view wx:if="{{shownComment !== undefined}}">
             <view class="comment-hd">
                 <view class="link">
                     <image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>
-                    <text class="name">匿名***</text>
+                    <!--<text class="name">匿名***</text>-->
+                    <text class="name">{{shownComment.name}}</text>
                 </view>
             </view>
             <view class="extraInfo">
+              <!--
                 <text class="time">2017年09月19日 17:54:00</text>
                 <text class="skus">女,粉红38</text>
+                -->
+                <text class="time">{{shownComment.com_time}}</text>
+                <text class="skus">{{shownComment.sku_id}}</text>
             </view>
             <view class="content">
-                <p class="txt">物有所值，希望大家购买，穿着十分轻便、透气，优良鞋底很厚，鞋子是正品，鞋底防滑效果不错，价格也便宜，是运动健身很好的选择，推荐给大家放心、舒心、安心的购买</p>
+              <!--
+                <p class="txt">物有所值，希望大家购买，穿着十分轻便、透气，优良鞋底很厚，鞋子是正品，鞋底防滑效果不错，价格也便宜，是运动健身很好的选择，推荐给大家放心、舒心、安心的购买</p>-->
+                <p class="txt">{{shownComment.com_des}}</p>
             </view>
             <view class="commentPics">
-                <ul class="list"></ul>
+                <ul class="list">
+                  <view wx:if="{{shownComment.com_type == 1}}">
+                    <view wx:for="{{shownComment.com_img}}" class="item">
+                      <li>
+                        <image src="{{item}}" class="img"></image>
+                      </li>
+                    </view>
+                  </view>
+                </ul>
             </view>
+          </view>
         </view>
     </view>
 
@@ -166,7 +184,13 @@
                 <view class="line"></view>
                 <span class="text">大家都在看</span>
             </view>
-            <view class=""></view>
+            <view class="recommended">
+              <view class="rec-item" wx:for="{{recommendedItems}}" data-pid="{{item.goods_id}}" bindtap="goToRec">
+                <image src="{{item.goods_img}}" class="rec-item-img"></image>
+                <text class="rec-item-name">{{item.goods_name}}</text>
+                <text class="rec-item-price">￥{{item.goods_newprice}}</text>
+              </view>
+            </view>
         </view>
     </view>
 
@@ -176,7 +200,7 @@
                 <i class="icon icon-kefu ion-ios-chatbubble-outline"></i>
             </view>
             <view class="btn btn2">立即购买</view>
-            <view class="btn btn3">加入购物车</view>
+            <view class="btn btn3" bindtap="addToCart">加入购物车</view>
         </view>
     </view>
 </view>

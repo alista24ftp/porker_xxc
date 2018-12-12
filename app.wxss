@@ -1559,18 +1559,7 @@ m-indexHd .inner {
     margin-left: 11rpx;
 }
 
-.commentPics .list {
-    display: flex;
-}
 
-.commentPics li.item {
-    margin-right: 15rpx;
-    margin-top: 15rpx;
-}
-
-.commentPics li.item .img {
-    width: 100%;
-}
 
 .comment-item .extraInfo {
     font-size: 24rpx;
@@ -2261,7 +2250,7 @@ m-indexHd .inner {
 .m-cartGroup .cnt .line2 {
     font-size: 24rpx;
     line-height: 32rpx;
-    margin-bottom: 8rpx;
+    
     color: #666;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2272,6 +2261,8 @@ m-indexHd .inner {
 .m-cartGroup .cnt .line3 {
     font-size: 27rpx;
     line-height: 32rpx;
+    position: absolute;
+    bottom: 30rpx;
 }
 
 .detail-con .info .linethough, .m-cartGroup .cnt .linethough {

@@ -32,26 +32,32 @@
         </view>
         <view class="m-cartGroup">
             <view class="list">
+              <view wx:for="{{cartList}}" wx:for-index="idx">
                 <view class="item">
                     <view class="inner">
                         <view class="m-good">
                             <i class="icon icon-ischecked-g ion-checkmark-circled"></i>
                             <view class="imgWrap">
-                                <image src="https://img01.camel.com.cn/product/image/D6Y105770/cf2d08db-449d-4fb5-9561-c69b5c97ca5d.jpg!prodimg100" alt="" mode="widthFix"></image>
+                                <!--<image src="https://img01.camel.com.cn/product/image/D6Y105770/cf2d08db-449d-4fb5-9561-c69b5c97ca5d.jpg!prodimg100" alt="" mode="widthFix"></image>-->
+                                <image src="{{item.goods.goods_img}}" alt="" mode="widthFix"></image>
                             </view>
                             <view class="cnt">
-                                <view class="line1">Camel骆驼男装 秋冬款新品男士流行纯色可脱卸帽羽绒服外套</view>
-                                <view class="line2">咖啡*M(170/88A)</view>
-                                <view class="line3">￥218.00</view>
+                                <!--<view class="line1">Camel骆驼男装 秋冬款新品男士流行纯色可脱卸帽羽绒服外套</view>-->
+                                <view class="line1">{{item.goods.goods_name}}</view>
+                                <!--<view class="line2">咖啡*M(170/88A)</view>-->
+                                <view class="line2"></view>
+                                <!--<view class="line3">￥218.00</view>-->
+                                <view class="line3">￥{{item.goods.goods_newprice}}</view>
                             </view>
                             <view class="m-selnum">
-                                <view class="less dis">
+                                <view class="{{item.disableDecr}}" bindtap="decrease" data-index="{{idx}}">
                                     <i class="icon ion-ios-minus-empty"></i>
                                 </view>
-                                <view class="textWrap">
-                                    <input class="txt" value="1" />
+                                <view class="textWrap" >
+                                    <!--<input class="txt" value="1" />-->
+                                    <input class="txt" value="{{item.cart_num}}" bindinput="inputNum" data-index="{{idx}}"/>
                                 </view>
-                                <view class="plus">
+                                <view class="plus" bindtap="increase" data-index="{{idx}}">
                                     <i class="icon ion-ios-plus-empty"></i>
                                 </view>
                             </view>
@@ -61,6 +67,7 @@
                         </view>
                     </view>
                 </view>
+              </view>
             </view>
         </view>
         <view class="m-cartFT">

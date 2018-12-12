@@ -1,0 +1,64 @@
+/* pages/product/productComments/productComments.wxss */
+.comment-list-title {
+  display:flex;
+  min-height:90rpx;
+  line-height:90rpx;
+  margin-left:22rpx;
+  border-bottom:1px solid #d9d9d9;
+  padding-right:22rpx;
+  text-align: center;
+}
+
+.comment-list-title .txt {
+  font-size: 27rpx;
+}
+
+.comment-list .comment-item {
+  display: block;
+  border-bottom: 1px solid #d9d9d9;
+}
+
+.comment-item .comment-hd .avatar {
+  width:60rpx;
+  height:60rpx;
+  border-radius:50%;
+}
+
+.comment-item .comment-hd .name {
+  color:#333;
+  font-size:24rpx;
+  margin-left:11rpx;
+}
+
+.comment-item .extraInfo {
+  font-size:24rpx;
+  color:#999;
+  margin-top:15rpx;
+}
+
+.comment-item .extraInfo .skus {
+  margin-left:16rpx;
+}
+
+.comment-item .content .txt {
+  font-size:26rpx;
+  color:#333;
+  margin-top:15rpx;
+  margin-right:75rpx;
+}
+
+.commentPics .list {
+  list-style: none;
+}
+
+.commentPics .item {
+  margin-right:0;
+  margin-top:15rpx;
+  display:inline-block;
+  width:33.333%;
+}
+
+.commentPics .item .img {
+  width:100%;
+  height:200rpx;
+}

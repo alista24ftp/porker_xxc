@@ -26,7 +26,9 @@
     "pages/category/category",
     "pages/search/search",
     "pages/logs/logs",
-    "pages/member/register/register"
+    "pages/member/register/register",
+    "pages/product/productSpec/productSpec",
+    "pages/product/productComments/productComments"
   ],
   "window": {
     "backgroundTextStyle": "light",
