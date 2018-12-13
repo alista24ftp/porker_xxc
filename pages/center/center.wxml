@@ -105,7 +105,8 @@
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/mobileVerify/mobileVerify">
+                    <!--<navigator url="../member/mobileVerify/mobileVerify">-->
+                    <navigator url="../member/register/register">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon11.png" alt=""></image>
                         <text class="txt">修改密码</text>
                     </navigator>

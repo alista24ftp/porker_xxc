@@ -4,6 +4,28 @@
         <view class="m-shipAddress ma-layort">
             <view class="u-icon u-address-bg">
             </view>
+            <view class="item" wx:for="{{addressList}}" wx:for-index="idx">
+                <view class="left">
+                    <view class="uname">
+                        {{item.add_name}}
+                    </view>
+                    <span class="default" wx:if="{{item.add_default == 1}}">默认</span>
+                </view>
+                <view class="middle">
+                    <view class="phone">
+                        {{item.add_phone}}
+                    </view>
+                    <view class="addr">
+                        {{item.province}}-{{item.city}}-{{item.dist}}，{{item.add_street}}
+                    </view>
+                </view>
+                <view class="right">
+                  <view bindtap="editAddress" data-index="{{idx}}">
+                    <i class="icon icon-right ion-ios-arrow-right"></i>
+                  </view>
+                </view>
+            </view>
+            <!--
             <view class="item">
                 <view class="left">
                     <view class="uname">
@@ -41,8 +63,9 @@
                     <i class="icon icon-right ion-ios-arrow-right"></i>
                 </view>
             </view>
+            -->
         </view>
-        <view class="button-wrap">
+        <view class="button-wrap" bindtap="addAddress">
             <button class="w-button">＋ 新建地址</button>
         </view>
     </view>

@@ -28,7 +28,8 @@
     "pages/logs/logs",
     "pages/member/register/register",
     "pages/product/productSpec/productSpec",
-    "pages/product/productComments/productComments"
+    "pages/product/productComments/productComments",
+    "pages/member/addressAdd/addressAdd"
   ],
   "window": {
     "backgroundTextStyle": "light",

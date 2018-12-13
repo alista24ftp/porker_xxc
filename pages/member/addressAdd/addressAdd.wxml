@@ -1,0 +1,57 @@
+<!--pages/member/addressAdd/addressAdd.wxml-->
+<view class="addr-info">
+  <form bindsubmit="done" bindreset="resetAddr">
+    <view class="addr-title">地址信息</view>
+    <view class="infos">
+      <view class="item">
+        <text class="label">收货人手机号</text>
+        <view class="right">
+          <input class="txtInput" type="text" name="add_phone" value="{{addr.add_phone}}" />
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">收货人姓名</text>
+        <view class="right">
+          <input class="txtInput" type="text" name="add_name" value="{{addr.add_name}}" />
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">地址省</text>
+        <view class="right">
+          <input class="txtInput" type="text" name="province" value="{{addr.province}}" />
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">地址市</text>
+        <view class="right">
+          <input class="txtInput" type="text" name="city" value="{{addr.city}}" />
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">地址区</text>
+        <view class="right">
+          <input class="txtInput" type="text" name="dist" value="{{addr.dist}}" />
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">详细地址</text>
+        <view class="right">
+          <input class="txtInput" type="text" name="add_street" value="{{addr.add_street}}" />
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">是否设为默认地址</text>
+        <view class="right">
+          <radio-group name="add_default">
+            <label class="set-def"><radio value="1" checked="{{isDefault}}"/>设为默认</label>
+            <label class="set-def"><radio value="0" checked="{{!isDefault}}"/>不设为默认</label>
+          </radio-group>
+        </view>
+      </view>
+    </view>
+    <view class="form-buttons">
+      <button class="left" form-type="reset">重置</button>
+      <button class="right" form-type="submit">完成</button>
+    </view>
+  </form>
+</view>
