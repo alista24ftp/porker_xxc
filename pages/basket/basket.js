@@ -149,7 +149,7 @@ Page({
     let newQuantity = e.detail.value;
     let {cartList, total} = this.data;
     if(cartList[index].cart_num !== undefined){
-      if(!isNaN(newQuantity) && newQuantity >= 0){
+      if(/^[0-9]+$/.test(newQuantity) && !isNaN(newQuantity) && newQuantity >= 0){
         let oldQuantity = cartList[index].cart_num;
         cartList[index].cart_num = newQuantity;
         cartList[index].disableDecr = newQuantity > 0 ? 'less' : 'less dis';

@@ -1,13 +1,27 @@
 <!--pages/product/productSpec/productSpec.wxml-->
-<view>
+<view class="spec-info">
   <form bindsubmit="done" bindreset="resetQuantity">
-    <view class="item">
+    <view class="spec-title">
       <text>请选择购物数量</text>
-      <input type="text" name="quantity" value="{{quantity}}" bindinput="enterQuantity" />
-      <button bindtap="increase">+</button>
-      <button bindtap="decrease">-</button>
     </view>
-    <button form-type="reset">重置</button>
-    <button form-type="submit">完成</button>
+    <view class="spec-list">
+      <view class="spec-item">
+        <view class="spec-sel">
+          <view class="{{disableDecr}}" bindtap="decrease">
+              <i class="icon ion-ios-minus-empty"></i>
+          </view>
+          <view class="textWrap" >
+              <input class="txt" type="text" name="quantity" value="{{quantity}}" bindinput="enterQuantity"/>
+          </view>
+          <view class="plus" bindtap="increase">
+              <i class="icon ion-ios-plus-empty"></i>
+          </view>
+        </view>
+      </view>
+    </view>
+    <view class="form-buttons">
+      <button class="left" form-type="reset">重置</button>
+      <button class="right" form-type="submit">完成</button>
+    </view>
   </form>
 </view>

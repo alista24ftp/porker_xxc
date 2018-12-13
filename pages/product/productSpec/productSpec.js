@@ -13,50 +13,82 @@ Page({
    */
   onLoad: function (options) {
     let prodId = options.pid;
-    this.setData({
-      prodId: prodId
-    });
-  },
-
-  enterQuantity: function(e){
-    this.setData({
-      quantity: e.detail.value
-    });
-  },
-
-  increase: function(e){
-    if(!isNaN(this.data.quantity) && this.data.quantity >= 0){
+    if(options.sku !== undefined){
+      let sku = JSON.parse(options.sku);
+      let disableDecr = (sku.quantity !== undefined && sku.quantity > 0) ? 'less' : 'less dis';
+      let quantity = (sku.quantity !== undefined) ? sku.quantity : 0;
       this.setData({
-        quantity: Number(this.data.quantity) + 1
+        prodId: prodId,
+        disableDecr,
+        quantity
       });
     }else{
       this.setData({
+        prodId: prodId,
+        disableDecr: 'less dis',
         quantity: 0
       });
     }
     
   },
 
-  decrease: function(e){
-    if(!isNaN(this.data.quantity) && this.data.quantity > 0){
+  enterQuantity: function(e){
+    let newQuantity = e.detail.value;
+    if(/^[0-9]+$/.test(newQuantity) && !isNaN(newQuantity) && newQuantity > 0){
       this.setData({
-        quantity: Number(this.data.quantity) - 1
+        quantity: newQuantity,
+        disableDecr: 'less'
       });
     }else{
       this.setData({
-        quantity: 0
+        quantity: 0,
+        disableDecr: 'less dis'
       });
     }
+    
+  },
+
+  increase: function(e){
+    if(!isNaN(this.data.quantity) && this.data.quantity >= 0){
+      this.setData({
+        quantity: Number(this.data.quantity) + 1,
+        disableDecr: 'less'
+      });
+    }else{
+      this.setData({
+        quantity: 0,
+        disableDecr: 'less dis'
+      });
+    }
+    
+  },
+
+  decrease: function(e){
+    if(this.data.disableDecr == 'less'){
+      if (!isNaN(this.data.quantity) && this.data.quantity > 0) {
+        this.setData({
+          quantity: Number(this.data.quantity) - 1,
+          disableDecr: (Number(this.data.quantity) - 1 > 0) ? 'less' : 'less dis'
+        });
+      } else {
+        this.setData({
+          quantity: 0,
+          disableDecr: 'less dis'
+        });
+      }
+    }
+    
   },
 
   resetQuantity: function(e){
     this.setData({
-      quantity: 0
+      quantity: 0,
+      disableDecr: 'less dis'
     });
   },
 
   done: function(e){
-    if(!isNaN(this.data.quantity) && this.data.quantity >= 0){
+    if(!isNaN(this.data.quantity) && this.data.quantity > 0){
       let sku = { sku: '', quantity: this.data.quantity };
       wx.redirectTo({
         url: '../productDetail/productDetail?pid=' + this.data.prodId + '&sku=' + JSON.stringify(sku),

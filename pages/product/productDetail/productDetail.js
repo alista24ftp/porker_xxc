@@ -115,8 +115,9 @@ Page({
     },
 
     selectSku: function(e){
+      let sku = (this.data.sku !== undefined) ? '&sku='+JSON.stringify(this.data.sku) : '';
       wx.navigateTo({
-        url: '../productSpec/productSpec?pid=' + this.data.prodId
+        url: '../productSpec/productSpec?pid=' + this.data.prodId + sku
       });
     },
 
