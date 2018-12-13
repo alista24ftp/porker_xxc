@@ -78,9 +78,9 @@
 
     <view class="zw-banner">
         <swiper indicator-dots="{{indicatorDots}}" indicator-color="{{indicatorColor}}" circular="{{circular}}" indicator-active-color="{{indicatorActiveColor}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
-            <block wx:for="{{imgUrls}}">
+            <block wx:for="{{slide}}">
                 <swiper-item>
-                    <navigator url="../product/productDetail/productDetail" hover-class="changestyle"><image src="{{item}}" class="slide-image" width="750" height="376" /></navigator>
+                    <view><image src="{{item.slide_url}}" class="slide-image" width="750" height="376" /></view>
                 </swiper-item>
             </block>
         </swiper>
@@ -119,6 +119,51 @@
         </view>
     </view>
 
+    <view class="layort-h">
+        <view class="zw-title">
+            <image style="width:260rpx; height:33rpx;" src='http://img02.camel.com.cn/image/zw_title1.png' alt=""></image>
+        </view>
+
+        <view class="zw-banner"></view>
+
+        <view class="zw-proul2">
+            <view class="zw-proli2" wx:for="{{hot}}">
+              <view data-pid="{{item.goods_id}}" bindtap="goToProduct">
+                <image src="{{item.goods_img}}" alt=""></image>
+                <view class="zw-proli-tips"></view>
+                <view class="zw-proli-info">
+                    <view>{{item.goods_name}}</view>
+                    <view class="price-wrap">
+                        ￥<text class="price">{{item.goods_price}}</text>
+                    </view>
+                </view>
+              </view>
+            </view>
+        </view>
+    </view>
+    <view class="layort-h">
+        <view class="zw-title">
+            <image style="width:260rpx; height:33rpx;" src='http://img02.camel.com.cn/image/zw_title1.png' alt=""></image>
+        </view>
+
+        <view class="zw-banner"></view>
+
+        <view class="zw-proul2">
+            <view class="zw-proli2" wx:for="{{goods}}">
+              <view data-pid="{{item.goods_id}}" bindtap="goToProduct">
+                <image src="{{item.goods_img}}" alt=""></image>
+                <view class="zw-proli-tips"></view>
+                <view class="zw-proli-info">
+                    <view>{{item.goods_name}}</view>
+                    <view class="price-wrap">
+                        ￥<text class="price">{{item.goods_newprice}}</text>
+                    </view>
+                </view>
+              </view>
+            </view>
+        </view>
+    </view>
+    <!--
     <view class="layort-h">
         <view class="zw-title">
             <image style="width:260rpx; height:33rpx;" src='http://img02.camel.com.cn/image/zw_title1.png' alt=""></image>
@@ -210,9 +255,7 @@
                 <view class="zw-proli-info">
                     <view>骆驼户外登山包</view>
                     <view class="price-wrap">
-                        <!-- react-text: 158 -->￥
-                        <!-- /react-text -->
-                        <text class="price">178.00</text>
+                        ￥<text class="price">178.00</text>
                     </view>
                 </view>
               </navigator>
@@ -224,9 +267,7 @@
                 <view class="zw-proli-info">
                     <view>第四代自动速开帐篷</view>
                     <view class="price-wrap">
-                        <!-- react-text: 166 -->￥
-                        <!-- /react-text -->
-                        <text class="price">238.00</text>
+                        ￥<text class="price">238.00</text>
                     </view>
                 </view>
               </navigator>
@@ -256,9 +297,7 @@
                 <view class="zw-proli-info">
                     <view>骆驼户外登山包</view>
                     <view class="price-wrap">
-                        <!-- react-text: 158 -->￥
-                        <!-- /react-text -->
-                        <text class="price">178.00</text>
+                        ￥<text class="price">178.00</text>
                     </view>
                 </view>
               </navigator>
@@ -270,9 +309,7 @@
                 <view class="zw-proli-info">
                     <view>第四代自动速开帐篷</view>
                     <view class="price-wrap">
-                        <!-- react-text: 166 -->￥
-                        <!-- /react-text -->
-                        <text class="price">238.00</text>
+                        ￥<text class="price">238.00</text>
                     </view>
                 </view>
               </navigator>
@@ -284,9 +321,7 @@
                 <view class="zw-proli-info">
                     <view>第四代自动速开帐篷</view>
                     <view class="price-wrap">
-                        <!-- react-text: 166 -->￥
-                        <!-- /react-text -->
-                        <text class="price">238.00</text>
+                        ￥<text class="price">238.00</text>
                     </view>
                 </view>
               </navigator>
@@ -298,9 +333,7 @@
                 <view class="zw-proli-info">
                     <view>第四代自动速开帐篷</view>
                     <view class="price-wrap">
-                        <!-- react-text: 166 -->￥
-                        <!-- /react-text -->
-                        <text class="price">238.00</text>
+                        ￥<text class="price">238.00</text>
                     </view>
                 </view>
               </navigator>
@@ -329,9 +362,7 @@
                 <view class="zw-proli-info">
                     <view>骆驼户外登山包</view>
                     <view class="price-wrap">
-                        <!-- react-text: 158 -->￥
-                        <!-- /react-text -->
-                        <text class="price">178.00</text>
+                        ￥<text class="price">178.00</text>
                     </view>
                 </view>
               </navigator>
@@ -343,9 +374,7 @@
                 <view class="zw-proli-info">
                     <view>第四代自动速开帐篷</view>
                     <view class="price-wrap">
-                        <!-- react-text: 166 -->￥
-                        <!-- /react-text -->
-                        <text class="price">238.00</text>
+                        ￥<text class="price">238.00</text>
                     </view>
                 </view>
               </navigator>
@@ -379,9 +408,7 @@
                             <text class="p1">雕塑S迷人身材</text>
                         </view>
                         <view class="h1">
-                            <!-- react-text: 228 -->￥
-                            <!-- /react-text -->
-                            <text>229.00</text>
+                            ￥<text>229.00</text>
                         </view>
                     </view>
                 </view>
@@ -399,9 +426,7 @@
                             <text class="p1">一体编织成型</text>
                         </view>
                         <view class="h1">
-                            <!-- react-text: 236 -->￥
-                            <!-- /react-text -->
-                            <text>56.00</text>
+                            ￥<text>56.00</text>
                         </view>
                     </view>
                 </view>
@@ -419,9 +444,7 @@
                             <text class="p1">一穿立变蜜桃臀</text>
                         </view>
                         <view class="h1">
-                            <!-- react-text: 244 -->￥
-                            <!-- /react-text -->
-                            <text>58.00</text>
+                            ￥<text>58.00</text>
                         </view>
                     </view>
                 </view>
@@ -439,9 +462,7 @@
                             <text class="p1">包出好三围</text>
                         </view>
                         <view class="h1">
-                            <!-- react-text: 252 -->￥
-                            <!-- /react-text -->
-                            <text>219.00</text>
+                            ￥<text>219.00</text>
                         </view>
                     </view>
                 </view>
@@ -472,9 +493,7 @@
                 <view class="zw-proli-info">
                     <view>骆驼户外登山包</view>
                     <view class="price-wrap">
-                        <!-- react-text: 158 -->￥
-                        <!-- /react-text -->
-                        <text class="price">178.00</text>
+                        ￥<text class="price">178.00</text>
                     </view>
                 </view>
               </navigator>
@@ -486,15 +505,14 @@
                 <view class="zw-proli-info">
                     <view>第四代自动速开帐篷</view>
                     <view class="price-wrap">
-                        <!-- react-text: 166 -->￥
-                        <!-- /react-text -->
-                        <text class="price">238.00</text>
+                        ￥<text class="price">238.00</text>
                     </view>
                 </view>
               </navigator>
             </view>
         </view>
     </view>
+    -->
 
 
 </view>

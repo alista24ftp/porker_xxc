@@ -36,7 +36,10 @@
                 <view class="item">
                     <view class="inner">
                         <view class="m-good">
-                            <i class="icon icon-ischecked-g ion-checkmark-circled"></i>
+                            <!--<i class="icon icon-ischecked-g ion-checkmark-circled"></i>-->
+                            <view bindtap="toggleSelect" data-index="{{idx}}">
+                              <i class="{{item.checked}}"></i>
+                            </view>
                             <view class="imgWrap">
                                 <!--<image src="https://img01.camel.com.cn/product/image/D6Y105770/cf2d08db-449d-4fb5-9561-c69b5c97ca5d.jpg!prodimg100" alt="" mode="widthFix"></image>-->
                                 <image src="{{item.goods.goods_img}}" alt="" mode="widthFix"></image>
@@ -73,10 +76,12 @@
         <view class="m-cartFT">
             <view class="left">
                 <view class="checkAll">
-                    <i class="icon icon-ischecked-g ion-checkmark-circled"></i>
-                    <text class="txt">已选 (1)</text>
+                  <view bindtap="toggleAll">
+                    <i class="{{chooseAll}}"></i>
+                  </view>
+                    <text class="txt">已选 ({{chosenNum}})</text>
                 </view>
-                <view class="price">￥218.00
+                <view class="price"><!--￥218.00-->￥{{total}}
                     <text class="prefer">（优惠:0）</text>
                 </view>
             </view>

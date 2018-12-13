@@ -1,7 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+const config = require('../../config.js');
+const login = require('../../utils/login.js');
 Page({
     data: {
         imgUrls: [
@@ -19,8 +20,49 @@ Page({
     },
     onLoad: function(options){
       //console.log(app.globalData.apiHost);
-      
+      let that = this;
+      wx.request({
+        url: config.default.ApiHost + '/xcc/material/index/',
+        method: 'POST',
+        success: function(res){
+          let hostRegex = new RegExp('^' + config.default.ApiHost);
+          console.log(res);
+          if(res.data.code == 200){
+            let {goods, hot, slide} = res.data;
+            goods = goods.map(good=>{
+              good.goods_img = hostRegex.test(good.goods_img) ? good.goods_img : config.default.ApiHost + good.goods_img;
+              return good;
+            });
+            hot = hot.map(good => {
+              good.goods_img = hostRegex.test(good.goods_img) ? good.goods_img : config.default.ApiHost + good.goods_img;
+              return good;
+            });
+            slide = slide.map(sl => {
+              sl.slide_url = hostRegex.test(sl.slide_url) ? sl.slide_url : config.default.ApiHost + sl.slide_url;
+              return sl;
+            });
+            console.log(goods);
+            console.log(hot);
+            that.setData({
+              goods, hot, slide
+            });
+          }else{
+            console.error('获取主页商品错误');
+          }
+        },
+        fail: function(err){
+          console.error(err);
+        }
+      });
     },
+
+    goToProduct: function(e){
+      let prodId = e.currentTarget.dataset.pid;
+      wx.navigateTo({
+        url: '../product/productDetail/productDetail?pid=' + prodId
+      });
+    },
+
     onShow: function(options){
       wx.getStorage({
         key: 'userinfo',
