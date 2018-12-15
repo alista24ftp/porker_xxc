@@ -9,7 +9,7 @@
 		"autoAudits": false
 	},
 	"compileType": "miniprogram",
-	"libVersion": "1.5.4",
+	"libVersion": "2.4.2",
 	"appid": "wx48ed8c54145554c7",
 	"projectname": "porker_xxc",
 	"condition": {
