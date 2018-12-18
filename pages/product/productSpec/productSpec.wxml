@@ -29,7 +29,7 @@
               <!--<input class="txt" type="text" name="quantity" value="{{quantity}}" bindinput="enterQuantity"/>-->
               <input class="txt" type="text" name="quantity" value="{{item.quantity}}" disabled/>
           </view>
-          <view class="plus" bindtap="increase" data-index="{{idx}}">
+          <view class="plus {{item.disableIncr}}" bindtap="increase" data-index="{{idx}}">
               <i class="icon ion-ios-plus-empty"></i>
           </view>
         </view>

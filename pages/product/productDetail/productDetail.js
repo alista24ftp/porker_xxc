@@ -234,46 +234,40 @@ Page({
     addToCart: function(e){
       let that = this;
       if(this.data.sku !== undefined){
-        wx.getStorage({
-          key: 'userinfo',
-          success: function (userInfo) {
-            // 添加到购物车
-            console.log("111111111111111111111111");
-            console.log(userInfo.data.loginToken);
-            wx.request({
-              url: config.default.ApiHost + '/xcc/Cart/add',
-              method: 'POST',
-              data: {
-                token: userInfo.data.loginToken,
-                goods_id: that.data.product.goods_id,
-                num: that.data.sku.quantity
-              },
-              success: function(res){
-                console.log("22222222222222");
-                console.log(res);
-                if(res.data.code == 200){
-                  if (res.data.type == 1) {
-                    console.log('成功添加到购物车');
-                  } else {
-                    console.error('添加购物车失败');
-                  }
-                }else{
-                  console.error('添加购物车参数错误');
+        login.default.getToken().then(token=>{
+          let params = {
+            token: token,
+            goods_id: that.data.product.goods_id,
+            sku: that.data.sku.sku_id,
+            num: that.data.sku.quantity
+          };
+          console.log(that.data.sku);
+          wx.request({
+            url: config.default.ApiHost + '/xcc/Cart/add',
+            method: 'POST',
+            data: params,
+            success: function (res) {
+              console.log(res);
+              if (res.data.code == 200) {
+                if (res.data.type == 1) {
+                  console.log('成功添加到购物车');
+                } else {
+                  console.error('添加购物车失败');
                 }
-                
-              },
-              fail: function(err){
-                console.log(err);
+              } else {
+                console.error('添加购物车参数错误');
               }
-            });
-          },
-          fail: function (err) {
-            // 先登录
-            wx.navigateTo({
-              url: '../../member/login/login'
-            });
-          }
+            },
+            fail: function (err) {
+              console.log(err);
+            }
+          });
+        }, err=>{
+          wx.navigateTo({
+            url: '../../member/login/login'
+          });
         });
+        
       }else{
         console.error('请先选择规格数量');
       }

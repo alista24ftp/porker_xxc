@@ -17,6 +17,7 @@ Page({
     specList = specList.map(spec => {
       spec.disableDecr = 'less dis';
       spec.quantity = 0;
+      spec.disableIncr = spec.sku_stk > 0 ? '' : 'dis';
       return spec;
     });
 
@@ -24,16 +25,20 @@ Page({
       let sku = JSON.parse(options.sku);
       let disableDecr = (sku.quantity !== undefined && sku.quantity > 0) ? 'less' : 'less dis';
       let quantity = (sku.quantity !== undefined) ? sku.quantity : 0;
-      specList.map(spec=>{
+      let chosenIndex = undefined;
+      specList = specList.map((spec, index)=>{
         if(spec.sku_id == sku.sku_id){
           spec.quantity = quantity;
           spec.disableDecr = disableDecr;
+          chosenIndex = index;
+          spec.disableIncr = (sku.quantity !== undefined && sku.quantity >= spec.sku_stk) ? 'dis' : '';
         }
         return spec;
       });
       this.setData({
         prodId: prodId,
-        specList
+        specList,
+        chosenIndex
       });
     }else{
       
@@ -71,16 +76,21 @@ Page({
   increase: function(e){
     let index = e.currentTarget.dataset.index;
     let specList = this.data.specList;
-    if(!isNaN(specList[index].quantity) && specList[index].quantity >= 0){
-      specList[index].quantity = Number(specList[index].quantity) + 1;
-      specList[index].disableDecr = 'less';
-    }else{
-      specList[index].quantity = 0;
-      specList[index].disableDecr = 'less dis';
+    if(specList[index].disableIncr == ''){
+      if (!isNaN(specList[index].quantity) && specList[index].quantity >= 0) {
+        specList[index].quantity = Number(specList[index].quantity) + 1;
+        specList[index].disableIncr = specList[index].quantity < specList[index].sku_stk ? '' : 'dis';
+        specList[index].disableDecr = 'less';
+      } else {
+        specList[index].quantity = 0;
+        specList[index].disableDecr = 'less dis';
+        specList[index].disableIncr = specList[index].sku_stk > 0 ? '' : 'dis';
+      }
+      this.setData({
+        specList
+      });
     }
-    this.setData({
-      specList
-    });
+    
   },
 
   decrease: function(e){
@@ -90,9 +100,11 @@ Page({
       if (!isNaN(specList[index].quantity) && specList[index].quantity > 0) {
         specList[index].quantity = Number(specList[index].quantity) - 1;
         specList[index].disableDecr = (Number(specList[index].quantity) > 0) ? 'less' : 'less dis';
+        specList[index].disableIncr = specList[index].quantity < specList[index].sku_stk ? '' : 'dis';
       } else {
         specList[index].quantity = 0;
         specList[index].disableDecr = 'less dis';
+        specList[index].disableIncr = specList[index].sku_stk > 0 ? '' : 'dis';
       }
       this.setData({
         specList
@@ -106,6 +118,17 @@ Page({
     if(index !== undefined){
       specList[index].quantity = 0;
       specList[index].disableDecr = 'less dis';
+      specList[index].disableIncr = specList[index].sku_stk > 0 ? '' : 'dis';
+      this.setData({
+        specList
+      });
+    }else{
+      specList = specList.map(spec=>{
+        spec.quantity = 0;
+        spec.disableDecr = 'less dis';
+        spec.disableIncr = spec.sku_stk > 0 ? '' : 'dis';
+        return spec;
+      });
       this.setData({
         specList
       });

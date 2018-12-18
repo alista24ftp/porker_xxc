@@ -1,5 +1,38 @@
 /* pages/product/productDetail/productDetail.wxss */
+.dt-section-2 .m-listItem {
+  display:flex;
+  min-height:90rpx;
+  line-height:90rpx;
+  margin-left:22rpx;
+  border-bottom:1px solid #d9d9d9;
+  padding-right:22rpx;
+  align-items:center;
 
+}
+
+.dt-section-2 .m-listItem .left {
+  display: flex;
+}
+
+.dt-section-2 .m-listItem .middle {
+  flex:1;
+  display:flex;
+  justify-content:flex-end;
+  font-size:27rpx;
+  margin-right: 20rpx;
+  color: #999;
+}
+
+.dt-section-2 .m-li-noborder .middle {
+  flex:1;
+  display:flex;
+  justify-content:flex-start;
+  font-size:27rpx;
+}
+
+.dt-section-2 .m-listItem:last-child {
+  border: 0;
+}
 
 .commentPics .list {
     list-style: none;
