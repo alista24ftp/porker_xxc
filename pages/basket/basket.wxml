@@ -58,14 +58,15 @@
                                 </view>
                                 <view class="textWrap" >
                                     <!--<input class="txt" value="1" />-->
-                                    <input class="txt" value="{{item.cart_num}}" bindinput="inputNum" data-index="{{idx}}"/>
+                                    <!--<input class="txt" value="{{item.cart_num}}" bindinput="inputNum" data-index="{{idx}}"/>-->
+                                    <view class="txt">{{item.cart_num}}</view>
                                 </view>
                                 <view class="plus" bindtap="increase" data-index="{{idx}}">
                                     <i class="icon ion-ios-plus-empty"></i>
                                 </view>
                             </view>
                         </view>
-                        <view class="del">
+                        <view class="del" data-index="{{idx}}" bindtap="delItem">
                             <i class="icon icon-trash ion-ios-trash-outline"></i>
                         </view>
                     </view>
@@ -86,7 +87,8 @@
                 </view>
             </view>
             <view class="right">
-                <navigator url="../order/orderConfirm/orderConfirm" hover-class="navigator-hover"><view class="btn w-button">下单</view></navigator>
+                <view class="btn c-button" bindtap="delAll">清空</view>
+                <navigator class="pay" url="../order/orderConfirm/orderConfirm" hover-class="navigator-hover"><view class="btn w-button">下单</view></navigator>
             </view>
         </view>
     </view>

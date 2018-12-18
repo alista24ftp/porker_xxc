@@ -1,21 +1,19 @@
-// pages/center/center.js
-const config = require('../../config.js');
-const login = require('../../utils/login.js');
+// pages/member/login/login.js
+const config = require('../../../config.js');
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    loggedIn: false,
-    user: null
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
+
   },
 
   bindGetUserInfo(e) {
@@ -23,8 +21,8 @@ Page({
     var data = e.detail
     console.log(data);
     let that = this;
-    let hostRegex = new RegExp('^'+config.default.ApiHost);
-    if(data.iv && data.encryptedData){
+    let hostRegex = new RegExp('^' + config.default.ApiHost);
+    if (data.iv && data.encryptedData) {
       wx.login({
         success(res) {
           if (res.code) {
@@ -38,8 +36,8 @@ Page({
               },
               success: function (res) {
                 console.log(res);
-                if(res.data.code == 200){
-                  if(res.data.type == 1){
+                if (res.data.code == 200) {
+                  if (res.data.type == 1) {
                     // 已注册
                     let loginToken = res.data.data;
                     let userInfo = res.data.user;
@@ -50,23 +48,22 @@ Page({
                         loginToken: loginToken,
                         user: userInfo
                       },
-                      success: function(res){
-                        that.setData({
-                          loggedIn: true,
-                          user: userInfo
+                      success: function (res) {
+                        wx.navigateBack({
+                          delta: 1
                         });
                       }
                     });
-                  }else{
+                  } else {
                     // 未注册
                     wx.redirectTo({
                       url: '../member/register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId,
-                      fail: function(err){
+                      fail: function (err) {
                         console.error(err);
                       }
                     })
                   }
-                }else{
+                } else {
                   console.error('登录状态异常');
                 }
               }
@@ -77,78 +74,55 @@ Page({
         }
       });
     }
-    
+
   },
 
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    let that = this;
-    login.default.getLoginData().then(loginData=>{
-      let loginToken = loginData.loginToken;
-      let userInfo = loginData.user;
-      console.log(loginToken);
-      console.log(userInfo);
-      if (!loginToken || !userInfo) {
-        that.setData({
-          loggedIn: false,
-          user: null
-        });
-      } else {
-        that.setData({
-          loggedIn: true,
-          user: userInfo
-        });
-      }
-    }, err=>{
-      console.error('请先登录');
-      wx.navigateTo({
-        url: '../member/login/login'
-      });
-    });
-    
+
   },
 
   /**
    * 生命周期函数--监听页面隐藏
    */
   onHide: function () {
-  
+
   },
 
   /**
    * 生命周期函数--监听页面卸载
    */
   onUnload: function () {
-  
+
   },
 
   /**
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh: function () {
-  
+
   },
 
   /**
    * 页面上拉触底事件的处理函数
    */
   onReachBottom: function () {
-  
+
   },
 
   /**
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-  
+
   }
 })

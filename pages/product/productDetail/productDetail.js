@@ -77,15 +77,76 @@ Page({
               });
               let shownComment = pages.length > 0 ? pages[0] : undefined;
                 
-              that.setData({
-                prodId: prodId,
-                product: product,
-                comments: comments,
-                shownComment: shownComment,
-                pages: pages,
-                recommendedItems: recommendedItems,
-                sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined
+              let specList = res.data.spec;
+              specList = specList.map(spec=>{
+                if(spec.sku_img != ''){
+                  spec.sku_img = hostRegex.test(spec.sku_img) ? spec.sku_img : config.default.ApiHost + spec.sku_img;
+                }else{
+                  spec.sku_img = '';
+                }
+                return spec;
               });
+
+              login.default.getToken().then(token=>{
+                wx.request({
+                  url: config.default.ApiHost + '/xcc/home/getCollectionList',
+                  method: 'POST',
+                  data: {
+                    token: token
+                  },
+                  success: function(res){
+                    let isFav = '';
+                    if(res.data.code == 200){
+                      if(res.data.type == 1){
+                        let favList = res.data.data;
+                        isFav = favList.some(item=>item.goods_id == prodId) ? 'isfav' : '';
+                      }else{
+                        isFav = '';
+                      }
+                    }else{
+                      isFav = '';
+                    }
+                    that.setData({
+                      prodId: prodId,
+                      product: product,
+                      comments: comments,
+                      shownComment: shownComment,
+                      pages: pages,
+                      recommendedItems: recommendedItems,
+                      specList: specList,
+                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined,
+                      isFav: isFav
+                    });
+                  },
+                  fail: function(err){
+                    that.setData({
+                      prodId: prodId,
+                      product: product,
+                      comments: comments,
+                      shownComment: shownComment,
+                      pages: pages,
+                      recommendedItems: recommendedItems,
+                      specList: specList,
+                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined,
+                      isFav: isFav
+                    });
+                  }
+                });
+              }, err=>{
+                that.setData({
+                  prodId: prodId,
+                  product: product,
+                  comments: comments,
+                  shownComment: shownComment,
+                  pages: pages,
+                  recommendedItems: recommendedItems,
+                  specList: specList,
+                  sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined,
+                  isFav: ''
+                });
+              });
+
+              
             }else{
               console.error('无法获取商品详细信息');
             }
@@ -117,7 +178,56 @@ Page({
     selectSku: function(e){
       let sku = (this.data.sku !== undefined) ? '&sku='+JSON.stringify(this.data.sku) : '';
       wx.navigateTo({
-        url: '../productSpec/productSpec?pid=' + this.data.prodId + sku
+        url: '../productSpec/productSpec?pid=' + this.data.prodId + sku + '&spec=' + JSON.stringify(this.data.specList)
+      });
+    },
+
+    fav: function(e){
+      let that = this;
+      let prodId = e.currentTarget.dataset.id;
+      let isFav = this.data.isFav == 'isfav';
+      console.log(isFav);
+      login.default.getToken().then(token=>{
+        wx.request({
+          url: config.default.ApiHost + '/xcc/home/collection',
+          method: 'POST',
+          data: {
+            token: token,
+            goods_id: prodId
+          },
+          success: function(res){
+            console.log(res);
+            if(res.data.code == 200){
+              if(res.data.type == 1){
+                if(isFav){
+                  console.log('收藏取消成功');
+                  that.setData({
+                    isFav: ''
+                  });
+                }else{
+                  console.log('收藏添加成功');
+                  that.setData({
+                    isFav: 'isfav'
+                  });
+                }
+              }else if(res.data.type == 2){
+                console.error('操作收藏夹失败');
+              }else{
+                console.error('操作收藏夹参数错误');
+              }
+            }else{
+              console.error('操作收藏夹异常');
+            }
+          },
+          fail: function(err){
+            console.error(err);
+          }
+        });
+      }, err=>{
+        console.error(err);
+        wx.navigateTo({
+          url: '../../member/login/login'
+        });
       });
     },
 
@@ -128,6 +238,8 @@ Page({
           key: 'userinfo',
           success: function (userInfo) {
             // 添加到购物车
+            console.log("111111111111111111111111");
+            console.log(userInfo.data.loginToken);
             wx.request({
               url: config.default.ApiHost + '/xcc/Cart/add',
               method: 'POST',
@@ -137,6 +249,7 @@ Page({
                 num: that.data.sku.quantity
               },
               success: function(res){
+                console.log("22222222222222");
                 console.log(res);
                 if(res.data.code == 200){
                   if (res.data.type == 1) {
@@ -156,39 +269,63 @@ Page({
           },
           fail: function (err) {
             // 先登录
-            login.default.login().then((loginState)=>{
-              let loginToken = loginState.loginToken;
-              wx.request({
-                url: config.default.ApiHost + '/xcc/Cart/add',
-                method: 'POST',
-                data: {
-                  token: loginToken,
-                  goods_id: that.data.product.goods_id,
-                  num: that.data.sku.quantity
-                },
-                success: function (res) {
-                  console.log(res);
-                  if (res.data.code == 200) {
-                    if (res.data.type == 1) {
-                      console.log('成功添加到购物车');
-                    } else {
-                      console.error('添加购物车失败');
-                    }
-                  } else {
-                    console.error('添加购物车参数错误');
-                  }
-                },
-                fail: function (err) {
-                  console.log(err);
-                }
-              });
-            }, (err)=>{
-              console.error(err);
+            wx.navigateTo({
+              url: '../../member/login/login'
             });
           }
         });
       }else{
         console.error('请先选择规格数量');
       }
+    },
+
+    onShow: function(options){
+      let that = this;
+      login.default.getToken().then(token=>{
+        wx.request({
+          url: config.default.ApiHost + '/xcc/home/getCollectionList',
+          method: 'POST',
+          data: {
+            token: token
+          },
+          success: function(res){
+            if(res.data.code == 200){
+              if(res.data.type == 1){
+                let favList = res.data.data;
+                if(favList.some(item=>item.goods_id == that.data.prodId)){
+                  that.setData({
+                    token: token,
+                    isFav: 'isfav'
+                  })
+                }else{
+                  that.setData({
+                    token: token,
+                    isFav: ''
+                  });
+                }
+              }else{
+                that.setData({
+                  token: token,
+                  isFav: ''
+                });
+              }
+            }else{
+              console.error('获取收藏夹列表异常');
+              that.setData({
+                token: token,
+                isFav: ''
+              });
+            }
+          },
+          fail: function(err){
+            console.error(err);
+          }
+        });
+      }, err=>{
+        console.error(err);
+        wx.navigateTo({
+          url: '../../member/login/login'
+        });
+      });
     }
 })

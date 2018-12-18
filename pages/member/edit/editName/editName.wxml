@@ -1,0 +1,20 @@
+<!--pages/member/edit/editName/editName.wxml-->
+<view class="container">
+    <view class="g-row">
+        <view class="login-form">
+            <view class="inputwrap">
+                <view class="inputBox scode">
+                    <input type="text" class="j-inputtext lophone" placeholder="输入新昵称" value="{{newName}}" bindinput="checkName" />
+                    <view class="utip" bindtap="clearName">
+                        <i class="icon u-clear ion-ios-close"></i>
+                    </view>
+                </view>
+            </view>
+            <view class="btn-login {{allowProceed ? '' : 'disabled'}}">
+                <view class="ben-login-txt " bindtap="proceedEdit">
+                    修改昵称
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

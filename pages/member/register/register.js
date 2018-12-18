@@ -15,9 +15,11 @@ Page({
    */
   onLoad: function (options) {
     let openId = options.id;
+    let unionId = options.unionid;
     //console.log(openId);
     this.setData({
-      openId: openId
+      openId: openId,
+      unionId: unionId
     });
   },
 
@@ -63,6 +65,7 @@ Page({
           user_phone: phoneNum
         },
         success: function (res) {
+          console.log(res);
           if (res.data.code == 200) {
             //console.log(res.data.data);
             that.setData({
@@ -92,14 +95,17 @@ Page({
         url: config.default.ApiHost + '/xcc/Login/register',
         method: 'POST',
         data: {
+          user_name: inputInfo.username,
           user_phone: inputInfo.phone,
           user_pwd: inputInfo.pwd,
-          open_id: this.data.openId
+          open_id: this.data.openId,
+          unionId: this.data.unionId
         },
         success: function (res) {
+          console.log(res);
           if (res.data.code == 200) {
             if (res.data.type == 1) {
-              console.log('Registration success');
+              console.log('注册成功');
               let loginToken = res.data.data;
               let userInfo = res.data.user;
               userInfo.user_photo = config.default.ApiHost + userInfo.user_photo;
@@ -112,11 +118,8 @@ Page({
                   user: userInfo
                 },
                 success: function (info) {
-                  wx.reLaunch({
-                    url: '../../center/center',
-                    success: function (r) {
-                      //console.log(r);
-                    },
+                  wx.navigateBack({
+                    delta: 2,
                     fail: function (err) {
                       console.error(err);
                     }
@@ -131,7 +134,7 @@ Page({
             } else if (res.data.type == 3) {
               console.error('注册失败, 用户已存在');
             } else {
-              console.error('注册失败, 用户名和密码不能为空');
+              console.error('注册失败, 请检查注册信息');
             }
           } else {
             console.error('注册失败, 状态异常');

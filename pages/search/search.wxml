@@ -2,12 +2,13 @@
 <view class="search-top">
     <view class="search-box g-row">
         <view class="m-ipt m-searchIpt">
-            <view class="icon ion-ios-search icon-search"></view>
-            <input placeholder="冲锋衣 买1赠1" class="search-input" name="search" focus="true" />
-            <view class="icon ion-ios-close icon-search-del"></view>
+            <view class="icon ion-ios-search icon-search" bindtap="submitSearch"></view>
+            <input placeholder="输入搜索商品" value="{{keyword}}" class="search-input" name="search" bindinput="inputKeyword"/>
+            <view class="icon ion-ios-close icon-search-del" bindtap="resetSearch"></view>
         </view>
-        <view class="cancel-search">取消</view>
+        <view class="go-search" bindtap="submitSearch">搜索</view>
     </view>
+    <!--
     <view class="m-search-section g-row">
         <view class="hd">热门搜索</view>
         <view class="list">
@@ -15,4 +16,5 @@
             <view>冲锋裤</view>
         </view>
     </view>
+    -->
 </view>

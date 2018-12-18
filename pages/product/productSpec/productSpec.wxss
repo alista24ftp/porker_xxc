@@ -10,7 +10,7 @@
 .spec-list {
   background-color: #fff;
   margin-bottom: 22rpx;
-  padding-left: 115rpx;
+  padding-left: 25rpx;
   overflow: hidden;
   margin-top:20rpx;
 }
@@ -20,6 +20,37 @@
   height: 206rpx;
   position: relative;
   left: 0;
+  margin-bottom: 30rpx;
+  flex-direction: row;
+  display: flex;
+  align-items: center;
+}
+
+.spec-item .spec-choice {
+  display: flex;
+  margin-right: 20rpx;
+}
+
+.spec-item .img-wrap {
+  width: 25%;
+  height: 100%;
+  display: flex;
+}
+
+.spec-item .img-wrap .spec-img {
+  width: 100%;
+  height: 100%;
+}
+
+.spec-detail {
+  display: flex;
+  margin-left: 25rpx;
+  flex-direction: column;
+}
+
+.spec-detail text {
+  display: block;
+  font-size: 26rpx;
 }
 
 .spec-sel {

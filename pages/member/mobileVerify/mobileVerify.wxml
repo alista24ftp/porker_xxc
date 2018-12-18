@@ -4,23 +4,24 @@
         <view class="login-form">
             <view class="hd">
                 手机号：
-                <text class="uname">13058428969</text>
+                <!--<text class="uname">13058428969</text>-->
+                <text class="uname">{{userInfo.user_phone}}</text>
             </view>
             <view class="inputwrap">
                 <view class="inputBox scode">
-                    <input type="number" class="j-inputtext lophone" placeholder="短信验证码" maxlength="6" value="" />
-                    <view class="utip">
+                    <input type="number" class="j-inputtext lophone" placeholder="短信验证码" maxlength="6" value="{{code}}" bindinput="checkCode" disabled="{{disabled}}"/>
+                    <view class="utip" bindtap="clearCode">
                         <i class="icon u-clear ion-ios-close"></i>
                     </view>
                     <view class="getbox">
-                        <view class="getcode">
+                        <view class="getcode" bindtap="getCode">
                             获取验证码
                         </view>
                     </view>
                 </view>
             </view>
-            <view class="btn-login">
-                <view class="ben-login-txt">
+            <view class="btn-login {{allowProceed ? '' : 'disabled'}}">
+                <view class="ben-login-txt " bindtap="proceedEdit">
                     下一步
                 </view>
             </view>

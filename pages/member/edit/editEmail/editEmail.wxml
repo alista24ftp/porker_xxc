@@ -1,0 +1,20 @@
+<!--pages/member/edit/editEmail/editEmail.wxml-->
+<view class="container">
+    <view class="g-row">
+        <view class="login-form">
+            <view class="inputwrap">
+                <view class="inputBox scode">
+                    <input type="text" class="j-inputtext lophone" placeholder="输入新邮箱" value="{{newEmail}}" bindinput="checkEmail" />
+                    <view class="utip" bindtap="clearEmail">
+                        <i class="icon u-clear ion-ios-close"></i>
+                    </view>
+                </view>
+            </view>
+            <view class="btn-login {{allowProceed ? '' : 'disabled'}}">
+                <view class="ben-login-txt " bindtap="proceedEdit">
+                    修改邮箱
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

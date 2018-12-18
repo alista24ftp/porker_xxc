@@ -1,6 +1,6 @@
 // pages/member/receiveList/receiveList.js
 const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+//const login = require('../../../utils/login.js');
 Page({
 
   /**
@@ -14,10 +14,82 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    
+    
+  },
+
+  editAddress: function(e){
+    let index = e.currentTarget.dataset.index;
+    let addr = JSON.stringify(this.data.addressList[index]);
+    let token = this.data.token;
+    wx.navigateTo({
+      url: '../addressAdd/addressAdd?addr=' + addr + '&token=' + token
+    });
+  },
+
+  addAddress: function(e){
+    let token = this.data.token;
+    wx.navigateTo({
+      url: '../addressAdd/addressAdd?token=' + token
+    }); 
+  },
+
+  delAddress: function(e){
+    let token = this.data.token;
+    let index = e.currentTarget.dataset.index;
+    let that = this;
+    wx.showModal({
+      title: '确认删除地址',
+      content: '您确认是否删除此地址?',
+      confirmText: '删除',
+      cancelText: '取消',
+      success: function(res){
+        if(res.confirm){
+          console.log('删除');
+          wx.request({
+            url: config.default.ApiHost + '/xcc/address/del',
+            method: 'POST',
+            data: {
+              token: token,
+              add_id: that.data.addressList[index].add_id
+            },
+            success: function(res){
+              if(res.data.code == 200){
+                if(res.data.type == 1){
+                  console.log('删除成功');
+                  wx.redirectTo({
+                    url: './receiveList'
+                  });
+                }else if(res.data.type == 2){
+                  console.error('删除失败');
+                }else{
+                  console.error('删除失败, 地址参数错误');
+                }
+              }else{
+                console.error('删除地址状态异常');
+              }
+            }
+          });
+        }
+      }
+    });
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+  
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
     let that = this;
     wx.getStorage({
       key: 'userinfo',
-      success: function(userInfo){
+      success: function (userInfo) {
         wx.request({
           url: config.default.ApiHost + '/xcc/Address/getList',
           method: 'POST',
@@ -47,73 +119,12 @@ Page({
           }
         });
       },
-      fail: function(err){
-        login.default.login().then(loginState=>{
-          let loginToken = loginState.loginToken;
-          wx.request({
-            url: config.default.ApiHost + '/xcc/Address/getList',
-            method: 'POST',
-            data: {
-              token: loginToken
-            },
-            success: function (res) {
-              if(res.data.code == 200){
-                if(res.data.type == 1){
-                  console.log(res.data.data);
-                  that.setData({
-                    addressList: res.data.data,
-                    token: loginToken
-                  });
-                }else{
-                  console.error('没有用户地址信息');
-                  that.setData({
-                    addressList: []
-                  });
-                }
-              }else{
-                console.error('错误获取用户地址信息');
-              }
-            },
-            fail: function (err) {
-              console.error(err);
-            }
-          });
-        }, err=>{
-          console.error(err);
+      fail: function (err) {
+        wx.navigateTo({
+          url: '../login/login'
         });
       }
     });
-    
-  },
-
-  editAddress: function(e){
-    let index = e.currentTarget.dataset.index;
-    let addr = JSON.stringify(this.data.addressList[index]);
-    let token = this.data.token;
-    wx.navigateTo({
-      url: '../addressAdd/addressAdd?addr=' + addr + '&token=' + token
-    });
-  },
-
-  addAddress: function(e){
-    let token = this.data.token;
-    wx.navigateTo({
-      url: '../addressAdd/addressAdd?token=' + token
-    }); 
-  },
-
-  /**
-   * 生命周期函数--监听页面初次渲染完成
-   */
-  onReady: function () {
-  
-  },
-
-  /**
-   * 生命周期函数--监听页面显示
-   */
-  onShow: function () {
-  
   },
 
   /**

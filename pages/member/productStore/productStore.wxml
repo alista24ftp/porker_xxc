@@ -3,6 +3,33 @@
     <view class="productStore">
         <view class="m-cartGroup">
             <view class="list">
+              <view class="item" wx:for="{{favList}}" wx:for-index="idx">
+                  <view class="inner">
+                      <view class="m-good">
+                          <view class="imgWrap">
+                              <view>
+                                  <image src="{{item.goods_img}}" alt=""></image>
+                              </view>
+                          </view>
+                          <view class="cnt">
+                              <view class="vc">
+                                  <view>
+                                      <text class="line1">{{item.goods_name}}</text>
+                                  </view>
+                                  <view>
+                                      <text class="line3">￥{{item.goods_price}}</text>
+                                  </view>
+                              </view>
+                          </view>
+                          <view class="m-selnum">
+                          </view>
+                      </view>
+                      <view class="del" bindtap="removeFav" data-index="{{idx}}">
+                          <i class="icon icon-trash ion-ios-trash-outline"></i>
+                      </view>
+                  </view>
+              </view>
+              <!-->
                 <view class="item">
                     <view class="inner">
                         <view class="m-good">
@@ -81,6 +108,7 @@
                         </view>
                     </view>
                 </view>
+              <-->
             </view>
         </view>
     </view>

@@ -6,7 +6,7 @@
                 <view class="top-line">
                     <view class="logo"></view>
                     <view class="m-searchTop">
-                        <navigator url="../search/search" hover-class="changestyle">
+                        <navigator url="../../search/search" hover-class="changestyle">
                             <view class="zw-search-link">
                                 <view class="icon-search"></view>
                                 <text class="placeholder">点击输入搜索商品</text>

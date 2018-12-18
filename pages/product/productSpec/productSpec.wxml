@@ -5,15 +5,31 @@
       <text>请选择购物数量</text>
     </view>
     <view class="spec-list">
-      <view class="spec-item">
+      <view class="spec-item" wx:for="{{specList}}" wx:for-index="idx">
+        <view class="spec-choice" bindtap="choose" data-index="{{idx}}" wx:if="{{chosenIndex == idx}}">
+          <i class="icon icon-ischecked-g ion-checkmark-circled"></i>
+        </view>
+        <view class="spec-choice" bindtap="choose" data-index="{{idx}}" wx:else>
+          <i class="icon icon-nochecked-g ion-ios-circle-outline"></i>
+        </view>
+        <view class="img-wrap" wx:if="{{item.sku_img != ''}}">
+          <image class="spec-img" src="{{item.sku_img}}"></image>
+        </view>
+        <view class="spec-detail">
+          <text class="spec-name">{{item.item_name}}</text>
+          <text class="spec-price">价格: ￥{{item.sku_price}}</text>
+          <text class="spec-shipping">运费: ￥{{item.sku_freight}}</text>
+          <text class="spec-instock">剩余: {{item.sku_stk}}</text>
+        </view>
         <view class="spec-sel">
-          <view class="{{disableDecr}}" bindtap="decrease">
+          <view class="{{item.disableDecr}}" bindtap="decrease" data-index="{{idx}}">
               <i class="icon ion-ios-minus-empty"></i>
           </view>
           <view class="textWrap" >
-              <input class="txt" type="text" name="quantity" value="{{quantity}}" bindinput="enterQuantity"/>
+              <!--<input class="txt" type="text" name="quantity" value="{{quantity}}" bindinput="enterQuantity"/>-->
+              <input class="txt" type="text" name="quantity" value="{{item.quantity}}" disabled/>
           </view>
-          <view class="plus" bindtap="increase">
+          <view class="plus" bindtap="increase" data-index="{{idx}}">
               <i class="icon ion-ios-plus-empty"></i>
           </view>
         </view>

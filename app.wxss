@@ -1939,7 +1939,7 @@ m-indexHd .inner {
     height: 100rpx;
     line-height: 100rpx;
     display: flex;
-    position: relative;
+    /*position: relative;*/
 }
 
 .addrBox {
@@ -1958,7 +1958,7 @@ m-indexHd .inner {
 }
 
 .utip {
-    position: absolute;
+    /*position: absolute;*/
     top: 0;
     right: 15rpx;
 }
@@ -2274,7 +2274,7 @@ m-indexHd .inner {
 .m-cartGroup .m-selnum {
     position: absolute;
     bottom: 41rpx;
-    right: 22rpx;
+    right: 80rpx;
 }
 
 .m-cartGroup .m-selnum .less, .m-cartGroup .m-selnum .plus {
@@ -2331,19 +2331,20 @@ m-indexHd .inner {
 
 .m-cartGroup .del {
     position: absolute;
-    top: 0;
-    left: 100%;
-    width: 165rpx;
-    background-color: #e83a3a;
-    height: 100%;
+    bottom: 41rpx;
+    right: 0rpx;
+    width: 10%;
+    background-color: #ffffff;
+    height: 30%;
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 0;
 }
 
 .m-cartGroup .icon-trash {
     font-size: 54rpx;
-    color: #fff;
+    color: #000000;
 }
 
 .m-cartFT {
@@ -2365,7 +2366,13 @@ m-indexHd .inner {
 }
 
 .m-cartFT .right {
-    width: 225rpx;
+    width: 200rpx;
+}
+
+.m-cartFT .right .pay {
+  height: auto;
+  display: inline-block;
+  width: 50%;
 }
 
 .m-cartFT .icon-ischecked, .m-cartFT .icon-nochecked {
@@ -2401,9 +2408,22 @@ m-indexHd .inner {
     margin-top: 0;
     height: 100rpx;
     line-height: 100rpx;
+    background-color: #34b428;
+    color: #fff;
+    font-size: 24rpx;
+    display: inline-block;
+}
+
+.m-cartFT .c-button {
+    margin-top: 0;
+    height: 100rpx;
+    line-height: 100rpx;
     background-color: #b4282d;
     color: #fff;
     font-size: 24rpx;
+    display: inline-block;
+    text-align: center;
+    width: 50%;
 }
 
 .m-notices {
@@ -2436,7 +2456,7 @@ m-indexHd .inner {
 }
 
 .m-shipAddress .item {
-    display: flex;
+    display: block;
     padding: 32rpx 0 24rpx 30rpx;
 }
 
@@ -2472,7 +2492,6 @@ m-indexHd .inner {
 
 .m-shipAddress .item .middle {
     padding-left: 15rpx;
-    flex: 1;
 }
 
 .m-shipAddress .item .right {

@@ -1,0 +1,55 @@
+<!--pages/product/productSearchList/productSearchList.wxml-->
+<!--pages/product/productList/productList.wxml-->
+<view class="container">
+    <view class="m-indexHd" style="height: 162rpx;">
+        <view class="m-hd g-row">
+            <view class="m-indextop">
+                <view class="top-line">
+                    <view class="logo"></view>
+                    <view class="m-searchTop">
+                        <navigator url="../../search/search" hover-class="changestyle">
+                            <view class="zw-search-link">
+                                <view class="icon-search"></view>
+                                <text class="placeholder">点击输入搜索商品</text>
+                            </view>
+                        </navigator>
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>    
+
+    <view class="m-list-floor g-row">
+        <view class="hd3">
+            <!--<view class="dtit">户外装备</view>-->
+            <view class="dtit">{{title}}</view>
+            <view class="desc"></view>
+        </view>
+        <view class="m-goods-grid">
+            <view class="list" wx:for="{{products}}">
+                <view class="item">
+                  <view data-pid="{{item.goods_id}}" bindtap="chooseProduct" bindlongtap="chooseProduct">
+                    <view class="wraper">
+                        <view class="hd">
+                            <image class="pic" src="{{item.goods_img}}" alt=""></image>
+                            <view class="specification">
+                                已卖<view class="count">{{item.goods_nums}}</view>
+                                <!-- react-text: 4122 -->件
+                                <!-- /react-text -->
+                            </view>
+                        </view>
+                        <view class="desc"></view>
+                        <view class="name">{{item.goods_name}}</view>
+                        <view class="price">
+                            <!-- react-text: 4126 -->￥
+                            <!-- /react-text -->
+                            <!-- react-text: 4127 -->{{item.goods_newprice}}
+                            <!-- /react-text -->
+                        </view>
+                    </view>
+                  </view>
+                </view>
+            </view>
+        </view>
+    </view>
+</view>

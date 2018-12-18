@@ -29,7 +29,13 @@
     "pages/member/register/register",
     "pages/product/productSpec/productSpec",
     "pages/product/productComments/productComments",
-    "pages/member/addressAdd/addressAdd"
+    "pages/member/addressAdd/addressAdd",
+    "pages/product/productSearchList/productSearchList",
+    "pages/member/login/login",
+    "pages/member/edit/editName/editName",
+    "pages/member/edit/editPassword/editPassword",
+    "pages/member/edit/editPhoto/editPhoto",
+    "pages/member/edit/editEmail/editEmail"
   ],
   "window": {
     "backgroundTextStyle": "light",

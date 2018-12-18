@@ -59,10 +59,13 @@
                 <view class="price">￥{{product.goods_newprice}}</view>
             </view>
             <view class="comment collet">
-                <view class="wrap">
+                <view class="wrap" bindtap="fav" data-id="{{product.goods_id}}">
                     <i class="icon ion-ios-star-outline"></i>
-                    <view class="more">
+                    <view wx:if="{{isFav == ''}}" class="more">
                         <text>收藏</text>
+                    </view>
+                    <view wx:else class="more isfav" >
+                        <text>已收藏</text>
                     </view>
                 </view>
             </view>
@@ -74,7 +77,8 @@
             <view class="left">
                 <text class="txt">请选择规格数量</text>
             </view>
-            <view class="middle"></view>
+            <view class="middle" wx:if="{{sku != undefined}}">{{sku.item_name}}; {{sku.quantity}}件</view>
+            <view class="middle" wx:else></view>
             <view class="right" bindtap="selectSku">
                 <i class="icon ion-ios-arrow-right"></i>
             </view>

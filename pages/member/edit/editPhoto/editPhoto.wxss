@@ -1,0 +1,55 @@
+/* pages/member/edit/editPhoto/editPhoto.wxss */
+.img-form {
+  padding: 41rpx;
+  padding-top: 115rpx;
+}
+
+.img-wrap image {
+  width: 100%;
+}
+
+.btn-upload-img {
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border: 1px solid #f23030;
+  margin-top: 37rpx;
+  border-radius: 3px;
+}
+
+.upload-txt {
+  height: 40rpx;
+  color: #f23030;
+  font-size: 30rpx;
+}
+
+.btn-edit-img {
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border: 1px solid #f23030;
+  margin-top: 37rpx;
+  border-radius: 3px;
+}
+
+.edit-txt {
+  height: 40rpx;
+  color: #f23030;
+  font-size: 30rpx;
+}
+
+.img-form .disabled {
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  border: 1px solid #777575;
+  margin-top: 37rpx;
+  border-radius: 3px;
+  background-color: #777575;
+}
+
+.disabled .edit-txt {
+  height: 40rpx;
+  color: #ffffff;
+  font-size: 30rpx;
+}

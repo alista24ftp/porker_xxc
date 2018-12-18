@@ -1,4 +1,6 @@
 /* pages/product/productDetail/productDetail.wxss */
+
+
 .commentPics .list {
     list-style: none;
 }
@@ -35,3 +37,8 @@
   color: red;
   text-align: center;
 }
+
+.isfav {
+  background-color: #faf60c;
+}
+

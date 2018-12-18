@@ -1,0 +1,21 @@
+<!--pages/member/edit/editPhoto/editPhoto.wxml-->
+<view class="container">
+    <view class="g-row">
+        <view class="img-form">
+            <view class="img-wrap">
+              <image src="{{fullPhotoLink}}"></image>
+            </view>
+            <view class="btn-upload-img">
+                <view class="upload-txt " bindtap="chooseImg">
+                    上传头像
+                </view>
+            </view>
+            <view class="btn-edit-img {{disabled ? 'disabled' : ''}}">
+                <view class="edit-txt " bindtap="editImg">
+                    更改头像
+                </view>
+            </view>
+        </view>
+    </view>
+</view>
+

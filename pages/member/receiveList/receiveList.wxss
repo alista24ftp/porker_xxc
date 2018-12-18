@@ -1,1 +1,53 @@
 /* pages/member/receiveList/receiveList.wxss */
+.m-shipAddress .item {
+    display: block;
+    padding: 32rpx 0 24rpx 30rpx;
+}
+
+.m-shipAddress .item .item-left {
+    display: flex;
+    height: 100%;
+    width: 80%;
+    align-items: center;
+}
+
+.m-shipAddress .item .left {
+  width: 20%;
+  display: inline-block;
+  height: 100%;
+}
+
+.m-shipAddress .item .middle {
+  padding-left: 15rpx;
+  display: inline-block;
+  width: 70%;
+}
+
+.m-shipAddress .item .right {
+  width: 10%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 40rpx;
+}
+
+.m-shipAddress .item .right .addr-del {
+  padding-right: 0;
+  display: inline-block;
+}
+
+.orderReceiveList .m-shipAddress .item {
+    border-bottom: 1px solid #d9d9d9;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.orderReceiveList .m-shipAddress .item:last-child {
+    border-bottom: 0;
+}
+
+.orderReceiveList .m-shipAddress .defualtItem {
+    position: relative;
+    margin-left: 75rpx;
+}

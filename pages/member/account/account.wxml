@@ -3,29 +3,37 @@
     <view class="account-wrap">
         <view class="hd">
             用户名：
-            <span class="uname">joek2222</span>
+            <!--<span class="uname">joek2222</span>-->
+            <span class="uname">{{userInfo.user_name}}</span>
         </view>
         <view class="accoutn-bind">
             <view class="item">
                 <view class="left">
-                    <i class="icon ion-ios-telephone-outline"></i>
-                    <view class="t">登录手机</view>
+                    <i class="icon icon ion-ios-person-outline"></i>
+                    <view class="t">登录昵称</view>
                 </view>
-                <button class="btn">修改手机</button>
+                <button class="btn" bindtap="editName">修改昵称</button>
             </view>
             <view class="item">
                 <view class="left">
                     <i class="icon ion-ios-email-outline"></i>
                     <view class="t">登录邮箱</view>
                 </view>
-                <button class="btn">修改邮箱</button>
+                <button class="btn" bindtap="editEmail">修改邮箱</button>
             </view>
             <view class="item">
                 <view class="left">
                     <i class="icon ion-ios-locked-outline"></i>
                     <view class="t">登录密码</view>
                 </view>
-                <button class="btn">修改密码</button>
+                <button class="btn" bindtap="editPassword">修改密码</button>
+            </view>
+            <view class="item">
+                <view class="left">
+                    <i class="icon ion-ios-camera-outline"></i>
+                    <view class="t">登录头像</view>
+                </view>
+                <button class="btn" bindtap="editPhoto">修改头像</button>
             </view>
         </view>
     </view>

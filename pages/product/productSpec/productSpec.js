@@ -5,7 +5,7 @@ Page({
    * 页面的初始数据
    */
   data: {
-    quantity: 0
+    
   },
 
   /**
@@ -13,25 +13,38 @@ Page({
    */
   onLoad: function (options) {
     let prodId = options.pid;
+    let specList = JSON.parse(options.spec);
+    specList = specList.map(spec => {
+      spec.disableDecr = 'less dis';
+      spec.quantity = 0;
+      return spec;
+    });
+
     if(options.sku !== undefined){
       let sku = JSON.parse(options.sku);
       let disableDecr = (sku.quantity !== undefined && sku.quantity > 0) ? 'less' : 'less dis';
       let quantity = (sku.quantity !== undefined) ? sku.quantity : 0;
+      specList.map(spec=>{
+        if(spec.sku_id == sku.sku_id){
+          spec.quantity = quantity;
+          spec.disableDecr = disableDecr;
+        }
+        return spec;
+      });
       this.setData({
         prodId: prodId,
-        disableDecr,
-        quantity
+        specList
       });
     }else{
+      
       this.setData({
         prodId: prodId,
-        disableDecr: 'less dis',
-        quantity: 0
+        specList
       });
     }
     
   },
-
+  /*
   enterQuantity: function(e){
     let newQuantity = e.detail.value;
     if(/^[0-9]+$/.test(newQuantity) && !isNaN(newQuantity) && newQuantity > 0){
@@ -47,59 +60,76 @@ Page({
     }
     
   },
-
-  increase: function(e){
-    if(!isNaN(this.data.quantity) && this.data.quantity >= 0){
-      this.setData({
-        quantity: Number(this.data.quantity) + 1,
-        disableDecr: 'less'
-      });
-    }else{
-      this.setData({
-        quantity: 0,
-        disableDecr: 'less dis'
-      });
-    }
-    
-  },
-
-  decrease: function(e){
-    if(this.data.disableDecr == 'less'){
-      if (!isNaN(this.data.quantity) && this.data.quantity > 0) {
-        this.setData({
-          quantity: Number(this.data.quantity) - 1,
-          disableDecr: (Number(this.data.quantity) - 1 > 0) ? 'less' : 'less dis'
-        });
-      } else {
-        this.setData({
-          quantity: 0,
-          disableDecr: 'less dis'
-        });
-      }
-    }
-    
-  },
-
-  resetQuantity: function(e){
+  */
+  choose: function(e){
+    let index = e.currentTarget.dataset.index;
     this.setData({
-      quantity: 0,
-      disableDecr: 'less dis'
+      chosenIndex: index
     });
   },
 
-  done: function(e){
-    if(!isNaN(this.data.quantity) && this.data.quantity > 0){
-      let sku = { sku: '', quantity: this.data.quantity };
-      wx.redirectTo({
-        url: '../productDetail/productDetail?pid=' + this.data.prodId + '&sku=' + JSON.stringify(sku),
-        fail: function(err){
-          console.error(err);
-        }
-      });
+  increase: function(e){
+    let index = e.currentTarget.dataset.index;
+    let specList = this.data.specList;
+    if(!isNaN(specList[index].quantity) && specList[index].quantity >= 0){
+      specList[index].quantity = Number(specList[index].quantity) + 1;
+      specList[index].disableDecr = 'less';
     }else{
-      console.error('请输入正规数量');
+      specList[index].quantity = 0;
+      specList[index].disableDecr = 'less dis';
+    }
+    this.setData({
+      specList
+    });
+  },
+
+  decrease: function(e){
+    let index = e.currentTarget.dataset.index;
+    let specList = this.data.specList;
+    if(specList[index].disableDecr == 'less'){
+      if (!isNaN(specList[index].quantity) && specList[index].quantity > 0) {
+        specList[index].quantity = Number(specList[index].quantity) - 1;
+        specList[index].disableDecr = (Number(specList[index].quantity) > 0) ? 'less' : 'less dis';
+      } else {
+        specList[index].quantity = 0;
+        specList[index].disableDecr = 'less dis';
+      }
+      this.setData({
+        specList
+      });
+    }
+  },
+
+  resetQuantity: function(e){
+    let index = this.data.chosenIndex;
+    let specList = this.data.specList;
+    if(index !== undefined){
+      specList[index].quantity = 0;
+      specList[index].disableDecr = 'less dis';
+      this.setData({
+        specList
+      });
     }
     
+  },
+
+  done: function(e){
+    let index = this.data.chosenIndex;
+    if(index !== undefined){
+      if (!isNaN(this.data.specList[index].quantity) && this.data.specList[index].quantity > 0) {
+        let sku = this.data.specList[index];
+        wx.redirectTo({
+          url: '../productDetail/productDetail?pid=' + this.data.prodId + '&sku=' + JSON.stringify(sku),
+          fail: function (err) {
+            console.error(err);
+          }
+        });
+      } else {
+        console.error('请输入正规数量');
+      }
+    }else{
+      console.error('请先选择规格与数量');
+    }
   },
 
   /**

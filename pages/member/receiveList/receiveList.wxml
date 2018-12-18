@@ -5,6 +5,7 @@
             <view class="u-icon u-address-bg">
             </view>
             <view class="item" wx:for="{{addressList}}" wx:for-index="idx">
+              <view class="item-left" bindtap="editAddress" data-index="{{idx}}">
                 <view class="left">
                     <view class="uname">
                         {{item.add_name}}
@@ -19,9 +20,10 @@
                         {{item.province}}-{{item.city}}-{{item.dist}}，{{item.add_street}}
                     </view>
                 </view>
+              </view>
                 <view class="right">
-                  <view bindtap="editAddress" data-index="{{idx}}">
-                    <i class="icon icon-right ion-ios-arrow-right"></i>
+                  <view class="addr-del" bindtap="delAddress" data-index="{{idx}}">
+                    <i class="icon icon-right ion-ios-trash-outline"></i>
                   </view>
                 </view>
             </view>

@@ -1,3 +1,7 @@
 /* pages/search/search.wxss */
-
-
+.go-search {
+    font-size: 27rpx;
+    color: #333;
+    margin-left: 22rpx;
+    margin-right: 22rpx;
+}
