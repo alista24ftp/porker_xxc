@@ -56,8 +56,10 @@ Page({
                     });
                   } else {
                     // 未注册
+                    //let userImg = hostRegex.test(res.data.user_photo) ? res.data.user_photo : config.default.ApiHost + res.data.user_photo;
+                    console.log(res.data.user_photo);
                     wx.redirectTo({
-                      url: '../member/register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId,
+                      url: '../register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId + '&userimg=' + res.data.user_photo,//userImg,
                       fail: function (err) {
                         console.error(err);
                       }

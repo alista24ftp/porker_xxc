@@ -17,69 +17,7 @@ Page({
   onLoad: function (options) {
     
   },
-
-  bindGetUserInfo(e) {
-    console.log(e)
-    var data = e.detail
-    console.log(data);
-    let that = this;
-    let hostRegex = new RegExp('^'+config.default.ApiHost);
-    if(data.iv && data.encryptedData){
-      wx.login({
-        success(res) {
-          if (res.code) {
-            // 发起网络请求
-            wx.request({
-              url: config.default.ApiHost + '/xcc/Login/index',
-              data: {
-                code: res.code,
-                iv: data.iv,
-                encryptedData: data.encryptedData
-              },
-              success: function (res) {
-                console.log(res);
-                if(res.data.code == 200){
-                  if(res.data.type == 1){
-                    // 已注册
-                    let loginToken = res.data.data;
-                    let userInfo = res.data.user;
-                    userInfo.user_photo = hostRegex.test(userInfo.user_photo) ? userInfo.user_photo : config.default.ApiHost + userInfo.user_photo;
-                    wx.setStorage({
-                      key: 'userinfo',
-                      data: {
-                        loginToken: loginToken,
-                        user: userInfo
-                      },
-                      success: function(res){
-                        that.setData({
-                          loggedIn: true,
-                          user: userInfo
-                        });
-                      }
-                    });
-                  }else{
-                    // 未注册
-                    wx.redirectTo({
-                      url: '../member/register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId,
-                      fail: function(err){
-                        console.error(err);
-                      }
-                    })
-                  }
-                }else{
-                  console.error('登录状态异常');
-                }
-              }
-            })
-          } else {
-            console.log('登录失败！' + res.errMsg)
-          }
-        }
-      });
-    }
-    
-  },
-
+  
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

@@ -16,10 +16,13 @@ Page({
   onLoad: function (options) {
     let openId = options.id;
     let unionId = options.unionid;
+    let userImg = options.userimg;
     //console.log(openId);
+    console.log(userImg);
     this.setData({
       openId: openId,
-      unionId: unionId
+      unionId: unionId,
+      userImg: userImg
     });
   },
 
@@ -91,6 +94,7 @@ Page({
     //console.log(e);
     let inputInfo = e.detail.value;
     if(validator.default.validateSubmit(inputInfo.username, inputInfo.phone, inputInfo.verify, inputInfo.pwd) && inputInfo.verify == this.data.verifyCode){
+      console.log(this.data.userImg);
       wx.request({
         url: config.default.ApiHost + '/xcc/Login/register',
         method: 'POST',
@@ -99,16 +103,19 @@ Page({
           user_phone: inputInfo.phone,
           user_pwd: inputInfo.pwd,
           open_id: this.data.openId,
-          unionId: this.data.unionId
+          unionId: this.data.unionId,
+          user_photo: this.data.userImg
         },
         success: function (res) {
           console.log(res);
           if (res.data.code == 200) {
             if (res.data.type == 1) {
               console.log('注册成功');
+              console.log(res.data);
               let loginToken = res.data.data;
               let userInfo = res.data.user;
-              userInfo.user_photo = config.default.ApiHost + userInfo.user_photo;
+              let hostRegex = new RegExp('^'+config.default.ApiHost);
+              userInfo.user_photo = hostRegex.test(userInfo.user_photo) ? userInfo.user_photo : config.default.ApiHost + userInfo.user_photo;
               //console.log(loginToken);
               //console.log(userInfo);
               wx.setStorage({

@@ -20,108 +20,146 @@ Page({
   },
 
   increase: function(e){
-    console.log(e);
     let that = this;
-    let {cartList, total} = this.data;
-    let index = e.currentTarget.dataset.index;
-    if(cartList && cartList[index] && (cartList[index].cart_num !== undefined)){
-      if(!isNaN(cartList[index].cart_num) && cartList[index].cart_num >= 0){
-        cartList[index].cart_num = Number(cartList[index].cart_num) + 1;
-        cartList[index].disableDecr = 'less';
-        if (cartList[index].checked == 'icon icon-ischecked-g ion-checkmark-circled') {
-          total = (Number(total) + Number(cartList[index].goods.goods_newprice)).toFixed(2);
-        }
-        wx.request({
-          url: config.default.ApiHost + '/xcc/cart/goodsAdd',
-          method: 'POST',
-          data: {
-            token: that.data.token,
-            goods_id: cartList[index].goods_id,
-            type: 1
-          },
-          success: function(res){
-            if(res.data.code == 200){
-              if(res.data.type == 1){
-                that.setData({
-                  cartList, total
-                });
-              }else if(res.data.type == 2){
-                console.error('无法增加商品数量');
-              }else{
-                console.error('商品参数错误');
-              }
-            }else{
-              console.error('商品增加状态异常');
-            }
-          },
-          fail: function(err){
-            console.error(err);
+    if(!this.data.preventTap){
+      this.setData({
+        preventTap: true
+      }, ()=>{
+        console.log(e);
+        let { cartList, total } = that.data;
+        let index = e.currentTarget.dataset.index;
+        if (cartList && cartList[index] && (cartList[index].disableIncr == '') && (cartList[index].cart_num !== undefined)) {
+          if (!isNaN(cartList[index].cart_num) && cartList[index].cart_num >= 0) {
 
+            wx.request({
+              url: config.default.ApiHost + '/xcc/cart/goodsAdd',
+              method: 'POST',
+              data: {
+                token: that.data.token,
+                cart_id: cartList[index].cart_id,
+                type: 1
+              },
+              success: function (res) {
+                if (res.data.code == 200) {
+                  if (res.data.type == 1) {
+                    cartList[index].cart_num = Number(cartList[index].cart_num) + 1;
+                    cartList[index].disableDecr = 'less';
+                    cartList[index].disableIncr = (cartList[index].cart_num < cartList[index].sku.sku_stk) ? '' : 'dis';
+                    if (cartList[index].checked == 'icon icon-ischecked-g ion-checkmark-circled') {
+                      total = (Number(total) + Number(cartList[index].sku.sku_price) + (cartList[index].cart_num == 1 ? Number(cartList[index].sku.sku_freight) : 0)).toFixed(2);
+                    }
+                    that.setData({
+                      cartList, total, preventTap: false
+                    });
+                  } else if (res.data.type == 2) {
+                    console.error('无法增加商品数量');
+                    that.setData({ preventTap: false });
+                  } else {
+                    console.error('商品参数错误');
+                    that.setData({ preventTap: false });
+                  }
+                } else {
+                  console.error('商品增加状态异常');
+                  that.setData({ preventTap: false });
+                }
+              },
+              fail: function (err) {
+                console.error(err);
+                that.setData({ preventTap: false });
+              }
+            });
+
+          } else {
+            cartList[index].cart_num = 0;
+            cartList[index].disableDecr = 'less dis';
+            cartList[index].disableIncr = (cartList[index].sku.sku_stk > 0) ? '' : 'dis';
+            that.setData({
+              cartList: cartList,
+              preventTap: false
+            });
           }
-        });
-        
-      }else{
-        cartList[index].cart_num = 0;
-        cartList[index].disableDecr = 'less dis';
-        this.setData({
-          cartList: cartList
-        });
-      }
-      console.log(this.data.cartList);
+          console.log(that.data.cartList);
+        }else{
+          that.setData({ preventTap: false });
+        }
+      });
+      
+    }else{
+      console.log('no tap');
     }
+    
   },
 
   decrease: function(e){
-    console.log(e);
+    
     let that = this;
-    let {cartList, total} = this.data;
-    let index = e.currentTarget.dataset.index;
-    if (cartList && cartList[index] && (cartList[index].disableDecr == 'less') && (cartList[index].cart_num !== undefined)) {
-      if (!isNaN(cartList[index].cart_num) && cartList[index].cart_num > 0) {
-        cartList[index].cart_num = Number(cartList[index].cart_num) - 1;
-        cartList[index].disableDecr = cartList[index].cart_num > 0 ? 'less' : 'less dis';
-        if (cartList[index].checked == 'icon icon-ischecked-g ion-checkmark-circled') {
-          total = (Number(total) - Number(cartList[index].goods.goods_newprice)).toFixed(2);
-        }
-        wx.request({
-          url: config.default.ApiHost + '/xcc/cart/goodsAdd',
-          method: 'POST',
-          data: {
-            token: that.data.token,
-            goods_id: cartList[index].goods_id,
-            type: 2
-          },
-          success: function (res) {
-            if (res.data.code == 200) {
-              if (res.data.type == 1) {
-                that.setData({
-                  cartList, total
-                });
-              } else if (res.data.type == 2) {
-                console.error('无法减少商品数量');
-              } else {
-                console.error('商品参数错误');
+    if(!this.data.preventTap){
+      this.setData({
+        preventTap: true
+      }, ()=>{
+        console.log(e);
+        let { cartList, total } = that.data;
+        let index = e.currentTarget.dataset.index;
+        if (cartList && cartList[index] && (cartList[index].disableDecr == 'less') && (cartList[index].cart_num !== undefined)) {
+          if (!isNaN(cartList[index].cart_num) && cartList[index].cart_num > 0) {
+
+            wx.request({
+              url: config.default.ApiHost + '/xcc/cart/goodsAdd',
+              method: 'POST',
+              data: {
+                token: that.data.token,
+                cart_id: cartList[index].cart_id,
+                type: 2
+              },
+              success: function (res) {
+                if (res.data.code == 200) {
+                  if (res.data.type == 1) {
+                    cartList[index].cart_num = Number(cartList[index].cart_num) - 1;
+                    cartList[index].disableDecr = cartList[index].cart_num > 0 ? 'less' : 'less dis';
+                    cartList[index].disableIncr = cartList[index].cart_num < cartList[index].sku.sku_stk ? '' : 'dis';
+                    if (cartList[index].checked == 'icon icon-ischecked-g ion-checkmark-circled') {
+                      total = (Number(total) - Number(cartList[index].sku.sku_price) - (cartList[index].cart_num == 0 ? Number(cartList[index].sku.sku_freight) : 0)).toFixed(2);
+                    }
+                    that.setData({
+                      cartList, total, preventTap: false
+                    });
+                  } else if (res.data.type == 2) {
+                    console.error('无法减少商品数量');
+                    that.setData({ preventTap: false });
+                  } else {
+                    console.error('商品参数错误');
+                    that.setData({ preventTap: false });
+                  }
+                } else {
+                  console.error('商品减少状态异常');
+                  that.setData({ preventTap: false });
+                }
+              },
+              fail: function (err) {
+                console.error(err);
+                that.setData({ preventTap: false });
               }
-            } else {
-              console.error('商品减少状态异常');
-            }
-          },
-          fail: function (err) {
-            console.error(err);
-
+            });
+          } else {
+            cartList[index].cart_num = 0;
+            cartList[index].disableDecr = 'less dis';
+            cartList[index].disableIncr = cartList[index].sku.sku_stk > 0 ? '' : 'dis';
+            that.setData({
+              cartList: cartList,
+              preventTap: false
+            });
           }
-        });
-      } else {
-        cartList[index].cart_num = 0;
-        cartList[index].disableDecr = 'less dis';
-        this.setData({
-          cartList: cartList
-        });
-      }
-      console.log(this.data.cartList);
+          console.log(that.data.cartList);
+        }else{
+          that.setData({ preventTap: false });
+        }
+      });
+    }else{
+      console.log('no tap');
     }
+    
   },
-
+  /*
   inputNum: function(e){
     console.log(e);
     let index = e.currentTarget.dataset.index;
@@ -152,18 +190,18 @@ Page({
       console.log(this.data.cartList);
     }
   },
-
+  */
   toggleSelect: function(e){
     let index = e.currentTarget.dataset.index;
     let {cartList, total, chosenNum} = this.data;
     if (cartList[index].checked == 'icon icon-nochecked-g ion-ios-circle-outline'){
       cartList[index].checked = 'icon icon-ischecked-g ion-checkmark-circled';
       chosenNum = Number(chosenNum) + 1;
-      total = (Number(total) + (Number(cartList[index].cart_num) * Number(cartList[index].goods.goods_newprice))).toFixed(2);
+      total = (Number(total) + (Number(cartList[index].cart_num) * Number(cartList[index].sku.sku_price)) + (cartList[index].cart_num == 0 ? 0 : Number(cartList[index].sku.sku_freight))).toFixed(2);
     }else{
       cartList[index].checked = 'icon icon-nochecked-g ion-ios-circle-outline';
       chosenNum = Number(chosenNum) - 1;
-      total = (Number(total) - (Number(cartList[index].cart_num) * Number(cartList[index].goods.goods_newprice))).toFixed(2);
+      total = (Number(total) - (Number(cartList[index].cart_num) * Number(cartList[index].sku.sku_price)) - (cartList[index].cart_num == 0 ? 0 : Number(cartList[index].sku.sku_freight))).toFixed(2);
     }
     
     this.setData({
@@ -176,7 +214,7 @@ Page({
     if(cartList && cartList.length > 0){
       if (chooseAll == 'icon icon-nochecked-g ion-ios-circle-outline') {
         chooseAll = 'icon icon-ischecked-g ion-checkmark-circled';
-        total = (cartList.reduce((acc, item) => Number(acc) + (Number(item.cart_num) * Number(item.goods.goods_newprice)), 0)).toFixed(2);
+        total = (cartList.reduce((acc, item) => Number(acc) + (Number(item.cart_num) * Number(item.sku.sku_price)) + (item.cart_num == 0 ? 0 : Number(item.sku.sku_freight)), 0)).toFixed(2);
         chosenNum = cartList.length;
       } else {
         chooseAll = 'icon icon-nochecked-g ion-ios-circle-outline';
@@ -210,7 +248,7 @@ Page({
             method: 'POST',
             data: {
               token: that.data.token,
-              goods_id: that.data.cartList[index].goods_id
+              cart_id: that.data.cartList[index].cart_id
             },
             success: function(res){
               if(res.data.code == 200){
@@ -297,49 +335,52 @@ Page({
    */
   onShow: function () {
     let that = this;
-    wx.getStorage({
-      key: 'userinfo',
-      success: function (userInfo) {
-        wx.request({
-          url: config.default.ApiHost + '/xcc/Cart/cartList',
-          method: 'POST',
-          data: {
-            token: userInfo.data.loginToken
-          },
-          success: function (res) {
-            if (res.data.code == 200) {
-              if (res.data.type == 1) {
-                let cartList = res.data.data;
-                let hostRegex = new RegExp('^' + config.default.ApiHost);
-                cartList = cartList.map(cartItem => {
-                  cartItem.goods.goods_img = (hostRegex.test()) ? cartItem.goods.goods_img : config.default.ApiHost + cartItem.goods.goods_img;
-                  cartItem.disableDecr = cartItem.cart_num > 0 ? 'less' : 'less dis';
-                  cartItem.checked = 'icon icon-nochecked-g ion-ios-circle-outline';
-                  return cartItem;
-                });
-                console.log(cartList);
-                that.setData({
-                  cartList: cartList,
-                  token: userInfo.data.loginToken
-                });
-              } else {
-                console.error('没有购物车数据');
-              }
+    login.default.getToken().then(token=>{
+      wx.request({
+        url: config.default.ApiHost + '/xcc/Cart/cartList',
+        method: 'POST',
+        data: {
+          token: token
+        },
+        success: function (res) {
+          if (res.data.code == 200) {
+            if (res.data.type == 1) {
+              let cartList = res.data.data;
+              let hostRegex = new RegExp('^' + config.default.ApiHost);
+              cartList = cartList.map(cartItem => {
+                cartItem.goods.goods_img = (hostRegex.test()) ? cartItem.goods.goods_img : config.default.ApiHost + cartItem.goods.goods_img;
+                cartItem.sku = cartItem.spec_items[0];
+                cartItem.disableDecr = cartItem.cart_num > 0 ? 'less' : 'less dis';
+                cartItem.disableIncr = cartItem.cart_num < cartItem.sku.sku_stk ? '' : 'dis';
+                cartItem.checked = 'icon icon-nochecked-g ion-ios-circle-outline';
+                return cartItem;
+              });
+              console.log(cartList);
+              that.setData({
+                cartList: cartList,
+                token: token,
+                chosenNum: 0,
+                total: 0,
+                chooseAll: 'icon icon-nochecked-g ion-ios-circle-outline',
+                preventTap: false
+              });
             } else {
-              console.error('购物车获取错误');
+              console.error('没有购物车数据');
             }
-          },
-          fail: function (err) {
-            console.error(err);
+          } else {
+            console.error('购物车获取错误');
           }
-        });
-      },
-      fail: function (err) {
-        wx.navigateTo({
-          url: '../member/login/login'
-        });
-      }
+        },
+        fail: function (err) {
+          console.error(err);
+        }
+      });
+    }, err=>{
+      wx.navigateTo({
+        url: '../member/login/login'
+      });
     });
+    
   },
 
   /**

@@ -48,9 +48,11 @@
                                 <!--<view class="line1">Camel骆驼男装 秋冬款新品男士流行纯色可脱卸帽羽绒服外套</view>-->
                                 <view class="line1">{{item.goods.goods_name}}</view>
                                 <!--<view class="line2">咖啡*M(170/88A)</view>-->
-                                <view class="line2"></view>
+                                <view class="line2">{{item.sku.item_name}}</view>
                                 <!--<view class="line3">￥218.00</view>-->
-                                <view class="line3">￥{{item.goods.goods_newprice}}</view>
+                                <view class="line-ship">运费: ￥{{item.sku.sku_freight > 0 ? item.sku.sku_freight : 0}}</view>
+                                <view class="line-stock">还剩: {{item.sku.sku_stk}}</view>
+                                <view class="line3">￥{{item.sku.sku_price}}</view>
                             </view>
                             <view class="m-selnum">
                                 <view class="{{item.disableDecr}}" bindtap="decrease" data-index="{{idx}}">
@@ -61,7 +63,7 @@
                                     <!--<input class="txt" value="{{item.cart_num}}" bindinput="inputNum" data-index="{{idx}}"/>-->
                                     <view class="txt">{{item.cart_num}}</view>
                                 </view>
-                                <view class="plus" bindtap="increase" data-index="{{idx}}">
+                                <view class="plus {{item.disableIncr}}" bindtap="increase" data-index="{{idx}}">
                                     <i class="icon ion-ios-plus-empty"></i>
                                 </view>
                             </view>

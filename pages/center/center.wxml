@@ -129,7 +129,7 @@
     </view>
 
     <view wx:if="{{!loggedIn}}">
-      <button open-type="getUserInfo" bindgetuserinfo="bindGetUserInfo">授权登录</button>
+      请登录
     </view>
     <!--
     <view wx:if="{{!loggedIn}}">
