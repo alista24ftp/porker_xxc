@@ -1,1 +1,104 @@
 /* pages/member/productComment/productComment.wxss */
+.commentContent {
+  margin-bottom: 0;
+  background: #fff;
+  padding-bottom: 22rpx;
+}
+
+.order-item {
+  margin-top: 0;
+  padding-left: 30rpx;
+  padding-right: 30rpx;
+  background-color: #fff;
+  font-size: 27rpx;
+}
+
+.order-item .bd {
+  display: flex;
+  padding: 24rpx 0;
+  border-top: 1px solid #f3f3f3;
+}
+
+.order-item .bd .left {
+  position: relative;
+}
+
+.order-item .bd .left .pic {
+  display: block;
+  width: 165rpx;
+  height: 165rpx;
+  margin-right: 20rpx;
+  background-color: #f4f4f4;
+}
+
+.order-item .bd .middle {
+  margin-left: 20rpx;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.order-item .bd .goodInfo {
+  line-height: 45rpx;
+}
+
+.order-item .bd .p2 {
+  color: #666;
+  font-size: 24rpx;
+}
+
+.commentWrap .textarea {
+  width: 100%;
+  height: 225rpx;
+  display: block;
+  padding: 22rpx;
+  border: 0;
+  font-size: 27rpx;
+}
+
+.comment-pics {
+  display: flex;
+  margin-right: 22rpx;
+  flex-wrap: wrap;
+}
+
+.comment-pics .item {
+  width: 148rpx;
+  height: 148rpx;
+  margin-left: 11rpx;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.file-input {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  filter: alpha(opacity=0);
+}
+
+.comment-pics .pic {
+  width: 100%;
+  height: 100%;
+}
+
+.m-productComment .commentBtn {
+  display: flex;
+  justify-content: flex-end;
+  padding: 22rpx;
+  border-top: 1px solid #f3f3f3;
+  background-color: #fff;
+}
+
+.m-productComment .commentBtn .btn {
+  background-color: #fff;
+  font-size: 27rpx;
+  padding: 15rpx 22rpx;
+  color: #666;
+  border-radius: 3px;
+}

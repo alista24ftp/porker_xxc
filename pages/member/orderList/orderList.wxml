@@ -1,49 +1,64 @@
 <!--pages/member/orderList/orderList.wxml-->
 <view class="container greybg">
-    <view class="m-orderList">
+    <view class="no-orderList" wx:if="{{orderList == undefined || orderList.length == 0}}">暂时没有任何相关订单</view>
+    <view class="m-orderList" wx:for="{{orderList}}" wx:for-index="idx">
         <view class="order-item">
             <view class="hd">
-                <text class="orderId">订单编号：201710091414371189</text>
-                <text class="od-cancel">取消</text>
+                <!--<text class="orderId">订单编号：201710091414371189</text>-->
+                <text class="orderId">订单编号：{{item.order_sn}}</text>
+                <text class="od-cancel" bindtap="cancelOrder" data-id="{{item.order_id}}" wx:if="{{type == 1}}">取消</text>
             </view>
-            <navigator url="../orderDetail/orderDetail">
+            <view wx:for="{{item.data}}" wx:for-item="product" bindtap="orderDetail">
                 <view class="bd">
                     <view class="left">
+                      <!-->
                         <view class="count">
                             <text class="txt">共1种</text>
                         </view>
-                        <image src="https://img01.camel.com.cn/product/image/D6Y105770/0f9dd4ee-3c89-4d11-ac6c-2f82b5455ca0.jpg!prodimg100" alt="" class="pic"></image>
+                        <image src="https://img01.camel.com.cn/product/image/D6Y105770/0f9dd4ee-3c89-4d11-ac6c-2f82b5455ca0.jpg!prodimg100" alt="" class="pic"></image>-->
+                        <image src="{{product.goods_img}}" alt="" class="pic"></image>
                     </view>
                     <view class="middle">
                         <view class="goodInfo">
                             <view>
-                                <text class="p1">骆驼秋冬新款男士轻薄羽绒服 可脱卸帽</text>
+                                <!--<text class="p1">骆驼秋冬新款男士轻薄羽绒服 可脱卸帽</text>-->
+                                <text class="p1">{{product.goods_name}}</text>
                             </view>
                             <view>
-                                <text class="p2">咖啡*M(170/88A)</text>
+                                <!--<text class="p2">咖啡*M(170/88A)</text>-->
+                                <text class="p2">{{product.item_name}}</text>
                             </view>
                         </view>
                     </view>
                     <view class="right">
                         <view>
-                            <text class="p3">x1</text>
+                            <!--<text class="p3">x1</text>-->
+                            <text class="p3">x{{product.goods_num}}</text>
                         </view>
                         <view>
-                            <text class="p4">未付款</text>
+                            <text class="p4" wx:if="{{type==1}}">未付款</text>
+                            <text class="p4" wx:if="{{type==2}}">未发货</text>
+                            <text class="p4" wx:if="{{type==3}}">未收货</text>
+                            <text class="p4" wx:if="{{type==4}}">未评价</text>
                         </view>
                     </view>
                 </view>
-            </navigator>
+            </view>
             <view class="ft">
                 <view class="btns">
-                    <navigator url="../apply/apply">
-                        <text class="w-button">售后申请</text>
-                    </navigator>
+                    <!--<navigator url="../apply/apply"><text class="w-button">售后申请</text></navigator>-->
+                    <!--<navigator url="../orderTrace/orderTrace"><text class="w-button">追踪物流</text></navigator>-->
+                    <!--<view bindtap="comment"><text class="w-button">评价</text></view>-->
+                    <text class="w-button btn-topay" wx:if="{{type==1}}">去付款</text>
+                    <text class="w-button btn-topay" wx:if="{{type==2}}">提醒发货</text>
+                    <text class="w-button btn-topay" wx:if="{{type==3}}" bindtap="confirmRecv" data-id="{{item.order_id}}">确认收货</text>
+                    <text class="w-button btn-topay" wx:if="{{type==4}}" bindtap="comment" data-id="{{item.order_id}}">去评价</text>
                 </view>
             </view>
         </view>
     </view>
 
+    <!-->
     <view class="m-orderList">
         <view class="order-item">
             <view class="hd">
@@ -87,4 +102,5 @@
             </view>
         </view>
     </view>
+    -->
 </view>

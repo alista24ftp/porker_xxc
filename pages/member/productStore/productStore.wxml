@@ -1,11 +1,12 @@
 <!--pages/member/productStore/productStore.wxml-->
 <view class="container greybg">
     <view class="productStore">
+        <view class="title">收藏夹</view>
         <view class="m-cartGroup">
             <view class="list">
               <view class="item" wx:for="{{favList}}" wx:for-index="idx">
                   <view class="inner">
-                      <view class="m-good">
+                      <view class="m-good" bindtap="goToProduct" data-index="{{idx}}">
                           <view class="imgWrap">
                               <view>
                                   <image src="{{item.goods_img}}" alt=""></image>
@@ -21,10 +22,9 @@
                                   </view>
                               </view>
                           </view>
-                          <view class="m-selnum">
-                          </view>
+                          
                       </view>
-                      <view class="del" bindtap="removeFav" data-index="{{idx}}">
+                      <view class="del-fav" bindtap="removeFav" data-index="{{idx}}">
                           <i class="icon icon-trash ion-ios-trash-outline"></i>
                       </view>
                   </view>

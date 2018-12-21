@@ -45,6 +45,37 @@ Page({
           loggedIn: true,
           user: userInfo
         });
+        wx.request({
+          url: config.default.ApiHost + '/xcc/home/countOrder',
+          method: 'POST',
+          data: {token: loginToken},
+          success: function(res){
+            if(res.data.code == 200){
+              that.setData({
+                awaitPayCount: res.data.data[1],
+                awaitShipCount: res.data.data[2],
+                awaitRecvCount: res.data.data[3],
+                awaitComCount: res.data.data[4]
+              });
+            }else{
+              that.setData({
+                awaitPayCount: 0,
+                awaitShipCount: 0,
+                awaitRecvCount: 0,
+                awaitComCount: 0
+              });
+            }
+          },
+          fail: function(err){
+            console.error(err);
+            that.setData({
+              awaitPayCount: 0,
+              awaitShipCount: 0,
+              awaitRecvCount: 0,
+              awaitComCount: 0
+            });
+          }
+        });
       }
     }, err=>{
       console.error('请先登录');

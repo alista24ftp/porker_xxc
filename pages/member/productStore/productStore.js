@@ -17,6 +17,14 @@ Page({
     
   },
 
+  goToProduct: function(e){
+    let index = e.currentTarget.dataset.index;
+    let prodId = this.data.favList[index].goods_id;
+    wx.navigateTo({
+      url: '../../product/productDetail/productDetail?pid=' + prodId
+    });
+  },
+
   removeFav: function(e){
     let index = e.currentTarget.dataset.index;
     let that = this;

@@ -32,35 +32,35 @@
         <view class="m-uc-menu">
             <view class="list">
                 <view class="item">
-                    <navigator url="../member/orderList/orderList">
+                    <navigator url="../member/orderList/orderList?id=1">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon1.png" alt=""></image>
                         <text class="txt">待付款</text>
-                        <text class="red-dot">0</text>
+                        <text class="red-dot" wx:if="{{awaitPayCount > 0}}">{{awaitPayCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList">
+                    <navigator url="../member/orderList/orderList?id=2">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon2.png" alt=""></image>
                         <text class="txt">待发货</text>
-                        <text class="red-dot">0</text>
+                        <text class="red-dot" wx:if="{{awaitShipCount > 0}}">{{awaitShipCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList">
+                    <navigator url="../member/orderList/orderList?id=3">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon3.png" alt=""></image>
-                        <text class="txt">已发货</text>
-                        <text class="red-dot">0</text>
+                        <text class="txt">待收货</text>
+                        <text class="red-dot" wx:if="{{awaitRecvCount > 0}}">{{awaitRecvCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList">
+                    <navigator url="../member/orderList/orderList?id=4">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon4.png" alt=""></image>
                         <text class="txt">待评价</text>
-                        <text class="red-dot">0</text>
+                        <text class="red-dot" wx:if="{{awaitComCount > 0}}">{{awaitComCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList">
+                    <navigator url="../member/orderList/orderList?id=1">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon5.png" alt=""></image>
                         <text class="txt">退款/售后</text>
                     </navigator>

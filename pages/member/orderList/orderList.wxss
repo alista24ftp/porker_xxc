@@ -1,1 +1,31 @@
 /* pages/member/orderList/orderList.wxss */
+.no-orderList {
+  display: flex;
+  justify-content: center;
+}
+
+.order-item {
+  margin-top: 20rpx;
+  padding-left: 30rpx;
+  background-color: #fff;
+  font-size: 27rpx;
+}
+
+.od-googs .hd, .order-item .hd {
+  height: 80rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+}
+
+.od-googs .hd .orderId, .order-item .hd .orderId {
+  flex: 1;
+  height: 1.0500025rpx;
+  line-height: 1.0500025rpx;
+  margin-right: 30rpx;
+}
+
+.order-item .hd .od-cancel {
+  margin-right: 15rpx;
+}
