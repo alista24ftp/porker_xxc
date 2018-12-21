@@ -54,13 +54,25 @@ Page({
                   console.log(goods);
                   that.setData({goods})//, function(res){console.log(that.data.goods)});
                 } else {
+                  wx.showToast({
+                    title: '上传图片失败',
+                    image: '/images/cross.png'
+                  });
                   console.error('上传图片失败');
                 }
               } else {
+                wx.showToast({
+                  title: '上传图片失败',
+                  image: '/images/cross.png'
+                });
                 console.error('上传图片参数错误');
               }
             },
             fail: function (err) {
+              wx.showToast({
+                title: '无法上传图片',
+                image: '/images/cross.png'
+              });
               console.error(err);
             }
           })
@@ -73,7 +85,13 @@ Page({
     }, err => {
       console.error(err);
       wx.navigateTo({
-        url: '../../login/login'
+        url: '../../login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          });
+        }
       });
     });
 
@@ -94,6 +112,10 @@ Page({
           goods[prodIndex].uploadedImgs.splice(imgIndex, 1);
           that.setData({
             goods
+          }, function(){
+            wx.showToast({
+              title: '删除图片成功'
+            });
           });
         }
       }
@@ -117,7 +139,7 @@ Page({
     if(comments.every(comment=>comment !== undefined && comment.length > 0)){
       login.default.getToken().then(token => {
         let comImgs = goods.map(good=>good.uploadedImgs.join(','));
-        let ids = goods.map(good=>goods_id);
+        let ids = goods.map(good=>good.goods_id);
         wx.request({
           url: config.default.ApiHost + '/xcc/home/commentAdd',
           method: 'POST',
@@ -134,21 +156,50 @@ Page({
                 console.log('添加成功');
                 wx.switchTab({
                   url: '../../center/center',
+                  success: function(res){
+                    wx.showToast({
+                      title: '评论添加成功'
+                    });
+                  }
                 });
               }else if(res.data.type == 2){
                 console.error('添加评价失败');
+                wx.showToast({
+                  title: '添加评价失败',
+                  image: '/images/cross.png'
+                });
               }else{
                 console.error('添加评价参数错误');
+                wx.showToast({
+                  title: '添加评价失败',
+                  image: '/images/cross.png'
+                });
               }
             }else{
               console.error('添加评价状态异常');
+              wx.showToast({
+                title: '添加评价失败',
+                image: '/images/cross.png'
+              });
             }
           }
         });
       }, err => {
         wx.navigateTo({
-          url: '../login/login'
+          url: '../login/login',
+          success: function(res){
+            wx.showToast({
+              title: '请先登录',
+              image: '/images/cross.png'
+            });
+          }
         });
+      });
+    }else{
+      console.error('评论不能为空');
+      wx.showToast({
+        title: '评论不能为空',
+        image: '/images/cross.png'
       });
     }
     
@@ -201,21 +252,38 @@ Page({
               that.setData({ goods: undefined });
             }else{
               console.error('获取订单评价参数错误');
+              wx.showToast({
+                title: '获取评价失败',
+                image: '/images/cross.png'
+              });
               that.setData({ goods: undefined });
             }
           }else{
             console.error('获取订单评价状态异常');
+            wx.showToast({
+              title: '获取评价失败',
+              image: '/images/cross.png'
+            });
             that.setData({goods: undefined});
           }
         },
         fail: function(err){
           console.error(err);
-
+          wx.showToast({
+            title: '获取评价失败',
+            image: '/images/cross.png'
+          });
         }
       });
     }, err=>{
       wx.navigateTo({
-        url: '../login/login'
+        url: '../login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          });
+        }
       });
     });
   },

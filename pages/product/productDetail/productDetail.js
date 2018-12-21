@@ -148,9 +148,17 @@ Page({
 
               
             }else{
+              wx.showToast({
+                title: '无法取商品详情',
+                image: '/images/cross.png'
+              });
               console.error('无法获取商品详细信息');
             }
           }else{
+            wx.showToast({
+              title: '取商品详情错误',
+              image: '/images/cross.png'
+            });
             console.error('获取商品详细信息错误');
           }
           
@@ -200,33 +208,65 @@ Page({
             if(res.data.code == 200){
               if(res.data.type == 1){
                 if(isFav){
-                  console.log('收藏取消成功');
+                  wx.showToast({
+                    title: '收藏取消成功',
+                    success: function(res){
+                      console.log('收藏取消成功');
+                    }
+                  });
+                  
                   that.setData({
                     isFav: ''
                   });
                 }else{
-                  console.log('收藏添加成功');
+                  wx.showToast({
+                    title: '收藏添加成功',
+                    success: function (res) {
+                      console.log('收藏添加成功');
+                    }
+                  });
                   that.setData({
                     isFav: 'isfav'
                   });
                 }
               }else if(res.data.type == 2){
+                wx.showToast({
+                  title: '操作收藏夹失败',
+                  image: '/images/cross.png'
+                });
                 console.error('操作收藏夹失败');
               }else{
+                wx.showToast({
+                  title: '收藏夹参数错误',
+                  image: '/images/cross.png'
+                });
                 console.error('操作收藏夹参数错误');
               }
             }else{
+              wx.showToast({
+                title: '操作收藏夹异常',
+                image: '/images/cross.png'
+              });
               console.error('操作收藏夹异常');
             }
           },
           fail: function(err){
+            wx.showToast({
+              title: '无法操作收藏夹',
+              image: '/images/cross.png'
+            });
             console.error(err);
           }
         });
       }, err=>{
-        console.error(err);
         wx.navigateTo({
-          url: '../../member/login/login'
+          url: '../../member/login/login',
+          success: function(res){
+            wx.showToast({
+              title: '请先登录',
+              image: '/images/cross.png'
+            });
+          }
         });
       });
     },
@@ -250,26 +290,60 @@ Page({
               console.log(res);
               if (res.data.code == 200) {
                 if (res.data.type == 1) {
-                  console.log('成功添加到购物车');
+                  wx.showToast({
+                    title: '添加购物车成功',
+                    success: function(res){
+                      console.log('成功添加到购物车');
+                    }
+                  });
                 } else {
-                  console.error('添加购物车失败');
+                  wx.showToast({
+                    title: '添加购物车失败',
+                    image: '/images/cross.png',
+                    success: function (res) {
+                      console.error('添加购物车失败');
+                    }
+                  });
                 }
               } else {
-                console.error('添加购物车参数错误');
+                wx.showToast({
+                  title: '添加购物车错误',
+                  image: '/images/cross.png',
+                  success: function (res) {
+                    console.error('添加购物车参数错误');
+                  }
+                });
               }
             },
             fail: function (err) {
+              wx.showToast({
+                title: '无法添加购物车',
+                image: '/images/cross.png'
+              });
               console.log(err);
             }
           });
         }, err=>{
           wx.navigateTo({
-            url: '../../member/login/login'
+            url: '../../member/login/login',
+            success: function(res){
+              wx.showToast({
+                title: '请先登录',
+                image: '/images/cross.png'
+              });
+            }
           });
         });
         
       }else{
-        console.error('请先选择规格数量');
+        wx.showToast({
+          title: '请选择规格数量',
+          image: '/images/cross.png',
+          success: function (res) {
+            console.error('请先选择规格数量');
+          }
+        });
+        
       }
     },
 
@@ -304,7 +378,13 @@ Page({
                 });
               }
             }else{
-              console.error('获取收藏夹列表异常');
+              wx.showToast({
+                title: '获取收藏夹异常',
+                image: '/images/cross.png',
+                success: function(res){
+                  console.error('获取收藏夹列表异常');
+                }
+              });
               that.setData({
                 token: token,
                 isFav: ''
@@ -312,13 +392,25 @@ Page({
             }
           },
           fail: function(err){
-            console.error(err);
+            wx.showToast({
+              title: '无法获取收藏夹',
+              image: '/images/cross.png',
+              success: function (res) {
+                console.error(err);
+              }
+            });
+            
           }
         });
       }, err=>{
-        console.error(err);
         wx.navigateTo({
-          url: '../../member/login/login'
+          url: '../../member/login/login',
+          success: function(res){
+            wx.showToast({
+              title: '请先登录',
+              image: '/images/cross.png'
+            });
+          }
         });
       });
     }

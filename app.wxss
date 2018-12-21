@@ -438,7 +438,7 @@ page {
 .top-line .logo {
     width: 138rpx;
     height: 40rpx;
-    background-image: url(http://img02.camel.com.cn/image/logo138x40_1.png);
+    background-image: url(https://pork.arnny.net/static/index/images/home/logo.png);
     display: inline-block;
     margin-right: 20rpx;
     background-size: cover;

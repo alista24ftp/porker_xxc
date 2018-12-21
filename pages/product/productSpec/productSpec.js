@@ -138,19 +138,31 @@ Page({
 
   done: function(e){
     let index = this.data.chosenIndex;
+    let that = this;
     if(index !== undefined){
       if (!isNaN(this.data.specList[index].quantity) && this.data.specList[index].quantity > 0) {
         let sku = this.data.specList[index];
         wx.redirectTo({
-          url: '../productDetail/productDetail?pid=' + this.data.prodId + '&sku=' + JSON.stringify(sku),
-          fail: function (err) {
-            console.error(err);
+          url: '../productDetail/productDetail?pid=' + that.data.prodId + '&sku=' + JSON.stringify(sku),
+          success: function(res){
+            wx.showToast({
+              title: '规格选择成功'
+            });
           }
         });
+        
       } else {
+        wx.showToast({
+          title: '请输入正规数量',
+          image: '/images/cross.png'
+        });
         console.error('请输入正规数量');
       }
     }else{
+      wx.showToast({
+        title: '请选规格与数量',
+        image: '/images/cross.png'
+      });
       console.error('请先选择规格与数量');
     }
   },

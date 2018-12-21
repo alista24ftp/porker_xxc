@@ -13,6 +13,7 @@ Page({
    */
   onLoad: function (options) {
     let comments = JSON.parse(options.comments);
+    console.log(comments);
     this.setData({
       comments: comments,
       commentsNum: comments.length

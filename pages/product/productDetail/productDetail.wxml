@@ -112,7 +112,7 @@
                 <text class="txt">用户评价({{comments.com.sums}})</text>
             </view>
             <view class="middle"></view>
-            <view class="right" bindtap="seeComments">
+            <view class="right" bindtap="seeComments" wx:if="{{comments.com.sums > 0}}">
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
