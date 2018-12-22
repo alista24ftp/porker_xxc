@@ -1,6 +1,7 @@
 // pages/member/addressAdd/addressAdd.js
 const validator = require('../../../utils/addrValidate.js');
 const config = require('../../../config.js');
+const areas = require('../../../utils/area.js');
 Page({
 
   /**
@@ -16,14 +17,27 @@ Page({
   onLoad: function (options) {
     let addr = options.addr;
     let token = options.token;
+    let areaJson = areas.getAreaJson();
+    let provinces = areas.getProvinces();
+    
     if(addr !== undefined){
       // 编辑地址
       addr = JSON.parse(addr);
       console.log(addr);
+      let provIndex = areas.getIndexByProv(addr.province);
+      let cityIndex = areas.getIndexByCity(provIndex, addr.city);
+      let distIndex = areas.getIndexByDist(provIndex, cityIndex, addr.dist);
       this.setData({
         addr,
         isDefault: addr.add_default == 1,
-        token: token
+        token: token,
+        areaJson,
+        provinces,
+        cities: areas.getCitys(provIndex),
+        districts: areas.getAreas(provIndex, cityIndex),
+        provIndex,
+        cityIndex,
+        distIndex
       });
     }else{
       // 添加地址
@@ -39,26 +53,79 @@ Page({
           province: ''
         },
         isDefault: false,
-        token: token
+        token: token,
+        areaJson,
+        provinces,
+        cities: areas.getCitys(0),
+        districts: areas.getAreas(0, 0),
+        provIndex: 0,
+        cityIndex: 0,
+        distIndex: 0
       });
     }
   },
 
+  chooseProvince: function(e){
+    console.log(e);
+    let provIndex = e.detail.value;
+    let cities = areas.getCitys(provIndex);
+    let districts = areas.getAreas(provIndex, 0);
+    this.setData({
+      provIndex,
+      cityIndex: 0,
+      distIndex: 0,
+      cities,
+      districts
+    });
+  },
+
+  chooseCity: function(e){
+    console.log(e);
+    let cityIndex = e.detail.value;
+    let provIndex = this.data.provIndex;
+    let districts = areas.getAreas(provIndex, cityIndex);
+    this.setData({
+      cityIndex,
+      distIndex: 0,
+      districts
+    });
+  },
+
+  chooseDist: function(e){
+    console.log(e);
+    let distIndex = e.detail.value;
+    this.setData({
+      distIndex
+    });
+  },
+
   resetAddr: function(e){
     console.log(this.data.addr);
+    this.setData({
+      cities: areas.getCitys(0),
+      districts: areas.getAreas(0,0),
+      provIndex: 0,
+      cityIndex: 0,
+      distIndex: 0
+    });
   },
 
   done: function(e){
     console.log(e);
     let addrInfo = e.detail.value;
-    if (validator.default.validateSubmit(addrInfo.add_name, addrInfo.add_phone, addrInfo.province, addrInfo.city, addrInfo.dist, addrInfo.add_street, addrInfo.add_default)){
+    let {provIndex, cityIndex, distIndex} = this.data;
+    //if (validator.default.validateSubmit(addrInfo.add_name, addrInfo.add_phone, addrInfo.province, addrInfo.city, addrInfo.dist, addrInfo.add_street, addrInfo.add_default)){
+    if(validator.default.validateSubmit(addrInfo.add_name, addrInfo.add_phone, provIndex, cityIndex, distIndex, addrInfo.add_street, addrInfo.add_default)){
       let reqData = {
         token: this.data.token, 
         add_phone: addrInfo.add_phone,
         add_name: addrInfo.add_name,
-        province: addrInfo.province,
-        city: addrInfo.city,
-        dist: addrInfo.dist,
+        //province: addrInfo.province,
+        //city: addrInfo.city,
+        //dist: addrInfo.dist,
+        province: areas.getProvName(provIndex),
+        city: areas.getCityName(provIndex, cityIndex),
+        dist: areas.getDistName(provIndex, cityIndex, distIndex),
         add_street: addrInfo.add_street,
         add_default: addrInfo.add_default
       };
@@ -74,23 +141,48 @@ Page({
             if(res.data.type == 1){
               console.log('地址信息提交成功');
               wx.redirectTo({
-                url: '../receiveList/receiveList'
+                url: '../receiveList/receiveList',
+                success: function(res){
+                  wx.showToast({
+                    title: '地址提交成功'
+                  });
+                }
               });
             }else if(res.data.code == 2){
               console.error('地址信息提交失败');
+              wx.showToast({
+                title: '地址提交失败',
+                image: '/images/cross.png'
+              });
             }else{
               console.error('地址信息参数错误');
+              wx.showToast({
+                title: '地址参数错误',
+                image: '/images/cross.png'
+              });
             }
           }else{
             console.error('提交地址状态异常');
+            wx.showToast({
+              title: '地址提交失败',
+              image: '/images/cross.png'
+            });
           }
         },
         fail: function(err){
           console.error(err);
+          wx.showToast({
+            title: '地址提交失败',
+            image: '/images/cross.png'
+          });
         }
       });
     }else{
       console.error('提交地址验证错误, 请检查地址输入信息');
+      wx.showToast({
+        title: '地址验证失败',
+        image: '/images/cross.png'
+      });
     }
   },
 

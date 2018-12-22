@@ -138,7 +138,8 @@ Page({
     let comments = this.data.goods.map(good=>(good.comment !== undefined) ? good.comment.trim() : good.comment);
     if(comments.every(comment=>comment !== undefined && comment.length > 0)){
       login.default.getToken().then(token => {
-        let comImgs = goods.map(good=>good.uploadedImgs.join(','));
+        let re = new RegExp(config.default.ApiHost, 'gi');
+        let comImgs = goods.map(good=>good.uploadedImgs.join(',').replace(re, ''));
         let ids = goods.map(good=>good.goods_id);
         wx.request({
           url: config.default.ApiHost + '/xcc/home/commentAdd',

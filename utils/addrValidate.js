@@ -14,12 +14,24 @@ export default {
   validateDefaultAddr: function(defAddr){
     return defAddr && (defAddr !== undefined) && (defAddr.length == 1) && (defAddr == 0 || defAddr == 1);
   },
+  validateProvIndex: function(provIndex){
+    return provIndex > 0;
+  },
+  validateCityIndex: function (cityIndex) {
+    return cityIndex > 0;
+  },
+  validateDistIndex: function (distIndex) {
+    return distIndex > 0;
+  },
   validateSubmit: function (name, phone, province, city, district, addrDetail, defAddr) {
     return this.validateName(name) 
       && this.validatePhone(phone) 
-      && this.validateLocation(province)
-      && this.validateLocation(city)
-      && this.validateLocation(district)
+      //&& this.validateLocation(province)
+      //&& this.validateLocation(city)
+      //&& this.validateLocation(district)
+      && this.validateProvIndex(province)
+      //&& this.validateCityIndex(city)
+      //&& this.validateDistIndex(district)
       && this.validateAddrDetail(addrDetail) 
       && this.validateDefaultAddr(defAddr);
   }

@@ -42,20 +42,41 @@ Page({
                   if (res.data.type == 1) {
                     console.log('订单删除成功');
                     wx.redirectTo({
-                      url: './orderList?id=1'
+                      url: './orderList?id=1',
+                      success: function(res){
+                        wx.showToast({
+                          title: '订单删除成功',
+                        })
+                      }
                     });
                   } else if (res.data.type == 2) {
                     console.error('订单删除失败');
+                    wx.showToast({
+                      title: '订单删除失败',
+                      image: '/images/cross.png'
+                    })
                   } else if (res.data.type == 3) {
                     console.error('订单删除参数错误');
+                    wx.showToast({
+                      title: '删除参数错误',
+                      image: '/images/cross.png'
+                    })
                   }
                 }else{
                   console.error('订单删除状态异常');
+                  wx.showToast({
+                    title: '订单删除异常',
+                    image: '/images/cross.png'
+                  })
                 }
                 
               },
               fail: function (err) {
                 console.error(err);
+                wx.showToast({
+                  title: '订单删除失败',
+                  image: '/images/cross.png'
+                })
               }
             });
           }
@@ -63,7 +84,13 @@ Page({
       });
     }, err=>{
       wx.navigateTo({
-        url: '../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
     
@@ -71,7 +98,7 @@ Page({
 
   orderDetail: function(e){
     wx.navigateTo({
-      url: '../orderDetail/orderDetail'
+      url: '/pages/member/orderDetail/orderDetail'
     });
   },
 
@@ -98,20 +125,41 @@ Page({
                   if (res.data.type == 1) {
                     console.log('确认收货成功');
                     wx.redirectTo({
-                      url: './orderList?id=3'
+                      url: './orderList?id=3',
+                      success: function(res){
+                        wx.showToast({
+                          title: '确认收货成功',
+                        })
+                      }
                     });
                   } else if (res.data.type == 2) {
                     console.error('确认收货失败');
+                    wx.showToast({
+                      title: '确认收货失败',
+                      image: '/images/cross.png'
+                    })
                   } else if (res.data.type == 3) {
                     console.error('确认收货参数错误');
+                    wx.showToast({
+                      title: '确认参数错误',
+                      image: '/images/cross.png'
+                    })
                   }
                 } else {
                   console.error('确认收货状态异常');
+                  wx.showToast({
+                    title: '确认收货异常',
+                    image: '/images/cross.png'
+                  })
                 }
 
               },
               fail: function (err) {
                 console.error(err);
+                wx.showToast({
+                  title: '确认收货失败',
+                  image: '/images/cross.png'
+                })
               }
             });
           }
@@ -119,7 +167,13 @@ Page({
       });
     }, err=>{
       wx.navigateTo({
-        url: '../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
     
@@ -128,7 +182,7 @@ Page({
   comment: function(e){
     let orderId = e.currentTarget.dataset.id;
     wx.navigateTo({
-      url: '../productComment/productComment?orderid=' + orderId
+      url: '/pages/member/productComment/productComment?orderid=' + orderId
     });
   },
 
@@ -181,7 +235,7 @@ Page({
       });
     }, err=>{
       wx.navigateTo({
-        url: '../login/login'
+        url: '/pages/member/login/login'
       });
     });
   },

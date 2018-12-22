@@ -46,6 +46,9 @@ Page({
                     photoLink: data.msg,
                     fullPhotoLink: newPhoto
                   });
+                  wx.showToast({
+                    title: '上传图片成功',
+                  })
                   
                 }else{
                   console.error('上传图片失败');
@@ -53,6 +56,10 @@ Page({
                     disabled: false,
                     photoLink: '',
                     fullPhotoLink: ''
+                  });
+                  wx.showToast({
+                    title: '上传图片失败',
+                    image: '/images/cross.png'
                   });
                 }
               }else{
@@ -62,6 +69,10 @@ Page({
                   photoLink: '',
                   fullPhotoLink: ''
                 });
+                wx.showToast({
+                  title: '上传参数错误',
+                  image: '/images/cross.png'
+                });
               }
             },
             fail: function(err){
@@ -70,6 +81,10 @@ Page({
                 disabled: false,
                 photoLink: '',
                 fullPhotoLink: ''
+              });
+              wx.showToast({
+                title: '上传图片失败',
+                image: '/images/cross.png'
               });
             }
           })
@@ -87,7 +102,13 @@ Page({
     }, err=>{
       console.error(err);
       wx.navigateTo({
-        url: '../../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          });
+        }
       });
     });
     
@@ -121,24 +142,47 @@ Page({
                   },
                   success: function(res){
                     wx.navigateBack({
-                      delta: 1
+                      delta: 1,
+                      success: function(res){
+                        wx.showToast({
+                          title: '修改头像成功'
+                        });
+                      }
                     });
                   }
                 });
                 
               } else if (res.data.type == 2) {
                 console.error('修改头像失败');
+                wx.showToast({
+                  title: '修改头像失败',
+                  image: '/images/cross.png'
+                });
               } else {
                 console.error('修改头像参数错误');
+                wx.showToast({
+                  title: '修改参数错误',
+                  image: '/images/cross.png'
+                });
               }
             } else {
               console.error('修改头像状态异常');
+              wx.showToast({
+                title: '修改状态异常',
+                image: '/images/cross.png'
+              });
             }
           }
         });
       }, err=>{
         wx.navigateTo({
-          url: '../../login/login'
+          url: '/pages/member/login/login',
+          success: function(res){
+            wx.showToast({
+              title: '请先登录',
+              image: '/images/cross.png'
+            });
+          }
         });
       });
     }
@@ -163,7 +207,13 @@ Page({
       });
     }, err=>{
       wx.navigateTo({
-        url: '../../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
   },

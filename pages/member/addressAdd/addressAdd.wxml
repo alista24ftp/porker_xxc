@@ -15,6 +15,7 @@
           <input class="txtInput" type="text" name="add_name" value="{{addr.add_name}}" />
         </view>
       </view>
+      <!-->
       <view class="item">
         <text class="label">地址省</text>
         <view class="right">
@@ -33,6 +34,33 @@
           <input class="txtInput" type="text" name="dist" value="{{addr.dist}}" />
         </view>
       </view>
+      -->
+
+      <view class="item">
+        <text class="label">选择省</text>
+        <view class="right">
+          <picker mode="selector" range="{{provinces}}" bindchange="chooseProvince" value="{{provIndex}}">
+            <view class="picker">{{provinces[provIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">选择市</text>
+        <view class="right">
+          <picker mode="selector" range="{{cities}}" bindchange="chooseCity" value="{{cityIndex}}">
+            <view class="picker">{{cities[cityIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+      <view class="item">
+        <text class="label">选择区</text>
+        <view class="right">
+          <picker mode="selector" range="{{districts}}" bindchange="chooseDist" value="{{distIndex}}">
+            <view class="picker">{{districts[distIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+
       <view class="item">
         <text class="label">详细地址</text>
         <view class="right">
