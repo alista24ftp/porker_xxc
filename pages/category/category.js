@@ -10,7 +10,7 @@ Page({
         var cid = e.currentTarget.dataset.cid;
         let cname = e.currentTarget.dataset.cname;
         wx.navigateTo({
-            url: '../product/productList/productList?cid=' + cid + '&cname=' + cname
+            url: '/pages/product/productList/productList?cid=' + cid + '&cname=' + cname
         })
     },
     onLoad: function (options) {
@@ -27,14 +27,29 @@ Page({
         method: 'POST',
         success: function(res){
           if(res.data.code == 200){
-            console.log(res.data.data);
+            //console.log(res.data.data);
             let categories = res.data.data;
+            let hostRegex = new RegExp('^'+config.default.ApiHost);
+            categories = categories.map(category=>{
+              category.cat_img = category.cat_img == '' ? '' : (hostRegex.test(category.cat_img) ? category.cat_img : config.default.ApiHost + category.cat_img);
+              category.cat_icon = category.cat_icon == '' ? '' : (hostRegex.test(category.cat_icon) ? category.cat_icon : config.default.ApiHost + category.cat_icon);
+              category.child = category.child.map(child=>{
+                child.cat_img = child.cat_img == '' ? '' : (hostRegex.test(child.cat_img) ? child.cat_img : config.default.ApiHost + child.cat_img);
+                child.cat_icon = child.cat_icon == '' ? '' : (hostRegex.test(child.cat_icon) ? child.cat_icon : config.default.ApiHost + child.cat_icon);
+                return child;
+              });
+              return category;
+            });
+            console.log(categories);
             that.setData({
-              categories: categories,
-              apiHost: config.default.ApiHost
+              categories: categories
             });
           }else{
             console.error(res);
+            wx.showToast({
+              title: '获取分类异常',
+              image: '/images/cross.png'
+            })
             that.setData({
               categories: []
             });

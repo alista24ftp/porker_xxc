@@ -19,25 +19,25 @@ Page({
 
   editName: function(e){
     wx.navigateTo({
-      url: '../edit/editName/editName'
+      url: '/pages/member/edit/editName/editName'
     });
   },
 
   editEmail: function(e){
     wx.navigateTo({
-      url: '../edit/editEmail/editEmail'
+      url: '/pages/member/edit/editEmail/editEmail'
     });
   }, 
   
   editPassword: function (e) {
     wx.navigateTo({
-      url: '../mobileVerify/mobileVerify?op=3'
+      url: '/pages/member/mobileVerify/mobileVerify?op=3'
     });
   },
 
   editPhoto: function (e) {
     wx.navigateTo({
-      url: '../edit/editPhoto/editPhoto'
+      url: '/pages/member/edit/editPhoto/editPhoto'
     });
   },
 
@@ -62,7 +62,13 @@ Page({
     }, err => {
       console.error(err);
       wx.navigateTo({
-        url: '../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
   },

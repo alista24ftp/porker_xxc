@@ -15,18 +15,10 @@ Page({
    */
   onLoad: function (options) {
     let that = this;
-    login.default.getUserInfo().then(userInfo=>{
-      that.setData({
-        op: options.op,
-        userInfo: userInfo,
-        disabled: true
-      });
-    }, err=>{
-      console.error(err);
-      wx.navigateTo({
-        url: '../login/login'
-      });
+    this.setData({
+      op: options.op
     });
+    
   },
 
   checkCode: function(e){
@@ -68,6 +60,10 @@ Page({
             });
           }else{
             console.error('获取验证码错误');
+            wx.showToast({
+              title: '获取验证码错误',
+              image: '/images/cross.png'
+            })
             that.setData({
               disabled: false,
               allowProceed: false
@@ -77,6 +73,10 @@ Page({
       },
       fail: function(err){
         console.error(err);
+        wx.showToast({
+          title: '获取验证码错误',
+          image: '/images/cross.png'
+        })
       }
     });
   },
@@ -87,22 +87,26 @@ Page({
     if(allowProceed !== undefined && allowProceed){
       if(nextOp == 1){
         wx.redirectTo({
-          url: '../edit/editName/editName',
+          url: '/pages/member/edit/editName/editName',
         })
       }else if(nextOp == 2){
         wx.redirectTo({
-          url: '../edit/editEmail/editEmail',
+          url: '/pages/member/edit/editEmail/editEmail',
         })
       }else if(nextOp == 3){
         wx.redirectTo({
-          url: '../edit/editPassword/editPassword',
+          url: '/pages/member/edit/editPassword/editPassword',
         })
       }else if(nextOp == 4){
         wx.redirectTo({
-          url: '../edit/editPhoto/editPhoto',
+          url: '/pages/member/edit/editPhoto/editPhoto',
         })
       }else{
         console.error('无法获取修改信息');
+        wx.showToast({
+          title: '无法获取信息',
+          image: '/images/cross.png'
+        })
       }
     }
   },
@@ -118,7 +122,24 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-  
+    let that = this;
+    login.default.getUserInfo().then(userInfo => {
+      that.setData({
+        userInfo: userInfo,
+        disabled: true
+      });
+    }, err => {
+      console.error(err);
+      wx.navigateTo({
+        url: '/pages/member/login/login',
+        success: function (res) {
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
+      });
+    });
   },
 
   /**

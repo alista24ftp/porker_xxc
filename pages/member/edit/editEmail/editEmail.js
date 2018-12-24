@@ -61,29 +61,49 @@ Page({
                 },
                 success: function (res) {
                   wx.navigateBack({
-                    delta: 1
+                    delta: 1,
+                    success: function(res){
+                      wx.showToast({
+                        title: '修改成功'
+                      })
+                    }
                   });
                 }
               });
             } else if (res.data.type == 2) {
               console.error('修改失败');
+              wx.showToast({
+                title: '修改失败',
+                image: '/images/cross.png'
+              });
+              /*
               wx.navigateBack({
                 delta: 1
-              });
+              });*/
             } else {
               console.error('修改参数错误');
+              wx.showToast({
+                title: '修改参数错误',
+                image: '/images/cross.png'
+              });
+              /*
               wx.navigateBack({
                 delta: 1
-              });
+              });*/
             }
 
           }
         },
         fail: function (err) {
           console.error(err);
+          wx.showToast({
+            title: '修改失败',
+            image: '/images/cross.png'
+          });
+          /*
           wx.navigateBack({
             delta: 1
-          });
+          });*/
         }
       });
     }
@@ -108,7 +128,13 @@ Page({
       });
     }, err => {
       wx.navigateTo({
-        url: '../../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          });
+        }
       });
     });
   },

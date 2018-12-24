@@ -53,18 +53,34 @@ Page({
                     });
                   } else if (res.data.type == 2) {
                     console.error('无法增加商品数量');
+                    wx.showToast({
+                      title: '无法增加数量',
+                      image: '/images/cross.png'
+                    });
                     that.setData({ preventTap: false });
                   } else {
                     console.error('商品参数错误');
+                    wx.showToast({
+                      title: '商品参数错误',
+                      image: '/images/cross.png'
+                    });
                     that.setData({ preventTap: false });
                   }
                 } else {
                   console.error('商品增加状态异常');
+                  wx.showToast({
+                    title: '增加状态异常',
+                    image: '/images/cross.png'
+                  });
                   that.setData({ preventTap: false });
                 }
               },
               fail: function (err) {
                 console.error(err);
+                wx.showToast({
+                  title: '增加数量错误',
+                  image: '/images/cross.png'
+                });
                 that.setData({ preventTap: false });
               }
             });
@@ -125,18 +141,34 @@ Page({
                     });
                   } else if (res.data.type == 2) {
                     console.error('无法减少商品数量');
+                    wx.showToast({
+                      title: '无法减少数量',
+                      image: '/images/cross.png'
+                    });
                     that.setData({ preventTap: false });
                   } else {
                     console.error('商品参数错误');
+                    wx.showToast({
+                      title: '商品参数错误',
+                      image: '/images/cross.png'
+                    });
                     that.setData({ preventTap: false });
                   }
                 } else {
                   console.error('商品减少状态异常');
+                  wx.showToast({
+                    title: '减少状态异常',
+                    image: '/images/cross.png'
+                  });
                   that.setData({ preventTap: false });
                 }
               },
               fail: function (err) {
                 console.error(err);
+                wx.showToast({
+                  title: '减少数量错误',
+                  image: '/images/cross.png'
+                });
                 that.setData({ preventTap: false });
               }
             });
@@ -255,9 +287,12 @@ Page({
                 if(res.data.type == 1){
                   console.log('删除成功');
                   wx.reLaunch({
-                    url: './basket',
+                    url: '/pages/basket/basket',
                     success: function(r){
                       console.log(r);
+                      wx.showToast({
+                        title: '删除成功',
+                      });
                     },
                     fail: function(err){
                       console.error(err);
@@ -265,13 +300,25 @@ Page({
                   })
                 }else{
                   console.error('删除失败');
+                  wx.showToast({
+                    title: '删除失败',
+                    image: '/images/cross.png'
+                  });
                 }
               }else{
                 console.error('删除操作异常');
+                wx.showToast({
+                  title: '删除操作异常',
+                  image: '/images/cross.png'
+                });
               }
             },
             fail: function(err){
               console.error(err);
+              wx.showToast({
+                title: '删除失败',
+                image: '/images/cross.png'
+              });
             }
           });
         }
@@ -299,9 +346,12 @@ Page({
                 if (res.data.type == 1) {
                   console.log('清空成功');
                   wx.reLaunch({
-                    url: './basket',
+                    url: '/pages/basket/basket',
                     success: function (r) {
                       console.log(r);
+                      wx.showToast({
+                        title: '清空成功',
+                      });
                     },
                     fail: function (err) {
                       console.error(err);
@@ -309,13 +359,25 @@ Page({
                   });
                 } else {
                   console.error('清空失败');
+                  wx.showToast({
+                    title: '清空失败',
+                    image: '/images/cross.png'
+                  });
                 }
               } else {
                 console.error('清空操作异常');
+                wx.showToast({
+                  title: '清空操作异常',
+                  image: '/images/cross.png'
+                });
               }
             },
             fail: function (err) {
               console.error(err);
+              wx.showToast({
+                title: '清空失败',
+                image: '/images/cross.png'
+              });
             }
           });
         }
@@ -369,15 +431,29 @@ Page({
             }
           } else {
             console.error('购物车获取错误');
+            wx.showToast({
+              title: '购物车获取错误',
+              image: '/images/cross.png'
+            });
           }
         },
         fail: function (err) {
           console.error(err);
+          wx.showToast({
+            title: '购物车获取错误',
+            image: '/images/cross.png'
+          });
         }
       });
     }, err=>{
       wx.navigateTo({
-        url: '../member/login/login'
+        url: '/pages/member/login/login',
+        success: function(r){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          });
+        }
       });
     });
     

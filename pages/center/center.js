@@ -80,7 +80,13 @@ Page({
     }, err=>{
       console.error('请先登录');
       wx.navigateTo({
-        url: '../member/login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          });
+        }
       });
     });
     

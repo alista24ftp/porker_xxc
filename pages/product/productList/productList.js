@@ -25,8 +25,10 @@ Page({
       success: function(res){
         if(res.data.code == 200){
           let productList = res.data.goodsList;
-          productList.forEach(product=>{
-            product.goods_img = config.default.ApiHost + product.goods_img;
+          let hostRegex = new RegExp('^'+config.default.ApiHost);
+          productList = productList.map(product=>{
+            product.goods_img = product.goods_img == '' ? '' : (hostRegex.test(product.goods_img) ? product.goods_img : config.default.ApiHost + product.goods_img);
+            return product;
           });
           let subCatList = res.data.goodsCat;
           console.log(productList);
@@ -38,11 +40,19 @@ Page({
             subCatList: subCatList
           });
         }else{
-          console.error('Unable to get product list');
+          console.error('无法获取商品列表');
+          wx.showToast({
+            title: '无法获取商品',
+            image: '/images/cross.png'
+          })
         }
       },
       fail: function(err){
         console.error(err);
+        wx.showToast({
+          title: '无法获取商品',
+          image: '/images/cross.png'
+        });
       }
     });
   },
@@ -50,7 +60,7 @@ Page({
   chooseProduct: function(e){
     let pid = e.currentTarget.dataset.pid;
     wx.navigateTo({
-      url: '../productDetail/productDetail?pid=' + pid,
+      url: '/pages/product/productDetail/productDetail?pid=' + pid,
       fail: function(err){
         console.error(err);
       }

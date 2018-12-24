@@ -50,7 +50,12 @@ Page({
                       },
                       success: function (res) {
                         wx.navigateBack({
-                          delta: 1
+                          delta: 1,
+                          success: function(res){
+                            wx.showToast({
+                              title: '登录成功',
+                            })
+                          }
                         });
                       }
                     });
@@ -59,19 +64,31 @@ Page({
                     //let userImg = hostRegex.test(res.data.user_photo) ? res.data.user_photo : config.default.ApiHost + res.data.user_photo;
                     console.log(res.data.user_photo);
                     wx.redirectTo({
-                      url: '../register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId + '&userimg=' + res.data.user_photo,//userImg,
+                      url: '/pages/member/register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId + '&userimg=' + res.data.user_photo,//userImg,
                       fail: function (err) {
                         console.error(err);
+                        wx.showToast({
+                          title: '无法登录与注册',
+                          image: '/images/cross.png'
+                        })
                       }
                     })
                   }
                 } else {
                   console.error('登录状态异常');
+                  wx.showToast({
+                    title: '登录状态异常',
+                    image: '/images/cross.png'
+                  })
                 }
               }
             })
           } else {
-            console.log('登录失败！' + res.errMsg)
+            console.log('登录失败！' + res.errMsg);
+            wx.showToast({
+              title: '登录失败',
+              image: '/images/cross.png'
+            })
           }
         }
       });

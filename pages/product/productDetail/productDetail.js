@@ -165,6 +165,10 @@ Page({
         },
         fail: function(err){
           console.error(err);
+          wx.showToast({
+            title: '无法取商品详情',
+            image: '/images/cross.png'
+          });
         }
       });
     },
@@ -172,21 +176,21 @@ Page({
     goToRec: function(e){
       let prodId = e.currentTarget.dataset.pid;
       wx.navigateTo({
-        url: './productDetail?pid=' + prodId
+        url: '/pages/product/productDetail/productDetail?pid=' + prodId
       });
     },
 
     seeComments: function(e){
       console.log(this.data.pages);
       wx.navigateTo({
-        url: '../productComments/productComments?comments=' + JSON.stringify(this.data.pages)
+        url: '/pages/product/productComments/productComments?comments=' + JSON.stringify(this.data.pages)
       });
     },
 
     selectSku: function(e){
       let sku = (this.data.sku !== undefined) ? '&sku='+JSON.stringify(this.data.sku) : '';
       wx.navigateTo({
-        url: '../productSpec/productSpec?pid=' + this.data.prodId + sku + '&spec=' + JSON.stringify(this.data.specList)
+        url: '/pages/product/productSpec/productSpec?pid=' + this.data.prodId + sku + '&spec=' + JSON.stringify(this.data.specList)
       });
     },
 
@@ -260,7 +264,7 @@ Page({
         });
       }, err=>{
         wx.navigateTo({
-          url: '../../member/login/login',
+          url: '/pages/member/login/login',
           success: function(res){
             wx.showToast({
               title: '请先登录',
@@ -325,7 +329,7 @@ Page({
           });
         }, err=>{
           wx.navigateTo({
-            url: '../../member/login/login',
+            url: '/pages/member/login/login',
             success: function(res){
               wx.showToast({
                 title: '请先登录',
@@ -404,7 +408,7 @@ Page({
         });
       }, err=>{
         wx.navigateTo({
-          url: '../../member/login/login',
+          url: '/pages/member/login/login',
           success: function(res){
             wx.showToast({
               title: '请先登录',

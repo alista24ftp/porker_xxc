@@ -15,6 +15,9 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    console.log(areas.getAreaJson());
+    console.log('111');
+
     let addr = options.addr;
     let token = options.token;
     let areaJson = areas.getAreaJson();
@@ -141,7 +144,7 @@ Page({
             if(res.data.type == 1){
               console.log('地址信息提交成功');
               wx.redirectTo({
-                url: '../receiveList/receiveList',
+                url: '/pages/member/receiveList/receiveList',
                 success: function(res){
                   wx.showToast({
                     title: '地址提交成功'

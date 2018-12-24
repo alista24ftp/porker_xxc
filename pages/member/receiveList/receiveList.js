@@ -23,14 +23,14 @@ Page({
     let addr = JSON.stringify(this.data.addressList[index]);
     let token = this.data.token;
     wx.navigateTo({
-      url: '../addressAdd/addressAdd?addr=' + addr + '&token=' + token
+      url: '/pages/member/addressAdd/addressAdd?addr=' + addr + '&token=' + token
     });
   },
 
   addAddress: function(e){
     let token = this.data.token;
     wx.navigateTo({
-      url: '../addressAdd/addressAdd?token=' + token
+      url: '/pages/member/addressAdd/addressAdd?token=' + token
     }); 
   },
 
@@ -58,15 +58,32 @@ Page({
                 if(res.data.type == 1){
                   console.log('删除成功');
                   wx.redirectTo({
-                    url: './receiveList'
+                    url: '/pages/member/receiveList/receiveList',
+                    success: function(res){
+                      wx.showToast({
+                        title: '删除成功',
+                      });
+                    }
                   });
                 }else if(res.data.type == 2){
                   console.error('删除失败');
+                  wx.showToast({
+                    title: '删除失败',
+                    image: '/images/cross.png'
+                  })
                 }else{
                   console.error('删除失败, 地址参数错误');
+                  wx.showToast({
+                    title: '地址参数错误',
+                    image: '/images/cross.png'
+                  })
                 }
               }else{
                 console.error('删除地址状态异常');
+                wx.showToast({
+                  title: '删除状态异常',
+                  image: '/images/cross.png'
+                })
               }
             }
           });
@@ -112,16 +129,30 @@ Page({
               }
             } else {
               console.error('错误获取用户地址信息');
+              wx.showToast({
+                title: '获取地址失败',
+                image: '/images/cross.png'
+              })
             }
           },
           fail: function (err) {
             console.error(err);
+            wx.showToast({
+              title: '获取地址失败',
+              image: '/images/cross.png'
+            })
           }
         });
       },
       fail: function (err) {
         wx.navigateTo({
-          url: '../login/login'
+          url: '/pages/member/login/login',
+          success: function(res){
+            wx.showToast({
+              title: '请先登录',
+              image: '/images/cross.png'
+            })
+          }
         });
       }
     });

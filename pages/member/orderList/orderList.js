@@ -42,7 +42,7 @@ Page({
                   if (res.data.type == 1) {
                     console.log('订单删除成功');
                     wx.redirectTo({
-                      url: './orderList?id=1',
+                      url: '/pages/member/orderList/orderList?id=1',
                       success: function(res){
                         wx.showToast({
                           title: '订单删除成功',
@@ -125,7 +125,7 @@ Page({
                   if (res.data.type == 1) {
                     console.log('确认收货成功');
                     wx.redirectTo({
-                      url: './orderList?id=3',
+                      url: '/pages/member/orderList/orderList?id=3',
                       success: function(res){
                         wx.showToast({
                           title: '确认收货成功',
@@ -225,17 +225,31 @@ Page({
               that.setData({orderList: undefined});
             }else{
               console.error('获取订单参数错误');
+              wx.showToast({
+                title: '订单参数错误',
+                image: '/images/cross.png'
+              })
               that.setData({ orderList: undefined });
             }
           }else{
             console.error('获取订单状态异常');
+            wx.showToast({
+              title: '订单状态异常',
+              image: '/images/cross.png'
+            })
             that.setData({ orderList: undefined });
           }
         }
       });
     }, err=>{
       wx.navigateTo({
-        url: '/pages/member/login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
   },

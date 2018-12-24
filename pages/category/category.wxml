@@ -1,6 +1,6 @@
 <!--pages/category/category.wxml-->
 <view class="container whitebg">
-
+    <!-->
     <view class="m-indexHd" style="height: 102rpx;">
         <view class="m-hd g-row">
             <view class="m-indextop">
@@ -18,6 +18,7 @@
             </view>
         </view>
     </view>
+    -->
     <view class="wrap">
     <!-- 左侧导航 -->
         <view class="navLeft">
@@ -32,17 +33,22 @@
 				<block wx:for="{{item.child}}" wx:for-item="subcat">
 					<view class="navRight-main-item-list">
 						<!--<block wx:for="{{subitem.subList}}" wx:for-item="descitem" >-->
-							<navigator bindtap="pud" data-cid="{{subcat.cat_id}}" data-cname="{{subcat.cat_name}}">
+							<view class="prod" bindtap="pud" data-cid="{{subcat.cat_id}}" data-cname="{{subcat.cat_name}}">
 								<!-- <view> -->
-									<image src="{{apiHost + subcat.cat_img}}"></image>
+									<image src="{{subcat.cat_img}}"></image>
 									<text>{{subcat.cat_name}}</text>
 								<!-- </view> -->
-							</navigator>
+							</view>
 						<!--</block>-->
 					</view>
+          <!---->
+          
+          <!---->
 				</block>
 			</view>
 		</block>
+
+    
 	</view>
     </view>
 </view>

@@ -32,35 +32,35 @@
         <view class="m-uc-menu">
             <view class="list">
                 <view class="item">
-                    <navigator url="../member/orderList/orderList?id=1">
+                    <navigator url="/pages/member/orderList/orderList?id=1">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon1.png" alt=""></image>
                         <text class="txt">待付款</text>
                         <text class="red-dot" wx:if="{{awaitPayCount > 0}}">{{awaitPayCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList?id=2">
+                    <navigator url="/pages/member/orderList/orderList?id=2">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon2.png" alt=""></image>
                         <text class="txt">待发货</text>
                         <text class="red-dot" wx:if="{{awaitShipCount > 0}}">{{awaitShipCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList?id=3">
+                    <navigator url="/pages/member/orderList/orderList?id=3">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon3.png" alt=""></image>
                         <text class="txt">待收货</text>
                         <text class="red-dot" wx:if="{{awaitRecvCount > 0}}">{{awaitRecvCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList?id=4">
+                    <navigator url="/pages/member/orderList/orderList?id=4">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon4.png" alt=""></image>
                         <text class="txt">待评价</text>
                         <text class="red-dot" wx:if="{{awaitComCount > 0}}">{{awaitComCount}}</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/orderList/orderList?id=1">
+                    <navigator url="/pages/member/orderList/orderList?id=1">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon5.png" alt=""></image>
                         <text class="txt">退款/售后</text>
                     </navigator>
@@ -75,19 +75,19 @@
         <view class="m-uc-menu">
             <view class="list">
                 <view class="item">
-                    <navigator url="../member/ticketList/ticketList">
+                    <navigator url="/pages/member/ticketList/ticketList">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon6.png" alt=""></image>
                         <text class="txt">优惠券</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/productStore/productStore">
+                    <navigator url="/pages/member/productStore/productStore">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon7.png" alt=""></image>
                         <text class="txt">收藏夹</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/productCommentList/productCommentList">
+                    <navigator url="/pages/member/productCommentList/productCommentList">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon8.png" alt=""></image>
                         <text class="txt">商品点评</text>
                     </navigator>
@@ -99,26 +99,26 @@
             </view>
             <view class="list">
                 <view class="item">
-                    <navigator url="../member/receiveList/receiveList">
+                    <navigator url="/pages/member/receiveList/receiveList">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon10.png" alt=""></image>
                         <text class="txt">地址管理</text>
                     </navigator>
                 </view>
                 <view class="item">
                     <!--<navigator url="../member/mobileVerify/mobileVerify">-->
-                    <navigator url="../member/mobileVerify/mobileVerify?op=3">
+                    <navigator url="/pages/member/mobileVerify/mobileVerify?op=3">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon11.png" alt=""></image>
                         <text class="txt">修改密码</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../portal/helpList/helpList">
+                    <navigator url="/pages/portal/helpList/helpList">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon12.png" alt=""></image>
                         <text class="txt">帮助</text>
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="../member/account/account">
+                    <navigator url="/pages/member/account/account">
                         <image class="menu-icon" src="http://img02.camel.com.cn/image/zwuc_icon13.png" alt=""></image>
                         <text class="txt">设置</text>
                     </navigator>

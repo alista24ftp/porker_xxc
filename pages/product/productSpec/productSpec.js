@@ -143,7 +143,7 @@ Page({
       if (!isNaN(this.data.specList[index].quantity) && this.data.specList[index].quantity > 0) {
         let sku = this.data.specList[index];
         wx.redirectTo({
-          url: '../productDetail/productDetail?pid=' + that.data.prodId + '&sku=' + JSON.stringify(sku),
+          url: '/pages/product/productDetail/productDetail?pid=' + that.data.prodId + '&sku=' + JSON.stringify(sku),
           success: function(res){
             wx.showToast({
               title: '规格选择成功'

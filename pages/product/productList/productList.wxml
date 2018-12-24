@@ -6,7 +6,7 @@
                 <view class="top-line">
                     <view class="logo"></view>
                     <view class="m-searchTop">
-                        <navigator url="../../search/search" hover-class="changestyle">
+                        <navigator url="/pages/search/search" hover-class="changestyle">
                             <view class="zw-search-link">
                                 <view class="icon-search"></view>
                                 <text class="placeholder">点击输入搜索商品</text>
@@ -19,7 +19,7 @@
                 <view class="m-navs disflex">
                   <view wx:for="{{subCatList}}">
                     <view class="{{cid == item.cat_id ? 'active' : ''}}">
-                        <navigator url="./productList?cid={{item.cat_id}}" open-type="redirect" hover-class="navigator-hover">
+                        <navigator url="/pages/product/productList/productList?cid={{item.cat_id}}" open-type="redirect" hover-class="navigator-hover">
                             <text class="txt">{{item.cat_name}}</text>
                         </navigator>
                     </view>

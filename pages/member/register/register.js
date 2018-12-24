@@ -36,6 +36,10 @@ Page({
         },
         fail: function (err) {
           console.error(err);
+          wx.showToast({
+            title: '无法返回前页面',
+            image: '/images/cross.png'
+          })
         }
       });
     }else{
@@ -43,6 +47,10 @@ Page({
         url: '/pages/index/index',
         fail: function(err){
           console.error(err);
+          wx.showToast({
+            title: '无法返回到主页',
+            image: '/images/cross.png'
+          })
         }
       })
     }
@@ -78,14 +86,26 @@ Page({
             });
           } else {
             console.error(res);
+            wx.showToast({
+              title: '无法获取验证码',
+              image: '/images/cross.png'
+            });
           }
         },
         fail: function (err) {
           console.error(err);
+          wx.showToast({
+            title: '无法获取验证码',
+            image: '/images/cross.png'
+          })
         }
       });
     }else{
       console.error('手机号不正确');
+      wx.showToast({
+        title: '手机号不正确',
+        image: '/images/cross.png'
+      })
     }
     
   },
@@ -127,6 +147,11 @@ Page({
                 success: function (info) {
                   wx.navigateBack({
                     delta: 2,
+                    success: function(){
+                      wx.showToast({
+                        title: '注册成功',
+                      })
+                    },
                     fail: function (err) {
                       console.error(err);
                     }
@@ -138,18 +163,38 @@ Page({
               });
             } else if (res.data.type == 2) {
               console.error('注册失败');
+              wx.showToast({
+                title: '注册失败',
+                image: '/images/cross.png'
+              })
             } else if (res.data.type == 3) {
               console.error('注册失败, 用户已存在');
+              wx.showToast({
+                title: '用户已存在',
+                image: '/images/cross.png'
+              })
             } else {
               console.error('注册失败, 请检查注册信息');
+              wx.showToast({
+                title: '请检查注册信息',
+                image: '/images/cross.png'
+              })
             }
           } else {
             console.error('注册失败, 状态异常');
+            wx.showToast({
+              title: '注册状态异常',
+              image: '/images/cross.png'
+            })
           }
         }
       });
     }else{
       console.error('注册验证错误, 请检查注册输入信息');
+      wx.showToast({
+        title: '注册验证错误',
+        image: '/images/cross.png'
+      })
     }
   },
 

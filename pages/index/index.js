@@ -48,10 +48,18 @@ Page({
             });
           }else{
             console.error('获取主页商品错误');
+            wx.showToast({
+              title: '获取主页错误',
+              image: '/images/cross.png'
+            });
           }
         },
         fail: function(err){
           console.error(err);
+          wx.showToast({
+            title: '获取主页错误',
+            image: '/images/cross.png'
+          });
         }
       });
     },
@@ -59,19 +67,11 @@ Page({
     goToProduct: function(e){
       let prodId = e.currentTarget.dataset.pid;
       wx.navigateTo({
-        url: '../product/productDetail/productDetail?pid=' + prodId
+        url: '/pages/product/productDetail/productDetail?pid=' + prodId
       });
     },
 
-    onShow: function(options){
-      wx.getStorage({
-        key: 'userinfo',
-        success: function (res) {
-          console.log(res.data);
-        },
-        fail: function (err) {
-          console.error(err);
-        }
-      });
+    onShow: function(){
+      
     }
 })

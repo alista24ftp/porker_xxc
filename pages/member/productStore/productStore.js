@@ -21,7 +21,7 @@ Page({
     let index = e.currentTarget.dataset.index;
     let prodId = this.data.favList[index].goods_id;
     wx.navigateTo({
-      url: '../../product/productDetail/productDetail?pid=' + prodId
+      url: '/pages/product/productDetail/productDetail?pid=' + prodId
     });
   },
 
@@ -50,20 +50,41 @@ Page({
                   if(res.data.type == 1){
                     console.log('删除成功');
                     wx.redirectTo({
-                      url: './productStore',
+                      url: '/pages/member/productStore/productStore',
+                      success: function(){
+                        wx.showToast({
+                          title: '删除成功',
+                        })
+                      }
                     });
                   }else if(res.data.type == 2){
                     console.error('删除失败');
+                    wx.showToast({
+                      title: '删除失败',
+                      image: '/images/cross.png'
+                    })
                   }else{
                     console.error('删除参数错误');
+                    wx.showToast({
+                      title: '删除参数错误',
+                      image: '/images/cross.png'
+                    })
                   }
                 }else{
                   console.error('收藏夹删除操作异常');
+                  wx.showToast({
+                    title: '收藏夹删除异常',
+                    image: '/images/cross.png'
+                  })
                 }
                 
               },
               fail: function (err) {
                 console.error(err);
+                wx.showToast({
+                  title: '删除失败',
+                  image: '/images/cross.png'
+                })
               }
             });
           }
@@ -72,7 +93,13 @@ Page({
     }, err=>{
       console.error(err);
       wx.navigateTo({
-        url: '../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
   },
@@ -121,16 +148,30 @@ Page({
 
           } else {
             console.error('获取收藏夹列表状态异常');
+            wx.showToast({
+              title: '获取收藏夹异常',
+              image: '/images/cross.png'
+            })
           }
         },
         fail: function (err) {
           console.error(err);
+          wx.showToast({
+            title: '获取收藏夹失败',
+            image: '/images/cross.png'
+          })
         }
       });
     }, err => {
       console.error(err);
       wx.navigateTo({
-        url: '../login/login'
+        url: '/pages/member/login/login',
+        success: function(res){
+          wx.showToast({
+            title: '请先登录',
+            image: '/images/cross.png'
+          })
+        }
       });
     });
 

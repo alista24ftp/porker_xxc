@@ -42,12 +42,20 @@ Page({
             });
           } else {
             console.error('商品关键词输入错误');
+            wx.showToast({
+              title: '关键词输入错误',
+              image: '/images/cross.png'
+            })
             that.setData({
               title: '未找到任何商品'
             });
           }
         } else {
           console.error('获取商品状态异常');
+          wx.showToast({
+            title: '取商品状态异常',
+            image: '/images/cross.png'
+          });
           that.setData({
             title: '未找到任何商品'
           });
@@ -55,6 +63,10 @@ Page({
       },
       fail: function (err) {
         console.error(err);
+        wx.showToast({
+          title: '获取商品错误',
+          image: '/images/cross.png'
+        })
         that.setData({
           title: '未找到任何商品'
         });
@@ -65,7 +77,7 @@ Page({
   chooseProduct: function(e){
     let prodId = e.currentTarget.dataset.pid;
     wx.navigateTo({
-      url: '../productDetail/productDetail?pid=' + prodId
+      url: '/pages/product/productDetail/productDetail?pid=' + prodId
     });
   },
 

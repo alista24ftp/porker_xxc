@@ -53,6 +53,9 @@ Page({
                   
                   console.log(goods);
                   that.setData({goods})//, function(res){console.log(that.data.goods)});
+                  wx.showToast({
+                    title: '上传成功',
+                  })
                 } else {
                   wx.showToast({
                     title: '上传图片失败',
@@ -85,7 +88,7 @@ Page({
     }, err => {
       console.error(err);
       wx.navigateTo({
-        url: '../../login/login',
+        url: '/pages/member/login/login',
         success: function(res){
           wx.showToast({
             title: '请先登录',
@@ -112,10 +115,9 @@ Page({
           goods[prodIndex].uploadedImgs.splice(imgIndex, 1);
           that.setData({
             goods
-          }, function(){
-            wx.showToast({
-              title: '删除图片成功'
-            });
+          });
+          wx.showToast({
+            title: '删除图片成功'
           });
         }
       }
@@ -156,7 +158,7 @@ Page({
               if(res.data.type == 1){
                 console.log('添加成功');
                 wx.switchTab({
-                  url: '../../center/center',
+                  url: '/pages/center/center',
                   success: function(res){
                     wx.showToast({
                       title: '评论添加成功'
@@ -172,14 +174,14 @@ Page({
               }else{
                 console.error('添加评价参数错误');
                 wx.showToast({
-                  title: '添加评价失败',
+                  title: '添加参数错误',
                   image: '/images/cross.png'
                 });
               }
             }else{
               console.error('添加评价状态异常');
               wx.showToast({
-                title: '添加评价失败',
+                title: '添加状态异常',
                 image: '/images/cross.png'
               });
             }
@@ -187,7 +189,7 @@ Page({
         });
       }, err => {
         wx.navigateTo({
-          url: '../login/login',
+          url: '/pages/member/login/login',
           success: function(res){
             wx.showToast({
               title: '请先登录',
@@ -254,7 +256,7 @@ Page({
             }else{
               console.error('获取订单评价参数错误');
               wx.showToast({
-                title: '获取评价失败',
+                title: '获取参数错误',
                 image: '/images/cross.png'
               });
               that.setData({ goods: undefined });
@@ -262,7 +264,7 @@ Page({
           }else{
             console.error('获取订单评价状态异常');
             wx.showToast({
-              title: '获取评价失败',
+              title: '获取评价异常',
               image: '/images/cross.png'
             });
             that.setData({goods: undefined});
@@ -278,7 +280,7 @@ Page({
       });
     }, err=>{
       wx.navigateTo({
-        url: '../login/login',
+        url: '/pages/member/login/login',
         success: function(res){
           wx.showToast({
             title: '请先登录',
