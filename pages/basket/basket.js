@@ -366,6 +366,7 @@ Page({
           token: token
         },
         success: function (res) {
+          console.log(res);
           if (res.data.code == 200) {
             if (res.data.type == 1) {
               let cartList = res.data.data;
