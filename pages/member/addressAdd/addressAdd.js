@@ -1,7 +1,9 @@
 // pages/member/addressAdd/addressAdd.js
-const validator = require('../../../utils/addrValidate.js');
-const config = require('../../../config.js');
+const {validateSubmit} = require('../../../utils/addrValidate.js');
+const {ApiHost} = require('../../../config.js');
 const areas = require('../../../utils/area.js');
+const {successMsg, failMsg} = require('../../../utils/util.js');
+const {getToken, goLogin} = require('../../../utils/login.js');
 Page({
 
   /**
@@ -15,11 +17,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    console.log(areas.getAreaJson());
-    console.log('111');
-
     let addr = options.addr;
-    let token = options.token;
     let areaJson = areas.getAreaJson();
     let provinces = areas.getProvinces();
     
@@ -33,7 +31,6 @@ Page({
       this.setData({
         addr,
         isDefault: addr.add_default == 1,
-        token: token,
         areaJson,
         provinces,
         cities: areas.getCitys(provIndex),
@@ -56,7 +53,6 @@ Page({
           province: ''
         },
         isDefault: false,
-        token: token,
         areaJson,
         provinces,
         cities: areas.getCitys(0),
@@ -117,75 +113,64 @@ Page({
     console.log(e);
     let addrInfo = e.detail.value;
     let {provIndex, cityIndex, distIndex} = this.data;
-    //if (validator.default.validateSubmit(addrInfo.add_name, addrInfo.add_phone, addrInfo.province, addrInfo.city, addrInfo.dist, addrInfo.add_street, addrInfo.add_default)){
-    if(validator.default.validateSubmit(addrInfo.add_name, addrInfo.add_phone, provIndex, cityIndex, distIndex, addrInfo.add_street, addrInfo.add_default)){
-      let reqData = {
-        token: this.data.token, 
-        add_phone: addrInfo.add_phone,
-        add_name: addrInfo.add_name,
-        //province: addrInfo.province,
-        //city: addrInfo.city,
-        //dist: addrInfo.dist,
-        province: areas.getProvName(provIndex),
-        city: areas.getCityName(provIndex, cityIndex),
-        dist: areas.getDistName(provIndex, cityIndex, distIndex),
-        add_street: addrInfo.add_street,
-        add_default: addrInfo.add_default
-      };
-      if(this.data.addr.add_id !== undefined){
-        reqData.add_id = this.data.addr.add_id;
-      }
-      wx.request({
-        url: config.default.ApiHost + '/xcc/Address/edit',
-        method: 'POST',
-        data: reqData,
-        success: function(res){
-          if(res.data.code == 200){
-            if(res.data.type == 1){
-              console.log('地址信息提交成功');
-              wx.redirectTo({
-                url: '/pages/member/receiveList/receiveList',
-                success: function(res){
-                  wx.showToast({
-                    title: '地址提交成功'
-                  });
-                }
-              });
-            }else if(res.data.code == 2){
-              console.error('地址信息提交失败');
-              wx.showToast({
-                title: '地址提交失败',
-                image: '/images/cross.png'
-              });
-            }else{
-              console.error('地址信息参数错误');
-              wx.showToast({
-                title: '地址参数错误',
-                image: '/images/cross.png'
-              });
-            }
-          }else{
-            console.error('提交地址状态异常');
-            wx.showToast({
-              title: '地址提交失败',
-              image: '/images/cross.png'
-            });
-          }
-        },
-        fail: function(err){
-          console.error(err);
-          wx.showToast({
-            title: '地址提交失败',
-            image: '/images/cross.png'
-          });
+    let that = this;
+    //if (validateSubmit(addrInfo.add_name, addrInfo.add_phone, addrInfo.province, addrInfo.city, addrInfo.dist, addrInfo.add_street, addrInfo.add_default)){
+    if(validateSubmit(addrInfo.add_name, addrInfo.add_phone, provIndex, cityIndex, distIndex, addrInfo.add_street, addrInfo.add_default)){
+      getToken().then(token=>{
+        let reqData = {
+          token: token,
+          add_phone: addrInfo.add_phone,
+          add_name: addrInfo.add_name,
+          //province: addrInfo.province,
+          //city: addrInfo.city,
+          //dist: addrInfo.dist,
+          province: areas.getProvName(provIndex),
+          city: areas.getCityName(provIndex, cityIndex),
+          dist: areas.getDistName(provIndex, cityIndex, distIndex),
+          add_street: addrInfo.add_street,
+          add_default: addrInfo.add_default
+        };
+        if (that.data.addr.add_id !== undefined) {
+          reqData.add_id = that.data.addr.add_id;
         }
+        wx.request({
+          url: ApiHost + '/xcc/Address/edit',
+          method: 'POST',
+          data: reqData,
+          success: function (res) {
+            if (res.data.code == 200) {
+              if (res.data.type == 1) {
+                console.log('地址信息提交成功');
+                wx.redirectTo({
+                  url: '/pages/member/receiveList/receiveList',
+                  success: function (res) {
+                    successMsg('地址提交成功');
+                  }
+                });
+              } else if (res.data.code == 2) {
+                console.error('地址信息提交失败');
+                failMsg('地址提交失败');
+              } else {
+                console.error('地址信息参数错误');
+                failMsg('地址参数错误');
+              }
+            } else {
+              console.error('提交地址状态异常');
+              failMsg('地址提交失败');
+            }
+          },
+          fail: function (err) {
+            console.error(err);
+            failMsg('地址提交失败');
+          }
+        });
+      }, err=>{
+        goLogin();
       });
+      
     }else{
       console.error('提交地址验证错误, 请检查地址输入信息');
-      wx.showToast({
-        title: '地址验证失败',
-        image: '/images/cross.png'
-      });
+      failMsg('地址验证失败');
     }
   },
 
@@ -200,7 +185,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    
   },
 
   /**

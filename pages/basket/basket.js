@@ -1,6 +1,7 @@
 // pages/basket/basket.js
-const config = require('../../config.js');
-const login = require('../../utils/login.js');
+const {ApiHost} = require('../../config.js');
+const {getToken, goLogin} = require('../../utils/login.js');
+const {formatImg, successMsg, failMsg} = require('../../utils/util.js');
 Page({
 
   /**
@@ -32,7 +33,7 @@ Page({
           if (!isNaN(cartList[index].cart_num) && cartList[index].cart_num >= 0) {
 
             wx.request({
-              url: config.default.ApiHost + '/xcc/cart/goodsAdd',
+              url: ApiHost + '/xcc/cart/goodsAdd',
               method: 'POST',
               data: {
                 token: that.data.token,
@@ -53,34 +54,22 @@ Page({
                     });
                   } else if (res.data.type == 2) {
                     console.error('无法增加商品数量');
-                    wx.showToast({
-                      title: '无法增加数量',
-                      image: '/images/cross.png'
-                    });
+                    failMsg('无法增加数量');
                     that.setData({ preventTap: false });
                   } else {
                     console.error('商品参数错误');
-                    wx.showToast({
-                      title: '商品参数错误',
-                      image: '/images/cross.png'
-                    });
+                    failMsg('商品参数错误');
                     that.setData({ preventTap: false });
                   }
                 } else {
                   console.error('商品增加状态异常');
-                  wx.showToast({
-                    title: '增加状态异常',
-                    image: '/images/cross.png'
-                  });
+                  failMsg('增加状态异常');
                   that.setData({ preventTap: false });
                 }
               },
               fail: function (err) {
                 console.error(err);
-                wx.showToast({
-                  title: '增加数量错误',
-                  image: '/images/cross.png'
-                });
+                failMsg('增加数量错误');
                 that.setData({ preventTap: false });
               }
             });
@@ -120,7 +109,7 @@ Page({
           if (!isNaN(cartList[index].cart_num) && cartList[index].cart_num > 0) {
 
             wx.request({
-              url: config.default.ApiHost + '/xcc/cart/goodsAdd',
+              url: ApiHost + '/xcc/cart/goodsAdd',
               method: 'POST',
               data: {
                 token: that.data.token,
@@ -141,34 +130,22 @@ Page({
                     });
                   } else if (res.data.type == 2) {
                     console.error('无法减少商品数量');
-                    wx.showToast({
-                      title: '无法减少数量',
-                      image: '/images/cross.png'
-                    });
+                    failMsg('无法减少数量');
                     that.setData({ preventTap: false });
                   } else {
                     console.error('商品参数错误');
-                    wx.showToast({
-                      title: '商品参数错误',
-                      image: '/images/cross.png'
-                    });
+                    failMsg('商品参数错误');
                     that.setData({ preventTap: false });
                   }
                 } else {
                   console.error('商品减少状态异常');
-                  wx.showToast({
-                    title: '减少状态异常',
-                    image: '/images/cross.png'
-                  });
+                  failMsg('减少状态异常');
                   that.setData({ preventTap: false });
                 }
               },
               fail: function (err) {
                 console.error(err);
-                wx.showToast({
-                  title: '减少数量错误',
-                  image: '/images/cross.png'
-                });
+                failMsg('减少数量错误');
                 that.setData({ preventTap: false });
               }
             });
@@ -276,7 +253,7 @@ Page({
       success: function(res){
         if(res.confirm){
           wx.request({
-            url: config.default.ApiHost + '/xcc/cart/del',
+            url: ApiHost + '/xcc/cart/del',
             method: 'POST',
             data: {
               token: that.data.token,
@@ -290,9 +267,7 @@ Page({
                     url: '/pages/basket/basket',
                     success: function(r){
                       console.log(r);
-                      wx.showToast({
-                        title: '删除成功',
-                      });
+                      successMsg('删除成功');
                     },
                     fail: function(err){
                       console.error(err);
@@ -300,25 +275,16 @@ Page({
                   })
                 }else{
                   console.error('删除失败');
-                  wx.showToast({
-                    title: '删除失败',
-                    image: '/images/cross.png'
-                  });
+                  failMsg('删除失败');
                 }
               }else{
                 console.error('删除操作异常');
-                wx.showToast({
-                  title: '删除操作异常',
-                  image: '/images/cross.png'
-                });
+                failMsg('删除操作异常');
               }
             },
             fail: function(err){
               console.error(err);
-              wx.showToast({
-                title: '删除失败',
-                image: '/images/cross.png'
-              });
+              failMsg('删除失败');
             }
           });
         }
@@ -336,7 +302,7 @@ Page({
       success: function (res) {
         if (res.confirm) {
           wx.request({
-            url: config.default.ApiHost + '/xcc/cart/del',
+            url: ApiHost + '/xcc/cart/del',
             method: 'POST',
             data: {
               token: that.data.token
@@ -349,9 +315,7 @@ Page({
                     url: '/pages/basket/basket',
                     success: function (r) {
                       console.log(r);
-                      wx.showToast({
-                        title: '清空成功',
-                      });
+                      successMsg('清空成功');
                     },
                     fail: function (err) {
                       console.error(err);
@@ -359,29 +323,26 @@ Page({
                   });
                 } else {
                   console.error('清空失败');
-                  wx.showToast({
-                    title: '清空失败',
-                    image: '/images/cross.png'
-                  });
+                  failMsg('清空失败');
                 }
               } else {
                 console.error('清空操作异常');
-                wx.showToast({
-                  title: '清空操作异常',
-                  image: '/images/cross.png'
-                });
+                failMsg('清空操作异常');
               }
             },
             fail: function (err) {
               console.error(err);
-              wx.showToast({
-                title: '清空失败',
-                image: '/images/cross.png'
-              });
+              failMsg('清空失败');
             }
           });
         }
       }
+    })
+  },
+
+  retHome: function(e){
+    wx.switchTab({
+      url: '/pages/index/index',
     })
   },
 
@@ -397,9 +358,9 @@ Page({
    */
   onShow: function () {
     let that = this;
-    login.default.getToken().then(token=>{
+    getToken().then(token=>{
       wx.request({
-        url: config.default.ApiHost + '/xcc/Cart/cartList',
+        url: ApiHost + '/xcc/Cart/cartList',
         method: 'POST',
         data: {
           token: token
@@ -408,9 +369,8 @@ Page({
           if (res.data.code == 200) {
             if (res.data.type == 1) {
               let cartList = res.data.data;
-              let hostRegex = new RegExp('^' + config.default.ApiHost);
               cartList = cartList.map(cartItem => {
-                cartItem.goods.goods_img = (hostRegex.test()) ? cartItem.goods.goods_img : config.default.ApiHost + cartItem.goods.goods_img;
+                cartItem.goods.goods_img = formatImg(cartItem.goods.goods_img);
                 cartItem.sku = cartItem.spec_items[0];
                 cartItem.disableDecr = cartItem.cart_num > 0 ? 'less' : 'less dis';
                 cartItem.disableIncr = cartItem.cart_num < cartItem.sku.sku_stk ? '' : 'dis';
@@ -431,30 +391,16 @@ Page({
             }
           } else {
             console.error('购物车获取错误');
-            wx.showToast({
-              title: '购物车获取错误',
-              image: '/images/cross.png'
-            });
+            failMsg('购物车获取错误');
           }
         },
         fail: function (err) {
           console.error(err);
-          wx.showToast({
-            title: '购物车获取错误',
-            image: '/images/cross.png'
-          });
+          failMsg('购物车获取错误');
         }
       });
     }, err=>{
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(r){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          });
-        }
-      });
+      goLogin();
     });
     
   },

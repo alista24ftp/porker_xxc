@@ -6,9 +6,9 @@
             <view class="">
                 <view class="product-hd g-row">
                     <view class="g-top g-row">
-                        <i class="icon tg-icon ion-ios-arrow-back"></i>
+                        <i class="icon tg-icon ion-ios-arrow-back" bindtap="retHome"></i>
                         <text class="topBarTitle">购物车</text>
-                        <view class="right">
+                        <view class="right" bindtap="retHome">
                             <i class="icon tg-icon ion-ios-home-outline"></i>
                         </view>
                     </view>

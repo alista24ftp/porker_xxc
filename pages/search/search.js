@@ -1,5 +1,5 @@
 // pages/search/search.js
-const config = require('../../config.js');
+const {failMsg} = require('../../utils/util.js');
 Page({
 
   /**
@@ -32,10 +32,7 @@ Page({
       });
     }else{
       console.error('搜索商品关键词不能为空');
-      wx.showToast({
-        title: '关键词不能为空',
-        image: '/images/cross.png'
-      })
+      failMsg('关键词不能为空');
     }
   },
 

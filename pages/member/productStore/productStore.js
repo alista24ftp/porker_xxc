@@ -1,6 +1,7 @@
 // pages/member/productStore/productStore.js
-const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {getToken, goLogin} = require('../../../utils/login.js');
+const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -28,7 +29,7 @@ Page({
   removeFav: function(e){
     let index = e.currentTarget.dataset.index;
     let that = this;
-    login.default.getToken().then(token=>{
+    getToken().then(token=>{
       wx.showModal({
         title: '确认删除此收藏',
         content: '您确认是否删除此收藏?',
@@ -38,7 +39,7 @@ Page({
           if (res.confirm) {
             console.log('删除');
             wx.request({
-              url: config.default.ApiHost + '/xcc/home/collection',
+              url: ApiHost + '/xcc/home/collection',
               method: 'POST',
               data: {
                 token: token,
@@ -52,55 +53,32 @@ Page({
                     wx.redirectTo({
                       url: '/pages/member/productStore/productStore',
                       success: function(){
-                        wx.showToast({
-                          title: '删除成功',
-                        })
+                        successMsg('删除成功');
                       }
                     });
                   }else if(res.data.type == 2){
                     console.error('删除失败');
-                    wx.showToast({
-                      title: '删除失败',
-                      image: '/images/cross.png'
-                    })
+                    failMsg('删除失败');
                   }else{
                     console.error('删除参数错误');
-                    wx.showToast({
-                      title: '删除参数错误',
-                      image: '/images/cross.png'
-                    })
+                    failMsg('删除参数错误');
                   }
                 }else{
                   console.error('收藏夹删除操作异常');
-                  wx.showToast({
-                    title: '收藏夹删除异常',
-                    image: '/images/cross.png'
-                  })
+                  failMsg('收藏夹删除异常');
                 }
                 
               },
               fail: function (err) {
                 console.error(err);
-                wx.showToast({
-                  title: '删除失败',
-                  image: '/images/cross.png'
-                })
+                failMsg('删除失败');
               }
             });
           }
         }
       });
     }, err=>{
-      console.error(err);
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
   },
 
@@ -116,9 +94,9 @@ Page({
    */
   onShow: function () {
     let that = this;
-    login.default.getToken().then(token => {
+    getToken().then(token => {
       wx.request({
-        url: config.default.ApiHost + '/xcc/home/getCollectionList',
+        url: ApiHost + '/xcc/home/getCollectionList',
         method: 'POST',
         data: {
           token: token
@@ -128,9 +106,8 @@ Page({
           if (res.data.code == 200) {
             if (res.data.type == 1) {
               let favList = res.data.data;
-              let hostRegex = new RegExp('^' + config.default.ApiHost);
               favList = favList.map(item => {
-                item.goods_img = hostRegex.test(item.goods_img) ? item.goods_img : config.default.ApiHost + item.goods_img;
+                item.goods_img = formatImg(item.goods_img);
                 return item;
               });
               console.log(favList);
@@ -148,31 +125,16 @@ Page({
 
           } else {
             console.error('获取收藏夹列表状态异常');
-            wx.showToast({
-              title: '获取收藏夹异常',
-              image: '/images/cross.png'
-            })
+            failMsg('获取收藏夹异常');
           }
         },
         fail: function (err) {
           console.error(err);
-          wx.showToast({
-            title: '获取收藏夹失败',
-            image: '/images/cross.png'
-          })
+          failMsg('获取收藏夹失败');
         }
       });
     }, err => {
-      console.error(err);
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
 
   },

@@ -1,6 +1,6 @@
-// pages/zx/zx.js
-var categoryData = require("../../data/classiFication.js");
-const config = require('../../config.js');
+// pages/category/category.js
+const {ApiHost} = require('../../config.js');
+const {formatImg, successMsg, failMsg} = require('../../utils/util.js');
 Page({
     data: {
         currentIndex: 0
@@ -23,19 +23,18 @@ Page({
         */
       var that = this;
       wx.request({
-        url: config.default.ApiHost + '/xcc/material/category.html',
+        url: ApiHost + '/xcc/material/category.html',
         method: 'POST',
         success: function(res){
           if(res.data.code == 200){
             //console.log(res.data.data);
             let categories = res.data.data;
-            let hostRegex = new RegExp('^'+config.default.ApiHost);
             categories = categories.map(category=>{
-              category.cat_img = category.cat_img == '' ? '' : (hostRegex.test(category.cat_img) ? category.cat_img : config.default.ApiHost + category.cat_img);
-              category.cat_icon = category.cat_icon == '' ? '' : (hostRegex.test(category.cat_icon) ? category.cat_icon : config.default.ApiHost + category.cat_icon);
+              category.cat_img = formatImg(category.cat_img);
+              category.cat_icon = formatImg(category.cat_icon);
               category.child = category.child.map(child=>{
-                child.cat_img = child.cat_img == '' ? '' : (hostRegex.test(child.cat_img) ? child.cat_img : config.default.ApiHost + child.cat_img);
-                child.cat_icon = child.cat_icon == '' ? '' : (hostRegex.test(child.cat_icon) ? child.cat_icon : config.default.ApiHost + child.cat_icon);
+                child.cat_img = formatImg(child.cat_img);
+                child.cat_icon = formatImg(child.cat_icon);
                 return child;
               });
               return category;
@@ -46,10 +45,7 @@ Page({
             });
           }else{
             console.error(res);
-            wx.showToast({
-              title: '获取分类异常',
-              image: '/images/cross.png'
-            })
+            failMsg('获取分类异常');
             that.setData({
               categories: []
             });

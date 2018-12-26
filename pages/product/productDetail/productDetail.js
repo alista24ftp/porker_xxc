@@ -1,29 +1,23 @@
 // pages/product/productDetail/productDetail.js
-const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {getToken, goLogin} = require('../../../utils/login.js');
+const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
 Page({
     data: {
-      /*
-        imgUrls: [
-            'https://img01.camel.com.cn/product/image/A712357085/6fb33911-3ca6-4487-87b0-ce954573b6dd.jpg',
-            'https://img01.camel.com.cn/product/image/A712357085/c8568bbd-5fcf-4c15-b143-f8e022ddbc18.jpg',
-            'https://img01.camel.com.cn/product/image/A712357085/e9e1b0dc-c431-486a-a410-5dcd1c6b7c21.jpg'
-        ],
-        */
-        indicatorDots: true,
-        indicatorColor: '#fff',
-        indicatorActiveColor: '#d2ab44',
-        autoplay: true,
-        interval: 5000,
-        duration: 500,
-        circular: true
+      indicatorDots: true,
+      indicatorColor: '#fff',
+      indicatorActiveColor: '#d2ab44',
+      autoplay: true,
+      interval: 5000,
+      duration: 500,
+      circular: true
     },
 
     onLoad: function(options){
       let prodId = options.pid;
       let that = this;
       wx.request({
-        url: config.default.ApiHost + '/xcc/Goods/xccDetail/',
+        url: ApiHost + '/xcc/Goods/xccDetail/',
         method: 'POST',
         data: {
           id: prodId
@@ -32,13 +26,12 @@ Page({
           console.log(res);
           if(res.data.code == 200){
             if(res.data.type == 1){
-              let hostRegex = new RegExp('^'+config.default.ApiHost);
               let product = res.data.goods;
-              product.goods_album = product.goods_album.map(img=>hostRegex.test(img) ? img : config.default.ApiHost + img);
-              product.goods_des = product.goods_des.map(img => hostRegex.test(img) ? img : config.default.ApiHost + img);
-              product.goods_img = hostRegex.test(product.goods_img) ? product.goods_img : config.default.ApiHost + product.goods_img;
+              product.goods_album = product.goods_album.map(img=>formatImg(img));
+              product.goods_des = product.goods_des.map(img => formatImg(img));
+              product.goods_img = formatImg(product.goods_img);
               product.sku = product.sku.map(skuItem=>{
-                skuItem.sku_img = hostRegex.test(skuItem.sku_img) ? skuItem.sku_img : config.default.ApiHost + skuItem.sku_img;
+                skuItem.sku_img = formatImg(skuItem.sku_img);
                 return skuItem;
               });
               let comments = res.data.comments;
@@ -55,12 +48,12 @@ Page({
 
                 if(page.com_type == 1){
                   if (Array.isArray(page.com_img)) {
-                    page.com_img = page.com_img.map(img => hostRegex.test(img) ? img : config.default.ApiHost + img);
+                    page.com_img = page.com_img.map(img => formatImg(img));
                   } else {
                     for (var prop in page.com_img) {
                       if (page.com_img.hasOwnProperty(prop)) {
                         //console.log(prop);
-                        page.com_img[prop] = hostRegex.test(page.com_img[prop]) ? page.com_img[prop] : config.default.ApiHost + page.com_img[prop];
+                        page.com_img[prop] = formatImg(page.com_img[prop]);
                       }
                     }
                   }
@@ -70,26 +63,22 @@ Page({
               console.log(pages);
               let recommendedItems = res.data.recommend;
               recommendedItems = recommendedItems.map(item=>{
-                item.goods_album = JSON.parse(item.goods_album).map(img=>hostRegex.test(img) ? img : config.default.ApiHost + img);
-                item.goods_des = JSON.parse(item.goods_des).map(img => hostRegex.test(img) ? img : config.default.ApiHost + img);
-                item.goods_img = hostRegex.test(item.goods_img) ? item.goods_img : config.default.ApiHost + item.goods_img;
+                item.goods_album = JSON.parse(item.goods_album).map(img=>formatImg(img));
+                item.goods_des = JSON.parse(item.goods_des).map(img => formatImg(img));
+                item.goods_img = formatImg(item.goods_img);
                 return item;
               });
-              let shownComment = pages.length > 0 ? pages[0] : undefined;
+              let shownComment = pages.length > 0 ? pages[0] : false;
                 
               let specList = res.data.spec;
               specList = specList.map(spec=>{
-                if(spec.sku_img != ''){
-                  spec.sku_img = hostRegex.test(spec.sku_img) ? spec.sku_img : config.default.ApiHost + spec.sku_img;
-                }else{
-                  spec.sku_img = '';
-                }
+                spec.sku_img = formatImg(spec.sku_img);
                 return spec;
               });
 
-              login.default.getToken().then(token=>{
+              getToken().then(token=>{
                 wx.request({
-                  url: config.default.ApiHost + '/xcc/home/getCollectionList',
+                  url: ApiHost + '/xcc/home/getCollectionList',
                   method: 'POST',
                   data: {
                     token: token
@@ -114,7 +103,7 @@ Page({
                       pages: pages,
                       recommendedItems: recommendedItems,
                       specList: specList,
-                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined,
+                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : false,
                       isFav: isFav
                     });
                   },
@@ -127,7 +116,7 @@ Page({
                       pages: pages,
                       recommendedItems: recommendedItems,
                       specList: specList,
-                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined,
+                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : false,
                       isFav: isFav
                     });
                   }
@@ -141,34 +130,25 @@ Page({
                   pages: pages,
                   recommendedItems: recommendedItems,
                   specList: specList,
-                  sku: (options.sku !== undefined) ? JSON.parse(options.sku) : undefined,
+                  sku: (options.sku !== undefined) ? JSON.parse(options.sku) : false,
                   isFav: ''
                 });
               });
 
               
             }else{
-              wx.showToast({
-                title: '无法取商品详情',
-                image: '/images/cross.png'
-              });
+              failMsg('无法取商品详情');
               console.error('无法获取商品详细信息');
             }
           }else{
-            wx.showToast({
-              title: '取商品详情错误',
-              image: '/images/cross.png'
-            });
+            failMsg('取商品详情错误');
             console.error('获取商品详细信息错误');
           }
           
         },
         fail: function(err){
           console.error(err);
-          wx.showToast({
-            title: '无法取商品详情',
-            image: '/images/cross.png'
-          });
+          failMsg('无法取商品详情');
         }
       });
     },
@@ -188,7 +168,7 @@ Page({
     },
 
     selectSku: function(e){
-      let sku = (this.data.sku !== undefined) ? '&sku='+JSON.stringify(this.data.sku) : '';
+      let sku = (this.data.sku !== false) ? '&sku='+JSON.stringify(this.data.sku) : '';
       wx.navigateTo({
         url: '/pages/product/productSpec/productSpec?pid=' + this.data.prodId + sku + '&spec=' + JSON.stringify(this.data.specList)
       });
@@ -199,9 +179,9 @@ Page({
       let prodId = e.currentTarget.dataset.id;
       let isFav = this.data.isFav == 'isfav';
       console.log(isFav);
-      login.default.getToken().then(token=>{
+      getToken().then(token=>{
         wx.request({
-          url: config.default.ApiHost + '/xcc/home/collection',
+          url: ApiHost + '/xcc/home/collection',
           method: 'POST',
           data: {
             token: token,
@@ -212,73 +192,42 @@ Page({
             if(res.data.code == 200){
               if(res.data.type == 1){
                 if(isFav){
-                  wx.showToast({
-                    title: '收藏取消成功',
-                    success: function(res){
-                      console.log('收藏取消成功');
-                    }
-                  });
-                  
+                  successMsg('收藏取消成功');
                   that.setData({
                     isFav: ''
                   });
                 }else{
-                  wx.showToast({
-                    title: '收藏添加成功',
-                    success: function (res) {
-                      console.log('收藏添加成功');
-                    }
-                  });
+                  successMsg('收藏添加成功');
                   that.setData({
                     isFav: 'isfav'
                   });
                 }
               }else if(res.data.type == 2){
-                wx.showToast({
-                  title: '操作收藏夹失败',
-                  image: '/images/cross.png'
-                });
+                failMsg('操作收藏夹失败');
                 console.error('操作收藏夹失败');
               }else{
-                wx.showToast({
-                  title: '收藏夹参数错误',
-                  image: '/images/cross.png'
-                });
+                failMsg('收藏夹参数错误');
                 console.error('操作收藏夹参数错误');
               }
             }else{
-              wx.showToast({
-                title: '操作收藏夹异常',
-                image: '/images/cross.png'
-              });
+              failMsg('操作收藏夹异常');
               console.error('操作收藏夹异常');
             }
           },
           fail: function(err){
-            wx.showToast({
-              title: '无法操作收藏夹',
-              image: '/images/cross.png'
-            });
+            failMsg('无法操作收藏夹');
             console.error(err);
           }
         });
       }, err=>{
-        wx.navigateTo({
-          url: '/pages/member/login/login',
-          success: function(res){
-            wx.showToast({
-              title: '请先登录',
-              image: '/images/cross.png'
-            });
-          }
-        });
+        goLogin();
       });
     },
 
     addToCart: function(e){
       let that = this;
-      if(this.data.sku !== undefined){
-        login.default.getToken().then(token=>{
+      if(this.data.sku !== false){
+        getToken().then(token=>{
           let params = {
             token: token,
             goods_id: that.data.product.goods_id,
@@ -287,75 +236,40 @@ Page({
           };
           console.log(that.data.sku);
           wx.request({
-            url: config.default.ApiHost + '/xcc/Cart/add',
+            url: ApiHost + '/xcc/Cart/add',
             method: 'POST',
             data: params,
             success: function (res) {
               console.log(res);
               if (res.data.code == 200) {
                 if (res.data.type == 1) {
-                  wx.showToast({
-                    title: '添加购物车成功',
-                    success: function(res){
-                      console.log('成功添加到购物车');
-                    }
-                  });
+                  successMsg('添加购物车成功');
                 } else {
-                  wx.showToast({
-                    title: '添加购物车失败',
-                    image: '/images/cross.png',
-                    success: function (res) {
-                      console.error('添加购物车失败');
-                    }
-                  });
+                  failMsg('添加购物车失败');
                 }
               } else {
-                wx.showToast({
-                  title: '添加购物车错误',
-                  image: '/images/cross.png',
-                  success: function (res) {
-                    console.error('添加购物车参数错误');
-                  }
-                });
+                failMsg('购物车参数错误');
               }
             },
             fail: function (err) {
-              wx.showToast({
-                title: '无法添加购物车',
-                image: '/images/cross.png'
-              });
+              failMsg('无法添加购物车');
               console.log(err);
             }
           });
         }, err=>{
-          wx.navigateTo({
-            url: '/pages/member/login/login',
-            success: function(res){
-              wx.showToast({
-                title: '请先登录',
-                image: '/images/cross.png'
-              });
-            }
-          });
+          goLogin();
         });
         
       }else{
-        wx.showToast({
-          title: '请选择规格数量',
-          image: '/images/cross.png',
-          success: function (res) {
-            console.error('请先选择规格数量');
-          }
-        });
-        
+        failMsg('请选择规格数量');
       }
     },
 
     onShow: function(options){
       let that = this;
-      login.default.getToken().then(token=>{
+      getToken().then(token=>{
         wx.request({
-          url: config.default.ApiHost + '/xcc/home/getCollectionList',
+          url: ApiHost + '/xcc/home/getCollectionList',
           method: 'POST',
           data: {
             token: token
@@ -382,13 +296,7 @@ Page({
                 });
               }
             }else{
-              wx.showToast({
-                title: '获取收藏夹异常',
-                image: '/images/cross.png',
-                success: function(res){
-                  console.error('获取收藏夹列表异常');
-                }
-              });
+              failMsg('获取收藏夹异常');
               that.setData({
                 token: token,
                 isFav: ''
@@ -396,26 +304,11 @@ Page({
             }
           },
           fail: function(err){
-            wx.showToast({
-              title: '无法获取收藏夹',
-              image: '/images/cross.png',
-              success: function (res) {
-                console.error(err);
-              }
-            });
-            
+            failMsg('无法获取收藏夹');
           }
         });
       }, err=>{
-        wx.navigateTo({
-          url: '/pages/member/login/login',
-          success: function(res){
-            wx.showToast({
-              title: '请先登录',
-              image: '/images/cross.png'
-            });
-          }
-        });
+        goLogin();
       });
     }
 })

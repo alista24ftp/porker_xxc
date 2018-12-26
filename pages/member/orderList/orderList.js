@@ -1,6 +1,7 @@
 // pages/member/orderList/orderList.js
-const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {getToken, goLogin} = require('../../../utils/login.js');
+const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -21,7 +22,7 @@ Page({
 
   cancelOrder: function(e){
     let orderId = e.currentTarget.dataset.id;
-    login.default.getToken().then(token=>{
+    getToken().then(token=>{
       wx.showModal({
         title: '确认删除此订单',
         content: '您确定要删除此订单吗?',
@@ -30,7 +31,7 @@ Page({
         success: function (res) {
           if (res.confirm) {
             wx.request({
-              url: config.default.ApiHost + '/xcc/home/orderClose',
+              url: ApiHost + '/xcc/home/orderClose',
               method: 'POST',
               data: {
                 token: token,
@@ -44,54 +45,32 @@ Page({
                     wx.redirectTo({
                       url: '/pages/member/orderList/orderList?id=1',
                       success: function(res){
-                        wx.showToast({
-                          title: '订单删除成功',
-                        })
+                        successMsg('订单删除成功');
                       }
                     });
                   } else if (res.data.type == 2) {
                     console.error('订单删除失败');
-                    wx.showToast({
-                      title: '订单删除失败',
-                      image: '/images/cross.png'
-                    })
+                    failMsg('订单删除失败');
                   } else if (res.data.type == 3) {
                     console.error('订单删除参数错误');
-                    wx.showToast({
-                      title: '删除参数错误',
-                      image: '/images/cross.png'
-                    })
+                    failMsg('删除参数错误');
                   }
                 }else{
                   console.error('订单删除状态异常');
-                  wx.showToast({
-                    title: '订单删除异常',
-                    image: '/images/cross.png'
-                  })
+                  failMsg('订单删除异常');
                 }
                 
               },
               fail: function (err) {
                 console.error(err);
-                wx.showToast({
-                  title: '订单删除失败',
-                  image: '/images/cross.png'
-                })
+                failMsg('订单删除失败');
               }
             });
           }
         }
       });
     }, err=>{
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
     
   },
@@ -104,7 +83,7 @@ Page({
 
   confirmRecv: function(e){
     let orderId = e.currentTarget.dataset.id;
-    login.default.getToken().then(token=>{
+    getToken().then(token=>{
       wx.showModal({
         title: '确认收货',
         content: '您要确认收货吗?',
@@ -113,7 +92,7 @@ Page({
         success: function (res) {
           if (res.confirm) {
             wx.request({
-              url: config.default.ApiHost + '/xcc/home/orderStatus',
+              url: ApiHost + '/xcc/home/orderStatus',
               method: 'POST',
               data: {
                 token: token,
@@ -127,54 +106,32 @@ Page({
                     wx.redirectTo({
                       url: '/pages/member/orderList/orderList?id=3',
                       success: function(res){
-                        wx.showToast({
-                          title: '确认收货成功',
-                        })
+                        successMsg('确认收货成功');
                       }
                     });
                   } else if (res.data.type == 2) {
                     console.error('确认收货失败');
-                    wx.showToast({
-                      title: '确认收货失败',
-                      image: '/images/cross.png'
-                    })
+                    failMsg('确认收货失败');
                   } else if (res.data.type == 3) {
                     console.error('确认收货参数错误');
-                    wx.showToast({
-                      title: '确认参数错误',
-                      image: '/images/cross.png'
-                    })
+                    failMsg('确认参数错误');
                   }
                 } else {
                   console.error('确认收货状态异常');
-                  wx.showToast({
-                    title: '确认收货异常',
-                    image: '/images/cross.png'
-                  })
+                  failMsg('确认收货异常');
                 }
 
               },
               fail: function (err) {
                 console.error(err);
-                wx.showToast({
-                  title: '确认收货失败',
-                  image: '/images/cross.png'
-                })
+                failMsg('确认收货失败');
               }
             });
           }
         }
       });
     }, err=>{
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
     
   },
@@ -199,19 +156,19 @@ Page({
   onShow: function () {
     let type = this.data.type;
     let that = this;
-    login.default.getToken().then(token=>{
+    getToken().then(token=>{
       wx.request({
-        url: config.default.ApiHost + '/xcc/home/stay',
+        url: ApiHost + '/xcc/home/stay',
         method: 'POST',
         data: {token, type},
         success: function(res){
+          console.log(res);
           if(res.data.code == 200){
             if(res.data.type == 1){
               let list = res.data.data;
-              let hostRegex = new RegExp('^'+config.default.ApiHost);
               list = list.map(order=>{
                 order.data = order.data.map(product=>{
-                  product.goods_img = hostRegex.test(product.goods_img) ? product.goods_img : config.default.ApiHost + product.goods_img;
+                  product.goods_img = formatImg(product.goods_img);
                   return product;
                 });
                 return order;
@@ -225,32 +182,18 @@ Page({
               that.setData({orderList: undefined});
             }else{
               console.error('获取订单参数错误');
-              wx.showToast({
-                title: '订单参数错误',
-                image: '/images/cross.png'
-              })
+              failMsg('订单参数错误');
               that.setData({ orderList: undefined });
             }
           }else{
             console.error('获取订单状态异常');
-            wx.showToast({
-              title: '订单状态异常',
-              image: '/images/cross.png'
-            })
+            failMsg('订单状态异常');
             that.setData({ orderList: undefined });
           }
         }
       });
     }, err=>{
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
   },
 

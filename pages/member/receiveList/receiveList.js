@@ -1,6 +1,7 @@
 // pages/member/receiveList/receiveList.js
-const config = require('../../../config.js');
-//const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {successMsg, failMsg} = require('../../../utils/util.js');
+const {getToken, goLogin} = require('../../../utils/login.js');
 Page({
 
   /**
@@ -14,28 +15,24 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    
-    
+
   },
 
   editAddress: function(e){
     let index = e.currentTarget.dataset.index;
     let addr = JSON.stringify(this.data.addressList[index]);
-    let token = this.data.token;
     wx.navigateTo({
-      url: '/pages/member/addressAdd/addressAdd?addr=' + addr + '&token=' + token
+      url: '/pages/member/addressAdd/addressAdd?addr=' + addr
     });
   },
 
   addAddress: function(e){
-    let token = this.data.token;
     wx.navigateTo({
-      url: '/pages/member/addressAdd/addressAdd?token=' + token
+      url: '/pages/member/addressAdd/addressAdd'
     }); 
   },
 
   delAddress: function(e){
-    let token = this.data.token;
     let index = e.currentTarget.dataset.index;
     let that = this;
     wx.showModal({
@@ -45,47 +42,39 @@ Page({
       cancelText: '取消',
       success: function(res){
         if(res.confirm){
-          console.log('删除');
-          wx.request({
-            url: config.default.ApiHost + '/xcc/address/del',
-            method: 'POST',
-            data: {
-              token: token,
-              add_id: that.data.addressList[index].add_id
-            },
-            success: function(res){
-              if(res.data.code == 200){
-                if(res.data.type == 1){
-                  console.log('删除成功');
-                  wx.redirectTo({
-                    url: '/pages/member/receiveList/receiveList',
-                    success: function(res){
-                      wx.showToast({
-                        title: '删除成功',
-                      });
-                    }
-                  });
-                }else if(res.data.type == 2){
-                  console.error('删除失败');
-                  wx.showToast({
-                    title: '删除失败',
-                    image: '/images/cross.png'
-                  })
-                }else{
-                  console.error('删除失败, 地址参数错误');
-                  wx.showToast({
-                    title: '地址参数错误',
-                    image: '/images/cross.png'
-                  })
+          getToken().then(token=>{
+            wx.request({
+              url: ApiHost + '/xcc/address/del',
+              method: 'POST',
+              data: {
+                token: token,
+                add_id: that.data.addressList[index].add_id
+              },
+              success: function (res) {
+                if (res.data.code == 200) {
+                  if (res.data.type == 1) {
+                    console.log('删除成功');
+                    wx.redirectTo({
+                      url: '/pages/member/receiveList/receiveList',
+                      success: function (res) {
+                        successMsg('删除成功');
+                      }
+                    });
+                  } else if (res.data.type == 2) {
+                    console.error('删除失败');
+                    failMsg('删除失败');
+                  } else {
+                    console.error('删除失败, 地址参数错误');
+                    failMsg('地址参数错误');
+                  }
+                } else {
+                  console.error('删除地址状态异常');
+                  failMsg('删除状态异常');
                 }
-              }else{
-                console.error('删除地址状态异常');
-                wx.showToast({
-                  title: '删除状态异常',
-                  image: '/images/cross.png'
-                })
               }
-            }
+            });
+          }, err=>{
+            goLogin();
           });
         }
       }
@@ -104,57 +93,38 @@ Page({
    */
   onShow: function () {
     let that = this;
-    wx.getStorage({
-      key: 'userinfo',
-      success: function (userInfo) {
-        wx.request({
-          url: config.default.ApiHost + '/xcc/Address/getList',
-          method: 'POST',
-          data: {
-            token: userInfo.data.loginToken
-          },
-          success: function (res) {
-            if (res.data.code == 200) {
-              if (res.data.type == 1) {
-                console.log(res.data.data);
-                that.setData({
-                  addressList: res.data.data,
-                  token: userInfo.data.loginToken
-                });
-              } else {
-                console.error('没有用户地址信息');
-                that.setData({
-                  addressList: []
-                });
-              }
+    getToken().then(token=>{
+      wx.request({
+        url: ApiHost + '/xcc/Address/getList',
+        method: 'POST',
+        data: {
+          token: token
+        },
+        success: function (res) {
+          if (res.data.code == 200) {
+            if (res.data.type == 1) {
+              console.log(res.data.data);
+              that.setData({
+                addressList: res.data.data
+              });
             } else {
-              console.error('错误获取用户地址信息');
-              wx.showToast({
-                title: '获取地址失败',
-                image: '/images/cross.png'
-              })
+              console.error('没有用户地址信息');
+              that.setData({
+                addressList: []
+              });
             }
-          },
-          fail: function (err) {
-            console.error(err);
-            wx.showToast({
-              title: '获取地址失败',
-              image: '/images/cross.png'
-            })
+          } else {
+            console.error('错误获取用户地址信息');
+            failMsg('获取地址失败');
           }
-        });
-      },
-      fail: function (err) {
-        wx.navigateTo({
-          url: '/pages/member/login/login',
-          success: function(res){
-            wx.showToast({
-              title: '请先登录',
-              image: '/images/cross.png'
-            })
-          }
-        });
-      }
+        },
+        fail: function (err) {
+          console.error(err);
+          failMsg('获取地址失败');
+        }
+      }); 
+    }, err=>{
+      goLogin();
     });
   },
 

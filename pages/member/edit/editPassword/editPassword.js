@@ -1,7 +1,8 @@
 // pages/member/edit/editPassword/editPassword.js
-const config = require('../../../../config.js');
-const login = require('../../../../utils/login.js');
-const validator = require('../../../../utils/regValidate.js');
+const {ApiHost} = require('../../../../config.js');
+const {getLoginData} = require('../../../../utils/login.js');
+const {validatePassword} = require('../../../../utils/regValidate.js');
+const {successMsg, failMsg} = require('../../../../utils/util.js');
 Page({
 
   /**
@@ -21,7 +22,7 @@ Page({
   checkPassword: function (e) {
     console.log(e);
     let newPassword = e.detail.value;
-    let allowProceed = validator.default.validatePassword(newPassword);
+    let allowProceed = validatePassword(newPassword);
 
     this.setData({
       newPassword,
@@ -41,7 +42,7 @@ Page({
     let { allowProceed, token, newPassword, userInfo } = this.data;
     if (allowProceed) {
       wx.request({
-        url: config.default.ApiHost + '/xcc/home/userUpdate',
+        url: ApiHost + '/xcc/home/userUpdate',
         method: 'POST',
         data: {
           token: token,
@@ -63,29 +64,21 @@ Page({
                   wx.navigateBack({
                     delta: 1,
                     success: function(res){
-                      wx.showToast({
-                        title: '修改成功',
-                      })
+                      successMsg('修改成功');
                     }
                   });
                 }
               });
             } else if (res.data.type == 2) {
               console.error('修改失败');
-              wx.showToast({
-                title: '修改失败',
-                image: '/images/cross.png'
-              })
+              failMsg('修改失败');
               /*
               wx.navigateBack({
                 delta: 1
               });*/
             } else {
               console.error('修改参数错误');
-              wx.showToast({
-                title: '修改参数错误',
-                image: '/images/cross.png'
-              })
+              failMsg('修改参数错误');
               /*
               wx.navigateBack({
                 delta: 1
@@ -96,10 +89,7 @@ Page({
         },
         fail: function (err) {
           console.error(err);
-          wx.showToast({
-            title: '修改失败',
-            image: '/images/cross.png'
-          })
+          failMsg('修改失败');
           /*
           wx.navigateBack({
             delta: 1
@@ -121,21 +111,13 @@ Page({
    */
   onShow: function (options) {
     let that = this;
-    login.default.getLoginData().then(loginData => {
+    getLoginData().then(loginData => {
       that.setData({
         token: loginData.loginToken,
         userInfo: loginData.user
       });
     }, err => {
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
   },
 

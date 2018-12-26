@@ -1,6 +1,6 @@
 // pages/member/account/account.js
-const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {getLoginData, goLogin} = require('../../../utils/login.js');
 Page({
 
   /**
@@ -53,23 +53,14 @@ Page({
    */
   onShow: function () {
     let that = this;
-    login.default.getLoginData().then(loginData => {
+    getLoginData().then(loginData => {
       console.log(loginData);
       that.setData({
         userInfo: loginData.user,
         token: loginData.loginToken
       });
     }, err => {
-      console.error(err);
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
   },
 

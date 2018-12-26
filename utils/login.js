@@ -1,5 +1,5 @@
-const config = require('../config.js');
-export default {
+const {failMsg} = require('./util.js');
+module.exports = {
   getToken: function(){
     return new Promise(function(resolve, reject){
       wx.getStorage({
@@ -39,6 +39,15 @@ export default {
           reject(err);
         }
       })
+    });
+  },
+
+  goLogin: () => {
+    wx.navigateTo({
+      url: '/pages/member/login/login',
+      success: function (res) {
+        failMsg('请先登录');
+      }
     });
   }
   

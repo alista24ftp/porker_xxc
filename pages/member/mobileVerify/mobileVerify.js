@@ -1,6 +1,7 @@
 // pages/member/mobileVerify/mobileVerify.js
-const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {getUserInfo, goLogin} = require('../../../utils/login.js');
+const {successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -43,7 +44,7 @@ Page({
     let phoneNum = this.data.userInfo.user_phone;
     let that = this;
     wx.request({
-      url: config.default.ApiHost + '/xcc/Login/verificationCode',
+      url: ApiHost + '/xcc/Login/verificationCode',
       method: 'POST',
       data: {
         user_phone: phoneNum
@@ -60,10 +61,7 @@ Page({
             });
           }else{
             console.error('获取验证码错误');
-            wx.showToast({
-              title: '获取验证码错误',
-              image: '/images/cross.png'
-            })
+            failMsg('获取验证码错误');
             that.setData({
               disabled: false,
               allowProceed: false
@@ -73,10 +71,7 @@ Page({
       },
       fail: function(err){
         console.error(err);
-        wx.showToast({
-          title: '获取验证码错误',
-          image: '/images/cross.png'
-        })
+        failMsg('获取验证码错误');
       }
     });
   },
@@ -103,10 +98,7 @@ Page({
         })
       }else{
         console.error('无法获取修改信息');
-        wx.showToast({
-          title: '无法获取信息',
-          image: '/images/cross.png'
-        })
+        failMsg('无法获取信息');
       }
     }
   },
@@ -123,22 +115,13 @@ Page({
    */
   onShow: function () {
     let that = this;
-    login.default.getUserInfo().then(userInfo => {
+    getUserInfo().then(userInfo => {
       that.setData({
         userInfo: userInfo,
         disabled: true
       });
     }, err => {
-      console.error(err);
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function (res) {
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          })
-        }
-      });
+      goLogin();
     });
   },
 

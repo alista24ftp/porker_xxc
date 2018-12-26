@@ -77,7 +77,7 @@
             <view class="left">
                 <text class="txt">请选择规格数量</text>
             </view>
-            <view class="middle" wx:if="{{sku != undefined}}">{{sku.item_name}}; {{sku.quantity}}件</view>
+            <view class="middle" wx:if="{{sku != false}}">{{sku.item_name}}; {{sku.quantity}}件</view>
             <view class="middle" wx:else></view>
             <view class="right" bindtap="selectSku">
                 <i class="icon ion-ios-arrow-right"></i>
@@ -117,7 +117,7 @@
             </view>
         </view>
         <view class="comment-item">
-          <view wx:if="{{shownComment !== undefined}}">
+          <view wx:if="{{shownComment !== false}}">
             <view class="comment-hd">
                 <view class="link">
                     <image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>

@@ -1,6 +1,7 @@
 // pages/member/productComment/productComment.js
-const config = require('../../../config.js');
-const login = require('../../../utils/login.js');
+const {ApiHost} = require('../../../config.js');
+const {getToken, goLogin} = require('../../../utils/login.js');
+const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -18,7 +19,7 @@ Page({
     console.log(orderId);
     this.setData({
       orderId,
-      goods: undefined
+      goods: false //
     });
   },
 
@@ -27,55 +28,38 @@ Page({
     let index = e.currentTarget.dataset.index;
     let goods = that.data.goods;
     console.log(that.data.goods);
-    login.default.getToken().then(token => {
+    getToken().then(token => {
       wx.chooseImage({
         success: function (res) {
           const tempFilePaths = res.tempFilePaths;
           //console.log(tempFilePaths);
           wx.uploadFile({
-            url: config.default.ApiHost + '/xcc/home/img',
+            url: ApiHost + '/xcc/home/img',
             filePath: tempFilePaths[0],
             name: 'file',
             formData: {
               token
             },
             success(res) {
-              //console.log(res)
               var data = JSON.parse(res.data)
-              //console.log(data)
-              // do something
               if (data.code == 200) {
                 if (data.type == 1) {
-                  let hostRegex = new RegExp('^' + config.default.ApiHost);
-                  let uploadedImg = hostRegex.test(data.msg) ? data.msg : config.default.ApiHost + data.msg;
-                  
+                  let uploadedImg = formatImg(data.msg);
                   goods[index].uploadedImgs.push(uploadedImg);
-                  
                   console.log(goods);
-                  that.setData({goods})//, function(res){console.log(that.data.goods)});
-                  wx.showToast({
-                    title: '上传成功',
-                  })
+                  that.setData({goods});
+                  successMsg('上传成功');
                 } else {
-                  wx.showToast({
-                    title: '上传图片失败',
-                    image: '/images/cross.png'
-                  });
+                  failMsg('上传图片失败');
                   console.error('上传图片失败');
                 }
               } else {
-                wx.showToast({
-                  title: '上传图片失败',
-                  image: '/images/cross.png'
-                });
+                failMsg('上传图片失败');
                 console.error('上传图片参数错误');
               }
             },
             fail: function (err) {
-              wx.showToast({
-                title: '无法上传图片',
-                image: '/images/cross.png'
-              });
+              failMsg('无法上传图片');
               console.error(err);
             }
           })
@@ -86,16 +70,7 @@ Page({
         }
       });
     }, err => {
-      console.error(err);
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          });
-        }
-      });
+      goLogin();
     });
 
   },
@@ -113,12 +88,8 @@ Page({
       success: function (res) {
         if (res.confirm) {
           goods[prodIndex].uploadedImgs.splice(imgIndex, 1);
-          that.setData({
-            goods
-          });
-          wx.showToast({
-            title: '删除图片成功'
-          });
+          that.setData({goods});
+          successMsg('删除图片成功');
         }
       }
     });
@@ -139,12 +110,12 @@ Page({
     let orderId = this.data.orderId;
     let comments = this.data.goods.map(good=>(good.comment !== undefined) ? good.comment.trim() : good.comment);
     if(comments.every(comment=>comment !== undefined && comment.length > 0)){
-      login.default.getToken().then(token => {
-        let re = new RegExp(config.default.ApiHost, 'gi');
+      getToken().then(token => {
+        let re = new RegExp(ApiHost, 'gi');
         let comImgs = goods.map(good=>good.uploadedImgs.join(',').replace(re, ''));
         let ids = goods.map(good=>good.goods_id);
         wx.request({
-          url: config.default.ApiHost + '/xcc/home/commentAdd',
+          url: ApiHost + '/xcc/home/commentAdd',
           method: 'POST',
           data: {
             token,
@@ -160,50 +131,28 @@ Page({
                 wx.switchTab({
                   url: '/pages/center/center',
                   success: function(res){
-                    wx.showToast({
-                      title: '评论添加成功'
-                    });
+                    successMsg('评论添加成功');
                   }
                 });
               }else if(res.data.type == 2){
                 console.error('添加评价失败');
-                wx.showToast({
-                  title: '添加评价失败',
-                  image: '/images/cross.png'
-                });
+                failMsg('添加评价失败');
               }else{
                 console.error('添加评价参数错误');
-                wx.showToast({
-                  title: '添加参数错误',
-                  image: '/images/cross.png'
-                });
+                failMsg('添加参数错误');
               }
             }else{
               console.error('添加评价状态异常');
-              wx.showToast({
-                title: '添加状态异常',
-                image: '/images/cross.png'
-              });
+              failMsg('添加状态异常');
             }
           }
         });
       }, err => {
-        wx.navigateTo({
-          url: '/pages/member/login/login',
-          success: function(res){
-            wx.showToast({
-              title: '请先登录',
-              image: '/images/cross.png'
-            });
-          }
-        });
+        goLogin();
       });
     }else{
       console.error('评论不能为空');
-      wx.showToast({
-        title: '评论不能为空',
-        image: '/images/cross.png'
-      });
+      failMsg('评论不能为空');
     }
     
   },
@@ -220,9 +169,9 @@ Page({
    */
   onShow: function () {
     let that = this;
-    login.default.getToken().then(token=>{
+    getToken().then(token=>{
       wx.request({
-        url: config.default.ApiHost + '/xcc/home/orderList',
+        url: ApiHost + '/xcc/home/orderList',
         method: 'POST',
         data: {
           token,
@@ -234,14 +183,13 @@ Page({
             if(res.data.type == 1){
               let goods = res.data.data[0].goods;
               let oldGoods = that.data.goods;
-              let isNotSame = (oldGoods === undefined) 
+              let isNotSame = (oldGoods === false) 
                 || (oldGoods.length != goods.length) 
                 || oldGoods.some((good, i)=>{good.goods_id != goods[i].goods_id || good.sku_id != goods[i].sku_id});
               if(isNotSame){
                 console.log('goods changed');
-                let hostRegex = new RegExp('^' + config.default.ApiHost);
                 goods = goods.map(item => {
-                  item.goods_img = hostRegex.test(item.goods_img) ? item.goods_img : config.default.ApiHost + item.goods_img;
+                  item.goods_img = formatImg(item.goods_img);
                   item.uploadedImgs = [];
                   return item;
                 });
@@ -252,42 +200,25 @@ Page({
               
             }else if(res.data.type == 2){
               console.error('没有获取到任何订单评价信息');
-              that.setData({ goods: undefined });
+              that.setData({ goods: false });
             }else{
               console.error('获取订单评价参数错误');
-              wx.showToast({
-                title: '获取参数错误',
-                image: '/images/cross.png'
-              });
-              that.setData({ goods: undefined });
+              failMsg('获取参数错误');
+              that.setData({ goods: false });
             }
           }else{
             console.error('获取订单评价状态异常');
-            wx.showToast({
-              title: '获取评价异常',
-              image: '/images/cross.png'
-            });
-            that.setData({goods: undefined});
+            failMsg('获取评价异常');
+            that.setData({goods: false});
           }
         },
         fail: function(err){
           console.error(err);
-          wx.showToast({
-            title: '获取评价失败',
-            image: '/images/cross.png'
-          });
+          failMsg('获取评价失败');
         }
       });
     }, err=>{
-      wx.navigateTo({
-        url: '/pages/member/login/login',
-        success: function(res){
-          wx.showToast({
-            title: '请先登录',
-            image: '/images/cross.png'
-          });
-        }
-      });
+      goLogin();
     });
   },
 

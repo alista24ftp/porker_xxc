@@ -1,5 +1,6 @@
 // pages/product/productList/productList.js
-const config = require('../../../config.js');
+const {ApiHost} = require('../../../config.js');
+const {formatImg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -17,7 +18,7 @@ Page({
     let cid = options.cid;
     let that = this;
     wx.request({
-      url: config.default.ApiHost + '/xcc/Index/goodsCatList',
+      url: ApiHost + '/xcc/Index/goodsCatList',
       method: 'POST',
       data: {
         cat_id: cid
@@ -25,9 +26,8 @@ Page({
       success: function(res){
         if(res.data.code == 200){
           let productList = res.data.goodsList;
-          let hostRegex = new RegExp('^'+config.default.ApiHost);
           productList = productList.map(product=>{
-            product.goods_img = product.goods_img == '' ? '' : (hostRegex.test(product.goods_img) ? product.goods_img : config.default.ApiHost + product.goods_img);
+            product.goods_img = formatImg(product.goods_img);
             return product;
           });
           let subCatList = res.data.goodsCat;
@@ -41,18 +41,12 @@ Page({
           });
         }else{
           console.error('无法获取商品列表');
-          wx.showToast({
-            title: '无法获取商品',
-            image: '/images/cross.png'
-          })
+          failMsg('无法获取商品');
         }
       },
       fail: function(err){
         console.error(err);
-        wx.showToast({
-          title: '无法获取商品',
-          image: '/images/cross.png'
-        });
+        failMsg('无法获取商品');
       }
     });
   },
@@ -60,11 +54,14 @@ Page({
   chooseProduct: function(e){
     let pid = e.currentTarget.dataset.pid;
     wx.navigateTo({
-      url: '/pages/product/productDetail/productDetail?pid=' + pid,
-      fail: function(err){
-        console.error(err);
-      }
+      url: '/pages/product/productDetail/productDetail?pid=' + pid
     });
+  },
+
+  retHome: function(e){
+    wx.reLaunch({
+      url: '/pages/index/index',
+    })
   },
 
   /**

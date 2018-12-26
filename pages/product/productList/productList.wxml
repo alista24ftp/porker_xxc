@@ -4,7 +4,7 @@
         <view class="m-hd g-row">
             <view class="m-indextop">
                 <view class="top-line">
-                    <view class="logo"></view>
+                    <view class="logo" bindtap="retHome"></view>
                     <view class="m-searchTop">
                         <navigator url="/pages/search/search" hover-class="changestyle">
                             <view class="zw-search-link">

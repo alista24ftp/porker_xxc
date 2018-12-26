@@ -1,4 +1,5 @@
 // pages/product/productSpec/productSpec.js
+const {successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -145,24 +146,16 @@ Page({
         wx.redirectTo({
           url: '/pages/product/productDetail/productDetail?pid=' + that.data.prodId + '&sku=' + JSON.stringify(sku),
           success: function(res){
-            wx.showToast({
-              title: '规格选择成功'
-            });
+            successMsg('规格选择成功');
           }
         });
         
       } else {
-        wx.showToast({
-          title: '请输入正规数量',
-          image: '/images/cross.png'
-        });
+        failMsg('请输入正规数量');
         console.error('请输入正规数量');
       }
     }else{
-      wx.showToast({
-        title: '请选规格与数量',
-        image: '/images/cross.png'
-      });
+      failMsg('请选规格与数量');
       console.error('请先选择规格与数量');
     }
   },

@@ -1,8 +1,8 @@
 //index.js
 //获取应用实例
 const app = getApp()
-const config = require('../../config.js');
-const login = require('../../utils/login.js');
+const {ApiHost} = require('../../config.js');
+const {formatImg, failMsg} = require('../../utils/util.js');
 Page({
     data: {
         imgUrls: [
@@ -19,26 +19,24 @@ Page({
         circular: true
     },
     onLoad: function(options){
-      //console.log(app.globalData.apiHost);
       let that = this;
       wx.request({
-        url: config.default.ApiHost + '/xcc/material/index/',
+        url: ApiHost + '/xcc/material/index/',
         method: 'POST',
         success: function(res){
-          let hostRegex = new RegExp('^' + config.default.ApiHost);
           console.log(res);
           if(res.data.code == 200){
             let {goods, hot, slide} = res.data;
             goods = goods.map(good=>{
-              good.goods_img = hostRegex.test(good.goods_img) ? good.goods_img : config.default.ApiHost + good.goods_img;
+              good.goods_img = formatImg(good.goods_img);
               return good;
             });
             hot = hot.map(good => {
-              good.goods_img = hostRegex.test(good.goods_img) ? good.goods_img : config.default.ApiHost + good.goods_img;
+              good.goods_img = formatImg(good.goods_img);
               return good;
             });
             slide = slide.map(sl => {
-              sl.slide_url = hostRegex.test(sl.slide_url) ? sl.slide_url : config.default.ApiHost + sl.slide_url;
+              sl.slide_url = formatImg(sl.slide_url);
               return sl;
             });
             console.log(goods);
@@ -48,18 +46,12 @@ Page({
             });
           }else{
             console.error('获取主页商品错误');
-            wx.showToast({
-              title: '获取主页错误',
-              image: '/images/cross.png'
-            });
+            failMsg('获取主页错误');
           }
         },
         fail: function(err){
           console.error(err);
-          wx.showToast({
-            title: '获取主页错误',
-            image: '/images/cross.png'
-          });
+          failMsg('获取主页错误');
         }
       });
     },

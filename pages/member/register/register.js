@@ -1,6 +1,7 @@
 // pages/member/register/register.js
-const config = require('../../../config.js');
-const validator = require('../../../utils/regValidate.js');
+const {ApiHost} = require('../../../config.js');
+const {validatePhone, validateSubmit} = require('../../../utils/regValidate.js');
+const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -36,10 +37,7 @@ Page({
         },
         fail: function (err) {
           console.error(err);
-          wx.showToast({
-            title: '无法返回前页面',
-            image: '/images/cross.png'
-          })
+          failMsg('无法返回前页面');
         }
       });
     }else{
@@ -47,10 +45,7 @@ Page({
         url: '/pages/index/index',
         fail: function(err){
           console.error(err);
-          wx.showToast({
-            title: '无法返回到主页',
-            image: '/images/cross.png'
-          })
+          failMsg('无法返回到主页');
         }
       })
     }
@@ -68,9 +63,9 @@ Page({
     //console.log(e);
     let phoneNum = e.target.dataset.phone;
     let that = this;
-    if(validator.default.validatePhone(phoneNum)){
+    if(validatePhone(phoneNum)){
       wx.request({
-        url: config.default.ApiHost + '/xcc/Login/verificationCode',
+        url: ApiHost + '/xcc/Login/verificationCode',
         method: 'POST',
         data: {
           user_phone: phoneNum
@@ -86,26 +81,17 @@ Page({
             });
           } else {
             console.error(res);
-            wx.showToast({
-              title: '无法获取验证码',
-              image: '/images/cross.png'
-            });
+            failMsg('无法获取验证码');
           }
         },
         fail: function (err) {
           console.error(err);
-          wx.showToast({
-            title: '无法获取验证码',
-            image: '/images/cross.png'
-          })
+          failMsg('无法获取验证码');
         }
       });
     }else{
       console.error('手机号不正确');
-      wx.showToast({
-        title: '手机号不正确',
-        image: '/images/cross.png'
-      })
+      failMsg('手机号不正确');
     }
     
   },
@@ -113,18 +99,19 @@ Page({
   formSubmit: function(e){
     //console.log(e);
     let inputInfo = e.detail.value;
-    if(validator.default.validateSubmit(inputInfo.username, inputInfo.phone, inputInfo.verify, inputInfo.pwd) && inputInfo.verify == this.data.verifyCode){
-      console.log(this.data.userImg);
+    let that = this;
+    if(validateSubmit(inputInfo.username, inputInfo.phone, inputInfo.verify, inputInfo.pwd) && inputInfo.verify == that.data.verifyCode){
+      console.log(that.data.userImg);
       wx.request({
-        url: config.default.ApiHost + '/xcc/Login/register',
+        url: ApiHost + '/xcc/Login/register',
         method: 'POST',
         data: {
           user_name: inputInfo.username,
           user_phone: inputInfo.phone,
           user_pwd: inputInfo.pwd,
-          open_id: this.data.openId,
-          unionId: this.data.unionId,
-          user_photo: this.data.userImg
+          open_id: that.data.openId,
+          unionId: that.data.unionId,
+          user_photo: that.data.userImg
         },
         success: function (res) {
           console.log(res);
@@ -134,8 +121,7 @@ Page({
               console.log(res.data);
               let loginToken = res.data.data;
               let userInfo = res.data.user;
-              let hostRegex = new RegExp('^'+config.default.ApiHost);
-              userInfo.user_photo = hostRegex.test(userInfo.user_photo) ? userInfo.user_photo : config.default.ApiHost + userInfo.user_photo;
+              userInfo.user_photo = formatImg(userInfo.user_photo);
               //console.log(loginToken);
               //console.log(userInfo);
               wx.setStorage({
@@ -148,9 +134,7 @@ Page({
                   wx.navigateBack({
                     delta: 2,
                     success: function(){
-                      wx.showToast({
-                        title: '注册成功',
-                      })
+                      successMsg('注册成功');
                     },
                     fail: function (err) {
                       console.error(err);
@@ -163,38 +147,23 @@ Page({
               });
             } else if (res.data.type == 2) {
               console.error('注册失败');
-              wx.showToast({
-                title: '注册失败',
-                image: '/images/cross.png'
-              })
+              failMsg('注册失败');
             } else if (res.data.type == 3) {
               console.error('注册失败, 用户已存在');
-              wx.showToast({
-                title: '用户已存在',
-                image: '/images/cross.png'
-              })
+              failMsg('用户已存在');
             } else {
               console.error('注册失败, 请检查注册信息');
-              wx.showToast({
-                title: '请检查注册信息',
-                image: '/images/cross.png'
-              })
+              failMsg('请检查注册信息');
             }
           } else {
             console.error('注册失败, 状态异常');
-            wx.showToast({
-              title: '注册状态异常',
-              image: '/images/cross.png'
-            })
+            failMsg('注册状态异常');
           }
         }
       });
     }else{
       console.error('注册验证错误, 请检查注册输入信息');
-      wx.showToast({
-        title: '注册验证错误',
-        image: '/images/cross.png'
-      })
+      failMsg('注册验证错误');
     }
   },
 

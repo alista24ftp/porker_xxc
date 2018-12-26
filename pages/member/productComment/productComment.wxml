@@ -1,6 +1,6 @@
 <!--pages/member/productComment/productComment.wxml-->
 <view class="container greybg">
-    <view class="m-productComment">
+    <view class="m-productComment" wx:if="{{goods !== false}}">
         <view class="commentContent" wx:for="{{goods}}" wx:for-index="idx">
             <view class="order-item">
                 <view class="bd">

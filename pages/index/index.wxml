@@ -85,43 +85,43 @@
             </block>
         </swiper>
     </view>
-
+    <!-->
     <view class="zw-tabs">
         <view class="zw-tabs-item">
             <view>
-                <image src='http://img02.camel.com.cn/image/zw_icon1.png' alt=""></image>
+                <image src='/images/index/zw_icon1.png' alt=""></image>
             </view>
             <text>领10元券</text>
         </view>
         <view class="zw-tabs-item">
             <view>
-                <image src='http://img02.camel.com.cn/image/zw_icon2.png' alt=""></image>
+                <image src='/images/index/zw_icon2.png' alt=""></image>
             </view>
             <text>领20元券</text>
         </view>
         <view class="zw-tabs-item">
             <view>
-                <image src='http://img02.camel.com.cn/image/zw_icon3.png' alt=""></image>
+                <image src='/images/index/zw_icon3.png' alt=""></image>
             </view>
             <text>领50元券</text>
         </view>
         <view class="zw-tabs-item">
             <view>
-                <image src='http://img02.camel.com.cn/image/zw_icon4.png' alt=""></image>
+                <image src='/images/index/zw_icon4.png' alt=""></image>
             </view>
             <text>下单返现</text>
         </view>
         <view class="zw-tabs-item">
             <view>
-                <image src='http://img02.camel.com.cn/image/zw_icon5.png' alt=""></image>
+                <image src='/images/index/zw_icon5.png' alt=""></image>
             </view>
             <text>买一送一</text>
         </view>
     </view>
-
+    -->
     <view class="layort-h">
         <view class="zw-title">
-            <image style="width:260rpx; height:33rpx;" src='http://img02.camel.com.cn/image/zw_title1.png' alt=""></image>
+            <image style="width:260rpx; height:33rpx;" src='/images/index/zw_title1.png' alt=""></image>
         </view>
 
         <view class="zw-banner"></view>
@@ -143,7 +143,7 @@
     </view>
     <view class="layort-h">
         <view class="zw-title">
-            <image style="width:260rpx; height:33rpx;" src='http://img02.camel.com.cn/image/zw_title1.png' alt=""></image>
+            <image style="width:260rpx; height:33rpx;" src='/images/index/zw_title1.png' alt=""></image>
         </view>
 
         <view class="zw-banner"></view>

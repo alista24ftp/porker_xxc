@@ -1,5 +1,6 @@
 // pages/member/login/login.js
-const config = require('../../../config.js');
+const {ApiHost} = require('../../../config.js');
+const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -21,14 +22,13 @@ Page({
     var data = e.detail
     console.log(data);
     let that = this;
-    let hostRegex = new RegExp('^' + config.default.ApiHost);
     if (data.iv && data.encryptedData) {
       wx.login({
         success(res) {
           if (res.code) {
             // 发起网络请求
             wx.request({
-              url: config.default.ApiHost + '/xcc/Login/index',
+              url: ApiHost + '/xcc/Login/index',
               data: {
                 code: res.code,
                 iv: data.iv,
@@ -41,7 +41,7 @@ Page({
                     // 已注册
                     let loginToken = res.data.data;
                     let userInfo = res.data.user;
-                    userInfo.user_photo = hostRegex.test(userInfo.user_photo) ? userInfo.user_photo : config.default.ApiHost + userInfo.user_photo;
+                    userInfo.user_photo = formatImg(userInfo.user_photo);
                     wx.setStorage({
                       key: 'userinfo',
                       data: {
@@ -52,43 +52,32 @@ Page({
                         wx.navigateBack({
                           delta: 1,
                           success: function(res){
-                            wx.showToast({
-                              title: '登录成功',
-                            })
+                            successMsg('登录成功');
                           }
                         });
                       }
                     });
                   } else {
                     // 未注册
-                    //let userImg = hostRegex.test(res.data.user_photo) ? res.data.user_photo : config.default.ApiHost + res.data.user_photo;
+                    //let userImg = formatImg(res.data.user_photo);
                     console.log(res.data.user_photo);
                     wx.redirectTo({
                       url: '/pages/member/register/register?id=' + res.data.openId + '&unionid=' + res.data.unionId + '&userimg=' + res.data.user_photo,//userImg,
                       fail: function (err) {
                         console.error(err);
-                        wx.showToast({
-                          title: '无法登录与注册',
-                          image: '/images/cross.png'
-                        })
+                        failMsg('无法登录与注册');
                       }
                     })
                   }
                 } else {
                   console.error('登录状态异常');
-                  wx.showToast({
-                    title: '登录状态异常',
-                    image: '/images/cross.png'
-                  })
+                  failMsg('登录状态异常');
                 }
               }
             })
           } else {
             console.log('登录失败！' + res.errMsg);
-            wx.showToast({
-              title: '登录失败',
-              image: '/images/cross.png'
-            })
+            failMsg('登录失败');
           }
         }
       });
