@@ -47,7 +47,7 @@ Page({
                     cartList[index].disableDecr = 'less';
                     cartList[index].disableIncr = (cartList[index].cart_num < cartList[index].sku.sku_stk) ? '' : 'dis';
                     if (cartList[index].checked == 'icon icon-ischecked-g ion-checkmark-circled') {
-                      total = (Number(total) + Number(cartList[index].sku.sku_price) + (cartList[index].cart_num == 1 ? Number(cartList[index].sku.sku_freight) : 0)).toFixed(2);
+                      total = (Number(total) + Number(cartList[index].sku.sku_price)).toFixed(2);
                     }
                     that.setData({
                       cartList, total, preventTap: false
@@ -123,7 +123,7 @@ Page({
                     cartList[index].disableDecr = cartList[index].cart_num > 0 ? 'less' : 'less dis';
                     cartList[index].disableIncr = cartList[index].cart_num < cartList[index].sku.sku_stk ? '' : 'dis';
                     if (cartList[index].checked == 'icon icon-ischecked-g ion-checkmark-circled') {
-                      total = (Number(total) - Number(cartList[index].sku.sku_price) - (cartList[index].cart_num == 0 ? Number(cartList[index].sku.sku_freight) : 0)).toFixed(2);
+                      total = (Number(total) - Number(cartList[index].sku.sku_price)).toFixed(2);
                     }
                     that.setData({
                       cartList, total, preventTap: false
@@ -206,11 +206,11 @@ Page({
     if (cartList[index].checked == 'icon icon-nochecked-g ion-ios-circle-outline'){
       cartList[index].checked = 'icon icon-ischecked-g ion-checkmark-circled';
       chosenNum = Number(chosenNum) + 1;
-      total = (Number(total) + (Number(cartList[index].cart_num) * Number(cartList[index].sku.sku_price)) + (cartList[index].cart_num == 0 ? 0 : Number(cartList[index].sku.sku_freight))).toFixed(2);
+      total = (Number(total) + (Number(cartList[index].cart_num) * Number(cartList[index].sku.sku_price))).toFixed(2);
     }else{
       cartList[index].checked = 'icon icon-nochecked-g ion-ios-circle-outline';
       chosenNum = Number(chosenNum) - 1;
-      total = (Number(total) - (Number(cartList[index].cart_num) * Number(cartList[index].sku.sku_price)) - (cartList[index].cart_num == 0 ? 0 : Number(cartList[index].sku.sku_freight))).toFixed(2);
+      total = (Number(total) - (Number(cartList[index].cart_num) * Number(cartList[index].sku.sku_price))).toFixed(2);
     }
     
     this.setData({
@@ -223,7 +223,7 @@ Page({
     if(cartList && cartList.length > 0){
       if (chooseAll == 'icon icon-nochecked-g ion-ios-circle-outline') {
         chooseAll = 'icon icon-ischecked-g ion-checkmark-circled';
-        total = (cartList.reduce((acc, item) => Number(acc) + (Number(item.cart_num) * Number(item.sku.sku_price)) + (item.cart_num == 0 ? 0 : Number(item.sku.sku_freight)), 0)).toFixed(2);
+        total = (cartList.reduce((acc, item) => Number(acc) + (Number(item.cart_num) * Number(item.sku.sku_price)), 0)).toFixed(2);
         chosenNum = cartList.length;
       } else {
         chooseAll = 'icon icon-nochecked-g ion-ios-circle-outline';

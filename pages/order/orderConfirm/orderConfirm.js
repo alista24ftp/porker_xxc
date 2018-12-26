@@ -27,6 +27,13 @@ Page({
     });
   },
 
+  inputMsg: function(e){
+    let msg = e.detail.value;
+    this.setData({
+      msg: msg
+    });
+  },
+
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

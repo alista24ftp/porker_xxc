@@ -50,7 +50,7 @@
                                 <!--<view class="line2">咖啡*M(170/88A)</view>-->
                                 <view class="line2">{{item.sku.item_name}}</view>
                                 <!--<view class="line3">￥218.00</view>-->
-                                <view class="line-ship">运费: ￥{{item.sku.sku_freight > 0 ? item.sku.sku_freight : 0}}</view>
+                                <view class="line-ship">重量: {{item.sku.sku_freight ? item.sku.sku_freight : 0}}kg</view>
                                 <view class="line-stock">还剩: {{item.sku.sku_stk}}</view>
                                 <view class="line3">￥{{item.sku.sku_price}}</view>
                             </view>

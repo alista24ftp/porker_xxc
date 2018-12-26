@@ -18,7 +18,7 @@
         <view class="spec-detail">
           <text class="spec-name">{{item.item_name}}</text>
           <text class="spec-price">价格: ￥{{item.sku_price}}</text>
-          <text class="spec-shipping">运费: ￥{{item.sku_freight}}</text>
+          <text class="spec-shipping">重量: {{item.sku_freight ? item.sku_freight : 0}}kg</text>
           <text class="spec-instock">剩余: {{item.sku_stk}}</text>
         </view>
         <view class="spec-sel">

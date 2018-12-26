@@ -110,10 +110,12 @@
                     </view>
                 </li>
             </ul>
+            <!-->
             <view class="extraInfo" style="display: none;">
                 <text class="txt">不支持无理由退换货</text>
                 <i class="icon ion-information-circled"></i>
             </view>
+            -->
         </view>
     </view>
     <!-->
@@ -146,10 +148,12 @@
                 <view class="left">商品合计</view>
                 <view class="right">￥258.00</view>
             </li>
+            <!-->
             <li class="item">
                 <view class="left">优惠金额</view>
                 <view class="right">￥0.00 </view>
             </li>
+            -->
             <li class="item">
                 <view class="left">运费</view>
                 <view class="right">￥0.00 </view>
@@ -159,6 +163,10 @@
                 <view class="right">258</view>
             </li>
         </ul>
+    </view>
+
+    <view class="ma-layort">
+      <textarea class="textarea" placeholder="买家留言" bindinput="inputMsg"></textarea>
     </view>
 
     <view class="ocViewFt">
