@@ -41,6 +41,7 @@
     display:flex;
     align-items: center;
     justify-content: center;
+    padding-left: 10rpx;
 }
 
 .orderReceiveList .m-shipAddress .item:last-child {
@@ -50,4 +51,9 @@
 .orderReceiveList .m-shipAddress .defualtItem {
     position: relative;
     margin-left: 75rpx;
+}
+
+.sel-addr {
+  display: flex;
+  margin-right: 20rpx;
 }

@@ -15,7 +15,10 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+    let showSel = options.sel !== undefined;
+    this.setData({
+      showSel
+    });
   },
 
   editAddress: function(e){
@@ -30,6 +33,19 @@ Page({
     wx.navigateTo({
       url: '/pages/member/addressAdd/addressAdd'
     }); 
+  },
+
+  chooseAddress: function(e){
+    let index = e.currentTarget.dataset.index;
+    let addrId = this.data.addressList[index].add_id;
+    let prevPage = getCurrentPages()[getCurrentPages().length - 2];
+    prevPage.setData({
+      addrId: addrId
+    }, ()=>{
+      wx.navigateBack({
+        delta: 1
+      });
+    });
   },
 
   delAddress: function(e){
@@ -55,7 +71,7 @@ Page({
                   if (res.data.type == 1) {
                     console.log('删除成功');
                     wx.redirectTo({
-                      url: '/pages/member/receiveList/receiveList',
+                      url: '/pages/member/receiveList/receiveList' + (that.data.showSel ? '?sel=1' : ''),
                       success: function (res) {
                         successMsg('删除成功');
                       }
@@ -93,6 +109,7 @@ Page({
    */
   onShow: function () {
     let that = this;
+    console.log(this.data.showSel);
     getToken().then(token=>{
       wx.request({
         url: ApiHost + '/xcc/Address/getList',

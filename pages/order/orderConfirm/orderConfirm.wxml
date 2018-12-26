@@ -29,7 +29,7 @@
                     + 新建收货地址
                 </view>
             </view>
-            <view class="right">
+            <view class="right" bindtap="editAddr">
                 <i class="icon icon-right ion-ios-arrow-right"></i>
             </view>
         </view>

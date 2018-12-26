@@ -1,1 +1,27 @@
 /* pages/order/orderConfirm/orderConfirm.wxss */
+.m-shipAddress .item {
+  display: flex;
+  padding: 32rpx 0 24rpx 30rpx;
+  align-items: center;
+}
+
+.m-shipAddress .item .left {
+  width: 0;
+}
+
+.m-shipAddress .item .middle {
+  padding-left: 15rpx;
+  display: flex;
+  flex: 1;
+}
+
+.m-shipAddress .item .right {
+  width: 75rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ma-layort .textarea {
+  font-size: 27rpx;
+}

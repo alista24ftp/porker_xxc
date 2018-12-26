@@ -141,8 +141,8 @@ Page({
             if (res.data.code == 200) {
               if (res.data.type == 1) {
                 console.log('地址信息提交成功');
-                wx.redirectTo({
-                  url: '/pages/member/receiveList/receiveList',
+                wx.navigateBack({
+                  delta: 1,
                   success: function (res) {
                     successMsg('地址提交成功');
                   }
