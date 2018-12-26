@@ -265,6 +265,12 @@ Page({
       }
     },
 
+    goToBuy: function(e){
+      wx.navigateTo({
+        url: '/pages/order/orderConfirm/orderConfirm'
+      });
+    },
+
     onShow: function(options){
       let that = this;
       getToken().then(token=>{

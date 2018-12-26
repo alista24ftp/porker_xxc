@@ -203,7 +203,7 @@
             <view class="btn btn1">
                 <i class="icon icon-kefu ion-ios-chatbubble-outline"></i>
             </view>
-            <view class="btn btn2">立即购买</view>
+            <view class="btn btn2" bindtap="goToBuy">立即购买</view>
             <view class="btn btn3" bindtap="addToCart">加入购物车</view>
         </view>
     </view>

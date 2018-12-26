@@ -6,9 +6,9 @@
             <view class="">
                 <view class="product-hd g-row">
                     <view class="g-top g-row">
-                        <i class="icon tg-icon ion-ios-arrow-back"></i>
+                        <i class="icon tg-icon ion-ios-arrow-back" bindtap="goBack"></i>
                         <text class="topBarTitle">订单确认</text>
-                        <view class="right">
+                        <view class="right" bindtap="goHome">
                             <i class="icon tg-icon ion-ios-home-outline"></i>
                         </view>
                     </view>
@@ -34,7 +34,7 @@
             </view>
         </view>
     </view>
-
+    <!-->
     <view class="Payway ma-layort">
         <view class="hd">
             支付方式
@@ -87,7 +87,7 @@
         </view>
         <view class="right"></view>
     </view>
-
+    -->
     <view class="ma-plist ma-layort">
         <view class="hd">我的商品</view>
         <view class="m-cartGroup">
@@ -116,7 +116,7 @@
             </view>
         </view>
     </view>
-
+    <!-->
     <view class="ma-layort">
         <view class="m-listItem">
             <view class="left">你拥有优惠券</view>
@@ -139,7 +139,7 @@
             <input placeholder="请输入发票抬头" class="txtiput" name="invoiceText" focus="true" />
         </view>
     </view>
-
+    -->
     <view class="ma-layort">
         <ul class="m-list m-summary">
             <li class="item">
