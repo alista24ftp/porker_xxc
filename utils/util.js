@@ -32,9 +32,36 @@ const failMsg = msg => {
   });
 }
 
+const getPrevPage = () => {
+  let pages = getCurrentPages();
+  return pages.length >= 2 ? pages[pages.length-2] : pages[0];
+}
+
+const setPrevPageData = (data, callback) => {
+  let prevPage = getPrevPage();
+  prevPage.setData(data, callback);
+}
+
+const setPrevPageAndBack = (data, succMsg, failedMsg) => {
+  setPrevPageData(data, ()=>{
+    wx.navigateBack({
+      delta: 1,
+      success: function(res){
+        if(succMsg !== null && succMsg !== undefined)
+          successMsg(succMsg);
+      },
+      fail: function(err){
+        if(failedMsg !== null && failedMsg !== undefined)
+          failMsg(failedMsg);
+      }
+    });
+  });
+}
+
 module.exports = {
   formatTime: formatTime,
   formatImg: formatImg,
   successMsg: successMsg,
-  failMsg: failMsg
+  failMsg: failMsg,
+  setPrevPageAndBack
 }

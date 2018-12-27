@@ -173,3 +173,9 @@
   font-size: 54rpx;
   color: #000000;
 }
+
+.isempty {
+  background-color: #f4f4f4;
+  display: flex;
+  justify-content: center;
+}

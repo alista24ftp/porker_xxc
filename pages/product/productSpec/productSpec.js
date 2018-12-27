@@ -1,5 +1,5 @@
 // pages/product/productSpec/productSpec.js
-const {successMsg, failMsg} = require('../../../utils/util.js');
+const {successMsg, failMsg, setPrevPageAndBack} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -13,7 +13,6 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    let prodId = options.pid;
     let specList = JSON.parse(options.spec);
     specList = specList.map(spec => {
       spec.disableDecr = 'less dis';
@@ -36,17 +35,9 @@ Page({
         }
         return spec;
       });
-      this.setData({
-        prodId: prodId,
-        specList,
-        chosenIndex
-      });
+      this.setData({specList, chosenIndex });
     }else{
-      
-      this.setData({
-        prodId: prodId,
-        specList
-      });
+      this.setData({specList});
     }
     
   },
@@ -143,13 +134,7 @@ Page({
     if(index !== undefined){
       if (!isNaN(this.data.specList[index].quantity) && this.data.specList[index].quantity > 0) {
         let sku = this.data.specList[index];
-        wx.redirectTo({
-          url: '/pages/product/productDetail/productDetail?pid=' + that.data.prodId + '&sku=' + JSON.stringify(sku),
-          success: function(res){
-            successMsg('规格选择成功');
-          }
-        });
-        
+        setPrevPageAndBack({ sku }, '规格选择成功');
       } else {
         failMsg('请输入正规数量');
         console.error('请输入正规数量');

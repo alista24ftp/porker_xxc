@@ -76,65 +76,16 @@ Page({
                 return spec;
               });
 
-              getToken().then(token=>{
-                wx.request({
-                  url: ApiHost + '/xcc/home/getCollectionList',
-                  method: 'POST',
-                  data: {
-                    token: token
-                  },
-                  success: function(res){
-                    let isFav = '';
-                    if(res.data.code == 200){
-                      if(res.data.type == 1){
-                        let favList = res.data.data;
-                        isFav = favList.some(item=>item.goods_id == prodId) ? 'isfav' : '';
-                      }else{
-                        isFav = '';
-                      }
-                    }else{
-                      isFav = '';
-                    }
-                    that.setData({
-                      prodId: prodId,
-                      product: product,
-                      comments: comments,
-                      shownComment: shownComment,
-                      pages: pages,
-                      recommendedItems: recommendedItems,
-                      specList: specList,
-                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : false,
-                      isFav: isFav
-                    });
-                  },
-                  fail: function(err){
-                    that.setData({
-                      prodId: prodId,
-                      product: product,
-                      comments: comments,
-                      shownComment: shownComment,
-                      pages: pages,
-                      recommendedItems: recommendedItems,
-                      specList: specList,
-                      sku: (options.sku !== undefined) ? JSON.parse(options.sku) : false,
-                      isFav: isFav
-                    });
-                  }
-                });
-              }, err=>{
-                that.setData({
-                  prodId: prodId,
-                  product: product,
-                  comments: comments,
-                  shownComment: shownComment,
-                  pages: pages,
-                  recommendedItems: recommendedItems,
-                  specList: specList,
-                  sku: (options.sku !== undefined) ? JSON.parse(options.sku) : false,
-                  isFav: ''
-                });
+              that.setData({
+                prodId: prodId,
+                product: product,
+                comments: comments,
+                shownComment: shownComment,
+                pages: pages,
+                recommendedItems: recommendedItems,
+                specList: specList,
+                sku: false
               });
-
               
             }else{
               failMsg('无法取商品详情');
@@ -168,9 +119,9 @@ Page({
     },
 
     selectSku: function(e){
-      let sku = (this.data.sku !== false) ? '&sku='+JSON.stringify(this.data.sku) : '';
+      let sku = (this.data.sku !== false) ? 'sku='+JSON.stringify(this.data.sku) : '';
       wx.navigateTo({
-        url: '/pages/product/productSpec/productSpec?pid=' + this.data.prodId + sku + '&spec=' + JSON.stringify(this.data.specList)
+        url: '/pages/product/productSpec/productSpec?' + sku + '&spec=' + JSON.stringify(this.data.specList)
       });
     },
 
@@ -266,9 +217,24 @@ Page({
     },
 
     goToBuy: function(e){
-      wx.navigateTo({
-        url: '/pages/order/orderConfirm/orderConfirm'
-      });
+      if(this.data.sku !== false){
+        getToken().then(token=>{
+          wx.navigateTo({
+            url: '/pages/order/orderConfirm/orderConfirm'
+          });
+        }, err=>{
+          goLogin();
+        });
+      }else{
+        failMsg('请选择规格数量');
+      }
+      
+    },
+
+    goHome: function(e){
+      wx.reLaunch({
+        url: '/pages/index/index',
+      })
     },
 
     onShow: function(options){
@@ -284,29 +250,14 @@ Page({
             if(res.data.code == 200){
               if(res.data.type == 1){
                 let favList = res.data.data;
-                if(favList.some(item=>item.goods_id == that.data.prodId)){
-                  that.setData({
-                    token: token,
-                    isFav: 'isfav'
-                  })
-                }else{
-                  that.setData({
-                    token: token,
-                    isFav: ''
-                  });
-                }
+                let isFav = favList.some(item => item.goods_id == that.data.prodId) ? 'isfav' : '';
+                that.setData({isFav});
               }else{
-                that.setData({
-                  token: token,
-                  isFav: ''
-                });
+                that.setData({isFav: ''});
               }
             }else{
               failMsg('获取收藏夹异常');
-              that.setData({
-                token: token,
-                isFav: ''
-              });
+              that.setData({isFav: ''});
             }
           },
           fail: function(err){
@@ -314,7 +265,7 @@ Page({
           }
         });
       }, err=>{
-        goLogin();
+        that.setData({isFav: ''});
       });
     }
 })

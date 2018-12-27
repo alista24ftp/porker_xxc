@@ -1,13 +1,13 @@
 <!--pages/product/productDetail/productDetail.wxml-->
 <view class="container greybg">
 
-    <!-- <view class="m-indexHd" style="height: 102rpx;">
+    <view class="m-indexHd" style="height: 102rpx;">
         <view class="m-hd g-row">
             <view class="m-indextop">
                 <view class="top-line">
-                    <view class="logo"></view>
+                    <view class="logo" bindtap="goHome"></view>
                     <view class="m-searchTop">
-                        <navigator url="../search/search" hover-class="changestyle">
+                        <navigator url="/pages/search/search" hover-class="changestyle">
                             <view class="zw-search-link">
                                 <view class="icon-search"></view>
                                 <text class="placeholder">点击输入搜索商品</text>
@@ -17,7 +17,7 @@
                 </view>
             </view>
         </view>
-    </view> -->
+    </view>
 
     <!--
     <view class="zw-banner detail-swiper">
@@ -83,6 +83,7 @@
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
+        <!-->
         <view class="m-listItem m-li-noborder">
             <view class="left">
                 <text class="txt">服务：</text>
@@ -103,6 +104,7 @@
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
+        -->
     </view>
 
     <view class="dt-section-2 dt-section-3 dt-comment">
@@ -120,7 +122,7 @@
           <view wx:if="{{shownComment !== false}}">
             <view class="comment-hd">
                 <view class="link">
-                    <image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>
+                    <image class="avatar" src="/images/center/headportrait.png" alt=""></image>
                     <!--<text class="name">匿名***</text>-->
                     <text class="name">{{shownComment.name}}</text>
                 </view>
@@ -200,9 +202,10 @@
 
     <view class="m-btnGroup">
         <view class="inner">
+          <!-->
             <view class="btn btn1">
                 <i class="icon icon-kefu ion-ios-chatbubble-outline"></i>
-            </view>
+            </view>-->
             <view class="btn btn2" bindtap="goToBuy">立即购买</view>
             <view class="btn btn3" bindtap="addToCart">加入购物车</view>
         </view>

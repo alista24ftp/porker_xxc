@@ -19,6 +19,7 @@
 
 
     <view class="cart-wrap">
+    <!-->
         <view class="mc-servicePolicy">
             <view class="item">
                 <text>30天无忧退货</text>
@@ -29,9 +30,12 @@
             <view class="item">
                 <text>满59元免邮费</text>
             </view>
-        </view>
+        </view>-->
         <view class="m-cartGroup">
-            <view class="list">
+            <view class="list isempty" wx:if="{{cartList === undefined || cartList.length == 0}}">
+              <text class="isempty-msg">购物车是空的~</text>
+            </view>
+            <view class="list" wx:else>
               <view wx:for="{{cartList}}" wx:for-index="idx">
                 <view class="item">
                     <view class="inner">
@@ -76,7 +80,7 @@
               </view>
             </view>
         </view>
-        <view class="m-cartFT">
+        <view class="m-cartFT" wx:if="{{cartList !== undefined && cartList.length > 0}}">
             <view class="left">
                 <view class="checkAll">
                   <view bindtap="toggleAll">

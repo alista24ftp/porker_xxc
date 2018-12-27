@@ -1,6 +1,6 @@
 // pages/member/receiveList/receiveList.js
 const {ApiHost} = require('../../../config.js');
-const {successMsg, failMsg} = require('../../../utils/util.js');
+const {successMsg, failMsg, setPrevPageAndBack} = require('../../../utils/util.js');
 const {getToken, goLogin} = require('../../../utils/login.js');
 Page({
 
@@ -38,14 +38,7 @@ Page({
   chooseAddress: function(e){
     let index = e.currentTarget.dataset.index;
     let addrId = this.data.addressList[index].add_id;
-    let prevPage = getCurrentPages()[getCurrentPages().length - 2];
-    prevPage.setData({
-      addrId: addrId
-    }, ()=>{
-      wx.navigateBack({
-        delta: 1
-      });
-    });
+    setPrevPageAndBack({addrId});
   },
 
   delAddress: function(e){
