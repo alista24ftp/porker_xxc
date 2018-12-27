@@ -26,7 +26,7 @@
                 </view>
               </view>
                 <view class="right">
-                  <view class="addr-del" bindtap="delAddress" data-index="{{idx}}">
+                  <view class="addr-del" bindtap="delAddress" data-index="{{idx}}" wx:if="{{!showSel}}">
                     <i class="icon icon-right ion-ios-trash-outline"></i>
                   </view>
                 </view>

@@ -133,7 +133,7 @@
                 <text class="skus">女,粉红38</text>
                 -->
                 <text class="time">{{shownComment.com_time}}</text>
-                <text class="skus">{{shownComment.sku_id}}</text>
+                <text class="skus">{{shownComment.item_name}}</text>
             </view>
             <view class="content">
               <!--

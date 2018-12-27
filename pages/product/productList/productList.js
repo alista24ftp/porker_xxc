@@ -51,6 +51,44 @@ Page({
     });
   },
 
+  switchCat: function(e){
+    let catId = e.currentTarget.dataset.cat;
+    let that = this;
+    wx.request({
+      url: ApiHost + '/xcc/Index/goodsCatList',
+      method: 'POST',
+      data: {
+        cat_id: catId
+      },
+      success: function (res) {
+        if (res.data.code == 200) {
+          let productList = res.data.goodsList;
+          productList = productList.map(product => {
+            product.goods_img = formatImg(product.goods_img);
+            return product;
+          });
+          let subCatList = res.data.goodsCat;
+          let cname = subCatList.filter(cat=>cat.cat_id==catId)[0].cat_name;
+          console.log(productList);
+          console.log(subCatList);
+          that.setData({
+            cid: catId,
+            cname: cname,
+            productList: productList,
+            subCatList: subCatList
+          });
+        } else {
+          console.error('无法获取商品列表');
+          failMsg('无法获取商品');
+        }
+      },
+      fail: function (err) {
+        console.error(err);
+        failMsg('无法获取商品');
+      }
+    });
+  },
+
   chooseProduct: function(e){
     let pid = e.currentTarget.dataset.pid;
     wx.navigateTo({

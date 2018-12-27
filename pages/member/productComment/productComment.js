@@ -114,6 +114,7 @@ Page({
         let re = new RegExp(ApiHost, 'gi');
         let comImgs = goods.map(good=>good.uploadedImgs.join(',').replace(re, ''));
         let ids = goods.map(good=>good.goods_id);
+        let skuIds = goods.map(good=>good.sku_id);
         wx.request({
           url: ApiHost + '/xcc/home/commentAdd',
           method: 'POST',
@@ -121,6 +122,7 @@ Page({
             token,
             order_id: orderId,
             goods_id: ids,
+            sku_id: skuIds,
             com_img: comImgs,
             com_des: comments
           },

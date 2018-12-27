@@ -94,7 +94,7 @@
             </view>
             <view class="right">
                 <view class="btn c-button" bindtap="delAll">清空</view>
-                <navigator class="pay" url="/pages/order/orderConfirm/orderConfirm" hover-class="navigator-hover"><view class="btn w-button">下单</view></navigator>
+                <view class="pay"><view class="btn w-button" bindtap="createOrder">下单</view></view>
             </view>
         </view>
     </view>

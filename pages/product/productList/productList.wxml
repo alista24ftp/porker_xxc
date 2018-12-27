@@ -17,70 +17,11 @@
             </view>
             <view class="inner">
                 <view class="m-navs disflex">
-                  <view wx:for="{{subCatList}}">
-                    <view class="{{cid == item.cat_id ? 'active' : ''}}">
-                        <navigator url="/pages/product/productList/productList?cid={{item.cat_id}}" open-type="redirect" hover-class="navigator-hover">
+                    <view wx:for="{{subCatList}}" class="{{cid == item.cat_id ? 'active' : ''}}">
+                        <view bindtap="switchCat" data-cat="{{item.cat_id}}">
                             <text class="txt">{{item.cat_name}}</text>
-                        </navigator>
+                        </view>
                     </view>
-                  </view>
-                    <!--
-                    <view>
-                        <navigator url="../product/productList/productList" hover-class="navigator-hover">
-                            <text class="txt">户外</text>
-                        </navigator>
-                    </view>
-                    <view>
-                        <navigator url="../product/productList/productList" hover-class="navigator-hover">
-                            <text class="txt">运动</text>
-                        </navigator>
-                    </view>
-                    <view>
-                        <text class="txt">瑜伽</text>
-                    </view>
-                    <view>
-                        <text class="txt">男鞋</text>
-                    </view>
-                    <view>
-                        <text class="txt">女鞋</text>
-                    </view>
-                    <view>
-                        <text class="txt">童装</text>
-                    </view>
-                    <view>
-                        <text class="txt">男装</text>
-                    </view>
-                    <view>
-                        <text class="txt">瑜伽</text>
-                    </view>
-                    <view>
-                        <text class="txt">男鞋</text>
-                    </view>
-                    <view>
-                        <text class="txt">女鞋</text>
-                    </view>
-                    <view>
-                        <text class="txt">童装</text>
-                    </view>
-                    <view>
-                        <text class="txt">男装</text>
-                    </view>
-                    <view>
-                        <text class="txt">瑜伽</text>
-                    </view>
-                    <view>
-                        <text class="txt">男鞋</text>
-                    </view>
-                    <view>
-                        <text class="txt">女鞋</text>
-                    </view>
-                    <view>
-                        <text class="txt">童装</text>
-                    </view>
-                    <view>
-                        <text class="txt">男装</text>
-                    </view>
-                    -->
                 </view>
             </view>
         </view>
@@ -93,8 +34,11 @@
             <view class="desc"></view>
         </view>
         <view class="m-goods-grid">
-            <view class="list" wx:for="{{productList}}">
-                <view class="item">
+            <view class="list isempty" wx:if="{{productList === undefined || productList.length == 0}}">
+              <text class="isempty-msg">此分类没有商品</text>
+            </view>
+            <view class="list" wx:else>
+                <view class="item" wx:for="{{productList}}">
                   <view data-pid="{{item.goods_id}}" bindtap="chooseProduct" bindlongtap="chooseProduct">
                     <view class="wraper">
                         <view class="hd">

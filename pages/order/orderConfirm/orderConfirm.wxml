@@ -25,8 +25,11 @@
             </view>
             <view class="middle">
                 <view class="phone"></view>
-                <view class="addr">
+                <view class="addr" wx:if="{{address === false}}">
                     + 新建收货地址
+                </view>
+                <view class="addr" wx:else>
+                    {{address}}
                 </view>
             </view>
             <view class="right" bindtap="editAddr">
@@ -91,24 +94,50 @@
     <view class="ma-plist ma-layort">
         <view class="hd">我的商品</view>
         <view class="m-cartGroup">
-            <ul class="list">
-                <li class="item">
+            <ul class="list" wx:if="{{type == 1}}">
+                <li class="item" wx:for="{{products}}">
                     <view class="inner">
                         <view class="m-good">
                             <view class="imgWrap">
-                                <image src="https://img01.camel.com.cn/product/image/D6Y105770/0f9dd4ee-3c89-4d11-ac6c-2f82b5455ca0.jpg!prodimg100" alt=""></image>
+                                <!--<image src="https://img01.camel.com.cn/product/image/D6Y105770/0f9dd4ee-3c89-4d11-ac6c-2f82b5455ca0.jpg!prodimg100" alt=""></image>-->
+                                <image src="{{item.goods.goods_img}}" alt=""></image>
                             </view>
                             <view class="cnt">
                                 <view class="xbox">
+                                <!-->
                                     <text class="line1">骆驼秋冬新款男士轻薄羽绒服 可脱卸帽</text>
-                                    <text class="count">x1</text>
+                                    <text class="count">x1</text>-->
+                                    <text class="line1">{{item.goods.goods_name}}</text>
+                                    <text class="count">x{{item.cart_num}}</text>
                                 </view>
-                                <text class="line2">咖啡 M(170/88A)</text>
-                                <text class="line3">￥258.00</text>
+                                <!--<text class="line2">咖啡 M(170/88A)</text>-->
+                                <text class="line2">{{item.sku.item_name}}</text>
+                                <!--<text class="line3">￥258.00</text>-->
+                                <text class="line3">￥{{item.sku.sku_price}}</text>
                             </view>
                         </view>
                     </view>
                 </li>
+            </ul>
+            <ul class="list" wx:else>
+              <li class="item">
+                <view class="inner">
+                    <view class="m-good">
+                        <view class="imgWrap">
+                            <image src="{{product.goods_img}}" alt=""></image>
+                        </view>
+                        <view class="cnt">
+                            <view class="xbox">
+                                <text class="line1">{{product.goods_name}}</text>
+                                <text class="count">x{{product.quantity}}</text>
+                            </view>
+                            <!--<text class="line2">咖啡 M(170/88A)</text>-->
+                            <text class="line2">{{product.item_name}}</text>
+                            <text class="line3">￥{{product.sku_price}}</text>
+                        </view>
+                    </view>
+                </view>
+              </li>
             </ul>
             <!-->
             <view class="extraInfo" style="display: none;">
@@ -146,7 +175,7 @@
         <ul class="m-list m-summary">
             <li class="item">
                 <view class="left">商品合计</view>
-                <view class="right">￥258.00</view>
+                <view class="right">￥{{subTotal}}</view>
             </li>
             <!-->
             <li class="item">
@@ -156,11 +185,11 @@
             -->
             <li class="item">
                 <view class="left">运费</view>
-                <view class="right">￥0.00 </view>
+                <view class="right">￥{{shippingFee}} </view>
             </li>
             <li class="item">
                 <view class="left">购物积分</view>
-                <view class="right">258</view>
+                <view class="right">0</view>
             </li>
         </ul>
     </view>
@@ -173,7 +202,7 @@
         <view class="empty-block"></view>
         <view class="main">
             <view class="left">
-                <text class="actualPrice">应付:￥258.00 </text>
+                <text class="actualPrice">应付:￥{{totalPrice}} </text>
             </view>
             <view class="right">
                 <view class="btn w-button">去付款</view>

@@ -218,9 +218,13 @@ Page({
 
     goToBuy: function(e){
       if(this.data.sku !== false){
+        let sku = this.data.sku;
+        sku.goods_img = this.data.product.goods_img;
+        sku.goods_name = this.data.product.goods_name;
+        sku.goods_id = this.data.product.goods_id;
         getToken().then(token=>{
           wx.navigateTo({
-            url: '/pages/order/orderConfirm/orderConfirm'
+            url: '/pages/order/orderConfirm/orderConfirm?type=2&item=' + JSON.stringify(sku)
           });
         }, err=>{
           goLogin();

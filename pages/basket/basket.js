@@ -406,6 +406,19 @@ Page({
     
   },
 
+  createOrder: function(e){
+    let {cartList} = this.data;
+    cartList = cartList.filter(cartItem => cartItem.checked == 'icon icon-ischecked-g ion-checkmark-circled');
+    if(cartList.length > 0){
+      wx.navigateTo({
+        url: '/pages/order/orderConfirm/orderConfirm?type=1&items=' + JSON.stringify(cartList)
+      });
+    }else{
+      failMsg('请选择购买商品');
+    }
+    
+  },
+
   /**
    * 生命周期函数--监听页面隐藏
    */
