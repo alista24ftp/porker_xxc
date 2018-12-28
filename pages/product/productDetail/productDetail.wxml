@@ -60,7 +60,7 @@
             </view>
             <view class="comment collet">
                 <view class="wrap" bindtap="fav" data-id="{{product.goods_id}}">
-                    <i class="icon ion-ios-star-outline"></i>
+                    <i class="icon ion-ios-star{{isFav ? ' isfav-icon' : '-outline'}}"></i>
                     <view wx:if="{{isFav == ''}}" class="more">
                         <text>收藏</text>
                     </view>

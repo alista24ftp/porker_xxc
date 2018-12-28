@@ -57,3 +57,7 @@
   display: flex;
   margin-right: 20rpx;
 }
+
+.sel-addr .ion-ios-circle-outline {
+  font-size: 70rpx;
+}

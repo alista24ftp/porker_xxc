@@ -75,3 +75,6 @@
   background-color: #faf60c;
 }
 
+.m-detailBase .collet .isfav-icon {
+  color: #ebe705;
+}
