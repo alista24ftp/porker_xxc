@@ -34,13 +34,11 @@
 }
 
 .m-cartGroup .icon-nochecked-g {
-  font-size: 48rpx;
   color: #999;
   padding: 0rpx 10rpx;
 }
 
 .m-cartGroup .icon-ischecked-g {
-  font-size: 45rpx;
   color: #db2929;
   padding: 0rpx 10rpx;
 }
@@ -178,4 +176,12 @@
   background-color: #f4f4f4;
   display: flex;
   justify-content: center;
+}
+
+.icon-ischecked-g {
+  font-size: 70rpx;
+}
+
+.icon-nochecked-g {
+  font-size: 70rpx;
 }
