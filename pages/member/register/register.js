@@ -74,6 +74,7 @@ Page({
           console.log(res);
           if (res.data.code == 200) {
             //console.log(res.data.data);
+            successMsg('验证码发送成功');
             that.setData({
               verifyCode: res.data.data,
               user_phone: phoneNum,
