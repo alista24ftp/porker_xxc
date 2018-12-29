@@ -58,7 +58,7 @@ const setPrevPageAndBack = (data, succMsg, failedMsg) => {
   });
 }
 
-module.exports = {
+module.exports = { 
   formatTime: formatTime,
   formatImg: formatImg,
   successMsg: successMsg,
