@@ -1,6 +1,6 @@
 <!--pages/member/orderList/orderList.wxml-->
 <view class="container greybg">
-    <view class="no-orderList" wx:if="{{orderList == undefined || orderList.length == 0}}">暂时没有任何相关订单</view>
+    <view class="no-orderList" wx:if="{{orderList == false || orderList.length == 0}}">暂时没有任何相关订单</view>
     <view class="m-orderList" wx:for="{{orderList}}" wx:for-index="idx">
         <view class="order-item">
             <view class="hd">
@@ -49,7 +49,7 @@
                     <!--<navigator url="../apply/apply"><text class="w-button">售后申请</text></navigator>-->
                     <!--<navigator url="../orderTrace/orderTrace"><text class="w-button">追踪物流</text></navigator>-->
                     <!--<view bindtap="comment"><text class="w-button">评价</text></view>-->
-                    <text class="w-button btn-topay" wx:if="{{type==1}}">去付款</text>
+                    <text class="w-button btn-topay" wx:if="{{type==1}}" bindtap="pay">去付款</text>
                     <text class="w-button btn-topay" wx:if="{{type==2}}">提醒发货</text>
                     <text class="w-button btn-topay" wx:if="{{type==3}}" bindtap="confirmRecv" data-id="{{item.order_id}}">确认收货</text>
                     <text class="w-button btn-topay" wx:if="{{type==4}}" bindtap="comment" data-id="{{item.order_id}}">去评价</text>

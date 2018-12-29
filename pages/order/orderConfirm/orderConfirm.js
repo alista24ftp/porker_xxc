@@ -122,6 +122,92 @@ Page({
     });
   },
 
+  pay: function (e) {
+    let that = this;
+    if(that.data.addrId !== undefined){
+      getToken().then(token => {
+        let type = that.data.type == 1 ? 2 : 1;
+        let add_id = that.data.addrId;
+        let orderData = {
+          type,
+          add_id,
+          token
+        };
+        if(type == 1){
+          orderData.goods_id = that.data.product.goods_id;
+          orderData.sku_id = that.data.product.sku_id;
+          orderData.num = that.data.product.quantity;
+        }else{
+          orderData.cart_id = that.data.products.map(product => product.cart_id).join(',');
+        }
+        wx.request({
+          url: ApiHost + '/xcc/order/unifiedorder',
+          method: 'POST',
+          data: orderData,
+          success: function (res) {
+            console.log(res);
+            if(res.data.code == 200){
+              if(res.data.type == 1){
+                successMsg('下单成功');
+                wx.requestPayment(
+                  {
+                    timeStamp: res.data.data.timeStamp,
+                    nonceStr: res.data.data.nonceStr,
+                    package: res.data.data.package,
+                    signType: res.data.data.signType,
+                    paySign: res.data.data.paySign,
+                    success: function (res) {
+                      console.log(res);
+                      if (res.errMsg == "requestPayment:ok") {
+                        //支付成功
+                        wx.reLaunch({
+                          url: '/pages/center/center',
+                          success: function (res) {
+                            successMsg('支付成功');
+                          }
+                        });
+                      }
+                    },
+                    fail: function (err) {
+                      wx.redirectTo({
+                        url: '/pages/member/orderList/orderList?id=1',
+                        success: function (res) {
+                          failMsg('支付取消');
+                        }
+                      });
+
+                      console.error(err);
+                    }
+                  })
+              }else if(res.data.type == 2){
+                failMsg('下单失败');
+              }else{
+                failMsg('下单参数错误');
+              }
+            }else{
+              failMsg('下单状态异常');
+            }
+            
+          },
+          fail: function (err) {
+            console.error(err);
+            wx.redirectTo({
+              url: '/pages/member/orderList/orderList?id=1',
+              success: function (res) {
+                failMsg('下订单失败');
+              }
+            });
+          }
+        });
+      }, err => {
+        goLogin();
+      });
+    }else{
+      failMsg('请选择收货地址');
+    }
+    
+  },
+
   /**
    * 生命周期函数--监听页面隐藏
    */

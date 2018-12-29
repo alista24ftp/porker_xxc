@@ -205,7 +205,7 @@
                 <text class="actualPrice">应付:￥{{totalPrice}} </text>
             </view>
             <view class="right">
-                <view class="btn w-button">去付款</view>
+                <view class="btn w-button" bindtap="pay">去付款</view>
             </view>
         </view>
     </view>

@@ -75,6 +75,52 @@ Page({
     
   },
 
+  pay: function (e) {
+    let that = this;
+    getToken().then(token => {
+      wx.request({
+        url: ApiHost + '/xcc/order/unifiedorder',
+        method: 'POST',
+        data: {
+          token: token
+        },
+        success: function (res) {
+          console.log(res);
+          wx.requestPayment(
+            {
+              timeStamp: res.data.data.timeStamp,
+              nonceStr: res.data.data.nonceStr,
+              package: res.data.data.package,
+              signType: res.data.data.signType,
+              paySign: res.data.data.paySign,
+              success: function (res) {
+                console.log(res);
+                if (res.errMsg == "requestPayment:ok") {
+                  //支付成功
+                  wx.reLaunch({
+                    url: '/pages/center/center',
+                    success: function (res) {
+                      successMsg('支付成功');
+                    }
+                  });
+                }
+              },
+              fail: function (err) {
+                failMsg('支付取消');
+                console.error(err);
+              }
+            })
+        },
+        fail: function (err) {
+          console.error(err);
+          failMsg('下订单失败');
+        }
+      });
+    }, err => {
+      goLogin();
+    });
+  },
+
   orderDetail: function(e){
     wx.navigateTo({
       url: '/pages/member/orderDetail/orderDetail'
@@ -179,16 +225,16 @@ Page({
               });
             }else if(res.data.type == 2){
               console.error('没有任何订单信息');
-              that.setData({orderList: undefined});
+              that.setData({orderList: false});
             }else{
               console.error('获取订单参数错误');
               failMsg('订单参数错误');
-              that.setData({ orderList: undefined });
+              that.setData({ orderList: false });
             }
           }else{
             console.error('获取订单状态异常');
             failMsg('订单状态异常');
-            that.setData({ orderList: undefined });
+            that.setData({ orderList: false });
           }
         }
       });
