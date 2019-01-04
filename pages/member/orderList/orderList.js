@@ -92,6 +92,13 @@ Page({
     
   },
 
+  traceOrder: function(e){
+    let orderId = e.currentTarget.dataset.id;
+    wx.navigateTo({
+      url: '/pages/member/orderTrace/orderTrace?orderid=' + orderId
+    });
+  },
+
   /**
    * 去支付:
    * 根据指定订单付款

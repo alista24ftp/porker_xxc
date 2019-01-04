@@ -13,7 +13,7 @@
                     <!--<text class="memberTitle1">驼客</text>-->
                     <text class="memberPoints">积分: {{user.user_score}}</text>
                 </view>
-                <view class="icon ion-ios-arrow-right top_right"></view>
+                <!--<view class="icon ion-ios-arrow-right top_right"></view>-->
             </view>
           
         </view>

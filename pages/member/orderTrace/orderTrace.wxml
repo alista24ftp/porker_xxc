@@ -1,24 +1,30 @@
 <!--pages/member/orderTrace/orderTrace.wxml-->
 <view class="container greybg">
-    <view class="m-delivery">
-        <view class="tabNav">
+    <view class="m-delivery" wx:if="{{trackingInfo == false}}">
+      <text class="empty-tracking">没有物流信息</text>
+    </view>
+    <view class="m-delivery" wx:else>
+        <!--<view class="tabNav">
             <view class="item active">包裹1</view>
             <view class="item ">包裹2</view>
-        </view>
+        </view>-->
         <view class="tabCon">
             <view class="">
                 <view class="deliveryInfo">
                     <view class="icon-express"></view>
                     <view class="infoWarp">
                         <view class="d1">
-                            <text class="s1">物流公司：</text>
+                            <!--<text class="s1">物流公司：</text>-->
+                            <text class="s1">快递公司: {{trackingInfo.post_name}}</text>
                         </view>
                         <view class="d1">
-                            <text class="s1">物流单号：</text>
+                            <!--<text class="s1">物流单号：</text>-->
+                            <text class="s1">快递号: {{trackingInfo.no}}</text>
                         </view>
                     </view>
                 </view>
                 <view class="deliveryDetail">
+                  <!-->
                     <view class="item active">
                         <i class="icon icon-dot ion-ios-location-outline"></i>
                         <view class="detail">
@@ -32,6 +38,16 @@
                             <view class="desc">您的包裹已出库</view>
                             <view class="time">2016-04-07 15:32:58</view>
                         </view>
+                    </view>
+                    -->
+                    <view wx:for="{{trackingInfo.data}}" wx:for-index="idx">
+                      <view class="item {{idx == 0 ? 'active' : ''}}">
+                          <i class="icon icon-dot ion-ios-location-outline"></i>
+                          <view class="detail">
+                              <view class="desc">{{item.context}}</view>
+                              <view class="time">{{item.time}}</view>
+                          </view>
+                      </view>
                     </view>
                 </view>
             </view>
