@@ -13,6 +13,10 @@ Page({
 
   /**
    * 生命周期函数--监听页面加载
+   * 
+   * 根据获取的id设置相关订单列表的type
+   * @param {number} options.id - 1 未付款, 2 未发货, 3 未收货, 4 未评价
+   * 设置type为获取的id
    */
   onLoad: function (options) {
     this.setData({
@@ -20,6 +24,19 @@ Page({
     });
   },
 
+  /**
+   * 删除订单:
+   * 如果订单未付款, 点击取消时会取消指定订单
+   * 
+   * 接口 /xcc/home/orderClose: 取消订单
+   * @param {number} order_id - 指定订单的订单id
+   * @param {string} token - 登录令牌
+   * @callback success: 删除操作完成
+   * @return {number} res.data.code - 200 操作状态OK, 400 操作状态异常
+   * @return {number} res.data.type - 1 删除成功, 2 删除失败
+   * 成功即重新加载页面
+   * @callback fail: 删除失败
+   */
   cancelOrder: function(e){
     let orderId = e.currentTarget.dataset.id;
     getToken().then(token=>{
@@ -75,41 +92,75 @@ Page({
     
   },
 
+  /**
+   * 去支付:
+   * 根据指定订单付款
+   * 
+   * 接口 /xcc/order/unifiedorder: 提交订单
+   * @param {string} token - 登录令牌
+   * @callback success: 提交订单成功
+   * @return {object} res - 支付参数
+   * @callback fail: 提交订单失败
+   * 
+   * 支付接口 requestPayment:
+   * @param {string} timeStamp - 时间戳 (使用res.data.data.timeStamp)
+   * @param {string} nonceStr - 随机字符串 (使用res.data.data.nonceStr)
+   * @param {string} package - prepay_id参数值 (使用res.data.data.package)
+   * @param {string} signType - 签名算法 (使用res.data.data.signType)
+   * @param {string} paySign - 签名 (使用res.data.data.paySign)
+   * @callback success: 支付操作完成
+   * @return {string} res.errMsg - 'requestPayment:ok' 支付成功
+   * 支付成功则跳转回用户主页
+   * @callback fail: 支付取消
+   * 
+   */
   pay: function (e) {
     let that = this;
+    let order_sn = e.currentTarget.dataset.sn;
+    console.log(that.data);
     getToken().then(token => {
       wx.request({
-        url: ApiHost + '/xcc/order/unifiedorder',
+        url: ApiHost + '/xcc/order/againPay',
         method: 'POST',
         data: {
-          token: token
+          token, order_sn
         },
         success: function (res) {
           console.log(res);
-          wx.requestPayment(
-            {
-              timeStamp: res.data.data.timeStamp,
-              nonceStr: res.data.data.nonceStr,
-              package: res.data.data.package,
-              signType: res.data.data.signType,
-              paySign: res.data.data.paySign,
-              success: function (res) {
-                console.log(res);
-                if (res.errMsg == "requestPayment:ok") {
-                  //支付成功
-                  wx.reLaunch({
-                    url: '/pages/center/center',
-                    success: function (res) {
-                      successMsg('支付成功');
-                    }
-                  });
+          if(res.data.code == 200){
+            if(res.data.type == 1){
+              wx.requestPayment({
+                timeStamp: res.data.data.timeStamp,
+                nonceStr: res.data.data.nonceStr,
+                package: res.data.data.package,
+                signType: res.data.data.signType,
+                paySign: res.data.data.paySign,
+                success: function (res) {
+                  console.log(res);
+                  if (res.errMsg == "requestPayment:ok") {
+                    //支付成功
+                    wx.reLaunch({
+                      url: '/pages/center/center',
+                      success: function (res) {
+                        successMsg('支付成功');
+                      }
+                    });
+                  }
+                },
+                fail: function (err) {
+                  //failMsg('支付取消');
+                  console.error(err);
                 }
-              },
-              fail: function (err) {
-                failMsg('支付取消');
-                console.error(err);
-              }
-            })
+              });
+            }else if(res.data.type == 2){
+              failMsg('订单超时');
+            }else{
+              failMsg('订单不存在');
+            }
+          }else{
+            failMsg('支付状态异常');
+          }
+          
         },
         fail: function (err) {
           console.error(err);
@@ -121,12 +172,19 @@ Page({
     });
   },
 
-  orderDetail: function(e){
-    wx.navigateTo({
-      url: '/pages/member/orderDetail/orderDetail'
-    });
-  },
-
+  /**
+   * 确认收货:
+   * 如果订单未收货, 点击去确认收货
+   * 
+   * 接口 /xcc/home/orderStatus: 确认订单收货
+   * @param {number} order_id - 订单id
+   * @param {string} token - 登录令牌
+   * @callback success: 确认收货完成
+   * @return {number} res.data.code - 200 确认收货OK, 400 确认收货状态异常
+   * @return {number} res.data.type - 1 确认收货成功, 2 确认收货失败, 3 确认收货参数错误
+   * 确认成功即重新加载此页面
+   * @callback fail: 确认收货失败
+   */
   confirmRecv: function(e){
     let orderId = e.currentTarget.dataset.id;
     getToken().then(token=>{
@@ -182,10 +240,22 @@ Page({
     
   },
 
+  /**
+   * 去评价订单的商品
+   * @property {number} e.currentTarget.dataset.id - 订单id
+   * 打开并将订单id传递给订单评价页
+   */
   comment: function(e){
     let orderId = e.currentTarget.dataset.id;
     wx.navigateTo({
       url: '/pages/member/productComment/productComment?orderid=' + orderId
+    });
+  },
+
+  refund: function(e){
+    let orderSn = e.currentTarget.dataset.sn;
+    wx.navigateTo({
+      url: '/pages/member/apply/apply?ordersn=' + orderSn
     });
   },
 
@@ -198,6 +268,17 @@ Page({
 
   /**
    * 生命周期函数--监听页面显示
+   * 
+   * 根据onLoad设置的type加载相关订单列表
+   * 
+   * 接口 /xcc/home/stay: 获取相关订单列表
+   * @param {number} type - 1 未支付, 2 未发货, 3 未收货, 4 未评价
+   * @param {string} token - 登录令牌
+   * @callback success: 获取完成
+   * @return {number} res.data.code - 200 获取订单列表OK, 400 获取订单列表状态异常
+   * @return {number} res.data.type - 1 获取订单成功, 2 获取订单为空, 3 获取订单参数错误
+   * @return {array} res.data.data - 订单列表
+   * 设置orderList 为订单列表或false当订单列表为空
    */
   onShow: function () {
     let type = this.data.type;

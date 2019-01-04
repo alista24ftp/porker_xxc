@@ -13,6 +13,15 @@ Page({
 
   /**
    * 生命周期函数--监听页面加载
+   * 
+   * 根据获取的购买类型type设置商品基本信息
+   * @param {number} options.type - 1 购物车下单, 2 直接购买
+   * 购物车下单:
+   * @param {string} options.items - 多个商品以及基本信息(JSON字符串)
+   * 设置products为解析的options.items
+   * 直接购买:
+   * @param {string} options.item - 单个商品基本信息(JSON字符串)
+   * 设置product为解析的options.item
    */
   onLoad: function (options) {
     let type = options.type;
@@ -27,18 +36,29 @@ Page({
     }
   },
 
+  /**
+   * 返回之前页面
+   */
   goBack: function(e){
     wx.navigateBack({
       delta: 1
     });
   },
 
+  /**
+   * 跳转到主页面
+   */
   goHome: function(e){
     wx.reLaunch({
       url: '/pages/index/index'
     });
   },
 
+  /**
+   * 输入买家留言
+   * @param {string} e.detail.value - 留言
+   * 设置msg为买家输入的留言
+   */
   inputMsg: function(e){
     let msg = e.detail.value;
     this.setData({
@@ -46,6 +66,9 @@ Page({
     });
   },
 
+  /**
+   * 去选择或修改收货地址
+   */
   editAddr: function(e){
     wx.navigateTo({
       url: '/pages/member/receiveList/receiveList?sel=1'
@@ -61,6 +84,36 @@ Page({
 
   /**
    * 生命周期函数--监听页面显示
+   * 
+   * 显示下单的详细信息, 包括运费, 规格, 数量, 总计, 以及收货地址
+   * 
+   * 接口 /xcc/order/orderDetail: 获取下单的详细信息
+   * @param {object} postData - 传递给接口的订单参数
+   * @property {string} postData.token - 登录令牌
+   * @property {number} postData.type - 1 购物车下单, 2 直接购买
+   * @property {number} postData.address_id - 收货地址的地址id, 或者使用默认地址(以及地址不存在)不传此参数
+   * 购物车下单:
+   * @property {string} postData.data - 所有商品的购物车id(用逗号连起来)
+   * 直接购买:
+   * @property {number} postData.goods_id - 商品id
+   * @property {number} postData.sku_id - 规格id
+   * @property {number} postData.num - 购买数量
+   * 
+   * @callback success: 订单获取操作完成
+   * @return {number} res.data.code - 200 获取订单OK, 400 获取订单异常
+   * @return {number} res.data.type - 3 订单参数错误, else 订单获取成功
+   * @return {decimal} res.data.prices - 不包括运费的商品总和
+   * @return {decimal} res.data.totals - 运费
+   * @return {object} res.data.address - 用户的选择地址信息, 或者默认地址(没选择时), 或者null当用户没有任何收货地址
+   * @property {string} res.data.address.add_name - 联系人名
+   * @property {string} res.data.address.add_phone - 收货地址电话
+   * @property {string} res.data.address.add_province - 收货地址省
+   * @property {string} res.data.address.add_city - 收货地址市
+   * @property {string} res.data.address.add_dist - 收货地址区
+   * @property {string} res.data.address.add_street - 收货地址名称
+   * 设置subTotal为不包括运费的商品总和, shippingFee为运费, totalPrice为总计, address为收货地址或false当没有收货地址时, addrId为收货地址id或不设置
+   * 
+   * @callback fail: 订单获取失败
    */
   onShow: function () {
     console.log(this.data.addrId);
@@ -115,6 +168,7 @@ Page({
         },
         fail: function(err){
           console.error(err);
+          failMsg('获取订单失败');
         }
       });
     }, err=>{
@@ -122,23 +176,56 @@ Page({
     });
   },
 
+  /**
+   * 支付此订单
+   * 
+   * 接口 /xcc/order/unifiedorder: 下订单并支付
+   * @param {object} orderData - 订单参数
+   * @property {number} orderData.type - 1 购物车下单, 2 直接购买 
+   * @property {number} orderData.address_id - 收货地址id
+   * @property {string} orderData.token - 登录令牌
+   * 直接购买:
+   * @property {number} orderData.goods_id - 商品id
+   * @property {number} orderData.sku_id - 规格id
+   * @property {number} orderData.num - 购买数量
+   * 购物车下单:
+   * @property {string} orderData.data - 所有商品的购物车id(用逗号连起来)
+   * 
+   * @callback success: 下单完成
+   * @return {number} res.data.code - 200 下单OK, 400 下单异常
+   * @return {number} res.data.type - 1 下单成功, 2 下单失败, 3 下单参数错误
+   * @return {object} res.data.data - 支付参数
+   * @callback fail: 下单失败, 直接跳转到未支付订单列表页
+   * 
+   * 支付接口 requestPayment:
+   * @param {string} timeStamp - 时间戳 (使用res.data.data.timeStamp)
+   * @param {string} nonceStr - 随机字符串 (使用res.data.data.nonceStr)
+   * @param {string} package - prepay_id参数值 (使用res.data.data.package)
+   * @param {string} signType - 签名算法 (使用res.data.data.signType)
+   * @param {string} paySign - 签名 (使用res.data.data.paySign)
+   * @callback success: 支付操作完成
+   * @return {string} res.errMsg - 'requestPayment:ok' 支付成功
+   * 支付成功则跳转至用户中心页
+   * @callback fail: 支付取消
+   * 支付取消则跳转至未支付订单列表页
+   */
   pay: function (e) {
     let that = this;
     if(that.data.addrId !== undefined){
       getToken().then(token => {
-        let type = that.data.type == 1 ? 2 : 1;
-        let add_id = that.data.addrId;
+        let type = that.data.type;
+        let address_id = that.data.addrId;
         let orderData = {
           type,
-          add_id,
+          address_id,
           token
         };
-        if(type == 1){
+        if(type == 2){
           orderData.goods_id = that.data.product.goods_id;
           orderData.sku_id = that.data.product.sku_id;
           orderData.num = that.data.product.quantity;
         }else{
-          orderData.cart_id = that.data.products.map(product => product.cart_id).join(',');
+          orderData.data = that.data.products.map(product => product.cart_id).join(',');
         }
         wx.request({
           url: ApiHost + '/xcc/order/unifiedorder',
@@ -172,7 +259,7 @@ Page({
                       wx.redirectTo({
                         url: '/pages/member/orderList/orderList?id=1',
                         success: function (res) {
-                          failMsg('支付取消');
+                          //failMsg('支付取消');
                         }
                       });
 

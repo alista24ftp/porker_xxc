@@ -3,49 +3,62 @@
     <view class="orderDetail">
         <view class="odinfos">
             <view class="txtwrap">
-                <view class="p1">
+                <!--<view class="p1">
                     下单时间：
                     <span class="s1">2017年10月12日 18:53:37</span>
-                </view>
+                </view>-->
                 <view class="p1">
                     订单编号：
-                    <span class="s1">201710121854098642</span>
+                    <!--<span class="s1">201710121854098642</span>-->
+                    <span class="s1">{{orderSn}}</span>
                 </view>
             </view>
         </view>
         <view class="od-googs">
             <view class="hd">
-                <span class="orderId title">退货申请</span>
+                <span class="orderId title">退款申请</span>
                 <view class="p4">
                     申请中
                 </view>
             </view>
-            <view class="order-item">
+            <view class="order-item" wx:for="{{goods}}" wx:for-index="idx">
                 <view class="bd">
                     <view class="left">
-                        <image src="https://img01.camel.com.cn/product/image/D6Y105770/fb0a8c0f-eb87-4475-8f67-796caad29584.jpg!prodimg100" class="pic" alt=""></image>
+                        <!--<image src="https://img01.camel.com.cn/product/image/D6Y105770/fb0a8c0f-eb87-4475-8f67-796caad29584.jpg!prodimg100" class="pic" alt=""></image>-->
+                        <image src="{{item.goods_img}}" class="pic" alt=""></image>
                     </view>
                     <view class="middle">
                         <view class="goodInfo">
                             <view class="p1">
-                                Camel骆驼男装 秋冬款新品男士流行纯色可脱卸帽羽绒服外套
+                                <!--Camel骆驼男装 秋冬款新品男士流行纯色可脱卸帽羽绒服外套-->
+                                {{item.goods_name}}
                             </view>
                             <view class="p2">
-                                咖啡*M(170/88A)
+                                <!--咖啡*M(170/88A)-->
+                                {{item.item_name}}
                             </view>
                             <view class="p6">
-                                ￥184.00
+                                ￥{{item.goods_price}}<!--184.00-->
                             </view>
                         </view>
                     </view>
                     <view class="right">
                         <view class="p3">
-                            x1
+                            x{{item.goods_num}}<!--1-->
                         </view>
                     </view>
                 </view>
             </view>
+            <view class="total-cost">
+              <view class="ship">
+                运费: <text class="ship-price">￥{{order.totals}}</text>
+              </view>
+              <view class="total">
+                订单总金额: <text class="total-price">￥{{order.order_price}}</text>
+              </view>
+            </view>
         </view>
+        <!-->
         <view class="od-addr applyWrap">
             <view class="hd">
                 流程进度
@@ -75,15 +88,44 @@
                 </view>
             </view>
         </view>
+        -->
         <view class="od-addr applyWrap">
             <view class="hd">
-                回复申请
+                退款信息
             </view>
-            <view class="repost">
-                <textarea class="textarea" placeholder="请输入回复内容~"></textarea>
+            <view class="refund-options">
+              <view class="r-opt">
+                <text class="label">退款原因</text>
+                <view class="right">
+                  <picker mode="selector" range="{{reasons}}" bindchange="selectReason" value="{{reasonIndex}}">
+                    <view class="picker">{{reasons[reasonIndex]}}</view>
+                  </picker>
+                </view>
+              </view>
+              <view class="repost">
+                <view class="label">退款说明</view>
+                <textarea class="textarea" placeholder="请输入退款说明~" bindinput="inputDes"></textarea>
+              </view>
+              <view class="refund-amount">
+                <view class="label">退款金额</view>
+                <input type="digit" class="amt" bindinput="enterAmount" placeholder="退款金额" value="{{amount}}" />
+              </view>
+              <view class="refund-pics">
+                  <view class="label">上传图片</view>
+                  <view class="refund-img-wrap">
+                    <view class="refund-img" wx:for="{{uploadedImgs}}" wx:for-index="img_idx" wx:for-item="img">
+                      <image class="pic"  src="{{img}}" bindtap="delImg" data-index="{{img_idx}}"></image>
+                    </view>
+                    <view class="refund-img" bindtap="chooseImg">
+                        <!--<input type="file" class="file-input" name="file" accept="image/jpeg,image/png,image/jpg" />-->
+                        <image class="pic"  src="/images/add-image.png" alt=""></image>
+                    </view>
+                  </view>
+              </view>
             </view>
-            <view class="commentBtn">
-                <button class="btn">提交回复</button>
+            
+            <view class="refundBtn">
+                <button class="btn" bindtap="submitRefund">确认退款</button>
             </view>
         </view>
     </view>

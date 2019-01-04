@@ -60,7 +60,7 @@
                     </navigator>
                 </view>
                 <view class="item">
-                    <navigator url="/pages/member/apply/apply"> <!--申请退款 -->
+                    <navigator url="/pages/member/orderTrace/orderTrace"> <!--申请退款 -->
                     <!--<navigator url="/pages/order/orderConfirm/orderConfirm"> 确认付款(原版)-->
                     <!--<navigator url="/pages/order/orderReceive/orderReceive"> 添加收货地址(原版) -->
                     <!--<navigator url="/pages/order/orderReceiveList/orderReceiveList"> 收货地址列表(原版) -->

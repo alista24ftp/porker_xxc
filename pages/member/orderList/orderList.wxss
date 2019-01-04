@@ -29,3 +29,9 @@
 .order-item .hd .od-cancel {
   margin-right: 15rpx;
 }
+
+.total-price {
+  color: #b4282d;
+  margin-right: 25rpx;
+}
+

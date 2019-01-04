@@ -85,7 +85,7 @@ Page({
                 recommendedItems: recommendedItems,
                 specList: specList,
                 sku: false
-              });
+              }, that.checkFav);
               
             }else{
               failMsg('无法取商品详情');
@@ -241,35 +241,40 @@ Page({
       })
     },
 
-    onShow: function(options){
+    onShow: function(){
+      this.checkFav();
+    }, 
+
+    checkFav: function(){
       let that = this;
-      getToken().then(token=>{
+      getToken().then(token => {
         wx.request({
           url: ApiHost + '/xcc/home/getCollectionList',
           method: 'POST',
           data: {
             token: token
           },
-          success: function(res){
-            if(res.data.code == 200){
-              if(res.data.type == 1){
+          success: function (res) {
+            if (res.data.code == 200) {
+              if (res.data.type == 1) {
                 let favList = res.data.data;
                 let isFav = favList.some(item => item.goods_id == that.data.prodId) ? 'isfav' : '';
-                that.setData({isFav});
-              }else{
-                that.setData({isFav: ''});
+                console.log(isFav);
+                that.setData({ isFav });
+              } else {
+                that.setData({ isFav: '' });
               }
-            }else{
+            } else {
               failMsg('获取收藏夹异常');
-              that.setData({isFav: ''});
+              that.setData({ isFav: '' });
             }
           },
-          fail: function(err){
+          fail: function (err) {
             failMsg('无法获取收藏夹');
           }
         });
-      }, err=>{
-        that.setData({isFav: ''});
+      }, err => {
+        that.setData({ isFav: '' });
       });
     }
 })
