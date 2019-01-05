@@ -48,6 +48,7 @@
   display: flex;
   align-items: center;
   margin-right: 20rpx;
+  margin-left: 20rpx;
 }
 
 .m-cartGroup .cnt .line1 {
