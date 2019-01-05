@@ -50,6 +50,7 @@ Page({
           method: 'POST',
           data: {token: loginToken},
           success: function(res){
+            console.log(res);
             if(res.data.code == 200){
               that.setData({
                 awaitPayCount: res.data.data[1],

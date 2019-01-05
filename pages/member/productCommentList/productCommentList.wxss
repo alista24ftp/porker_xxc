@@ -1,1 +1,5 @@
 /* pages/member/productCommentList/productCommentList.wxss */
+.empty-comments {
+  display: flex;
+  justify-content: center;
+}

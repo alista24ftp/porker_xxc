@@ -58,10 +58,45 @@ const setPrevPageAndBack = (data, succMsg, failedMsg) => {
   });
 }
 
+const uploadImg = (token, imgPath) => {
+  return new Promise((resolve, reject)=>{
+    wx.uploadFile({
+      url: ApiHost + '/xcc/home/img',
+      filePath: imgPath,
+      name: 'file',
+      formData: {
+        token
+      },
+      success(res) {
+        var data = JSON.parse(res.data);
+        if (data.code == 200) {
+          if (data.type == 1) {
+            let uploadedImg = formatImg(data.msg);
+            resolve(uploadedImg);
+          } else {
+            reject('上传图片失败');
+          }
+        } else {
+          reject('上传参数错误');
+        }
+      },
+      fail: function (err) {
+        reject('无法上传图片');
+      }
+    })
+  });
+}
+
+const uploadImgs = (token, imgPaths) => {
+  let imgs = imgPaths.map(imgPath => uploadImg(token, imgPath));
+  return Promise.all(imgs);
+}
+
 module.exports = { 
   formatTime: formatTime,
   formatImg: formatImg,
   successMsg: successMsg,
   failMsg: failMsg,
-  setPrevPageAndBack
+  setPrevPageAndBack,
+  uploadImgs
 }

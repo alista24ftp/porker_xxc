@@ -15,7 +15,7 @@ Page({
    * 生命周期函数--监听页面加载
    * 
    * 根据获取的id设置相关订单列表的type
-   * @param {number} options.id - 1 未付款, 2 未发货, 3 未收货, 4 未评价
+   * @param {number} options.id - 0 订单关闭, 1 未付款, 2 未发货, 3 未收货, 4 未评价, 5 交易完成, 6 已退款
    * 设置type为获取的id
    */
   onLoad: function (options) {
@@ -279,7 +279,7 @@ Page({
    * 根据onLoad设置的type加载相关订单列表
    * 
    * 接口 /xcc/home/stay: 获取相关订单列表
-   * @param {number} type - 1 未支付, 2 未发货, 3 未收货, 4 未评价
+   * @param {number} type - 0 订单关闭, 1 未支付, 2 未发货, 3 未收货, 4 未评价, 5 交易成功, 6 已退款
    * @param {string} token - 登录令牌
    * @callback success: 获取完成
    * @return {number} res.data.code - 200 获取订单列表OK, 400 获取订单列表状态异常

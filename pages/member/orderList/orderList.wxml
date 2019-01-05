@@ -41,10 +41,13 @@
                             <text class="p3">x{{product.goods_num}}</text>
                         </view>
                         <view>
+                            <text class="p4" wx:if="{{type==0}}">已关闭</text>
                             <text class="p4" wx:if="{{type==1}}">未付款</text>
                             <text class="p4" wx:if="{{type==2}}">未发货</text>
                             <text class="p4" wx:if="{{type==3}}">未收货</text>
                             <text class="p4" wx:if="{{type==4}}">未评价</text>
+                            <text class="p4" wx:if="{{type==5}}">已购买</text>
+                            <text class="p4" wx:if="{{type==6}}">已退款</text>
                         </view>
                     </view>
                 </view>

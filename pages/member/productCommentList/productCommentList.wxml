@@ -1,19 +1,22 @@
 <!--pages/member/productCommentList/productCommentList.wxml-->
 <view class="container greybg">
     <view class="m-productComment">
-        <view class="commentContent">
+        <view class="empty-comments" wx:if="{{commentList == false}}">
+          <text>没有任何评论</text>
+        </view>
+        <view class="commentContent" wx:for="{{commentList}}">
             <view class="order-item">
                 <view class="bd">
                     <view class="left">
-                        <image src="https://img01.camel.com.cn/upload/ProdPicture/20150304/6eacbe78-7b3a-41c9-b34d-36ccc27fe0bd.jpg!prodimg100" alt="" class="pic"></image>
+                        <image src="{{item.goods_img}}" alt="" class="pic"></image>
                     </view>
                     <view class="middle">
                         <view class="goodInfo">
                             <view class="p1">
-                                Camel骆驼男鞋 春季新款真皮系带日常休闲耐磨男鞋
+                                {{item.goods_name}}
                             </view>
                             <view class="p2">
-                                浅蓝，43
+                                {{item.item_name}}
                             </view>
                         </view>
                     </view>
@@ -21,18 +24,15 @@
             </view>
             <view class="commented">
                 <view class="content">
-                    测试
+                    {{item.com_des}}
                 </view>
                 <view class="comment-pics">
-                    <view class="item">
-                        <image class="pic" src="https://img01.camel.com.cn/upload/ProdPicture/20150304/6eacbe78-7b3a-41c9-b34d-36ccc27fe0bd.jpg!prodimg100" alt="" mode='widthFix'></image>
-                    </view>
-                    <view class="item">
-                        <image class="pic" src="https://img01.camel.com.cn/upload/ProdPicture/20150304/6eacbe78-7b3a-41c9-b34d-36ccc27fe0bd.jpg!prodimg100" alt="" mode='widthFix'></image>
+                    <view class="item" wx:for="{{item.com_img}}" wx:for-item="img">
+                        <image class="pic" src="{{img}}" alt="" mode='widthFix'></image>
                     </view>
                 </view>
                 <view class="date">
-                    2017年09月25日 14:49:04
+                    {{item.com_time}}
                 </view>
             </view>
         </view>

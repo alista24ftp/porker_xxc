@@ -193,7 +193,7 @@ Page({
    * 
    * @callback success: 下单完成
    * @return {number} res.data.code - 200 下单OK, 400 下单异常
-   * @return {number} res.data.type - 1 下单成功, 2 下单失败, 3 下单参数错误
+   * @return {number} res.data.type - 1 下单成功, 2 下单失败, 3 下单参数错误, 5 商品库存不足
    * @return {object} res.data.data - 支付参数
    * @callback fail: 下单失败, 直接跳转到未支付订单列表页
    * 
@@ -268,8 +268,10 @@ Page({
                   })
               }else if(res.data.type == 2){
                 failMsg('下单失败');
-              }else{
+              }else if(res.data.type == 3){
                 failMsg('下单参数错误');
+              }else{ // type == 5
+                failMsg('商品库存不足');
               }
             }else{
               failMsg('下单状态异常');

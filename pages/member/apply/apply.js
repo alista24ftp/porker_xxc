@@ -1,7 +1,7 @@
 // pages/member/apply/apply.js
 const {ApiHost} = require('../../../config.js');
 const {getToken, goLogin} = require('../../../utils/login.js');
-const {formatImg, successMsg, failMsg} = require('../../../utils/util.js');
+const {formatImg, successMsg, failMsg, uploadImgs} = require('../../../utils/util.js');
 Page({
 
   /**
@@ -71,7 +71,8 @@ Page({
       wx.chooseImage({
         success: function (res) {
           const tempFilePaths = res.tempFilePaths;
-          //console.log(tempFilePaths);
+          console.log(tempFilePaths);
+          /*
           wx.uploadFile({
             url: ApiHost + '/xcc/home/img',
             filePath: tempFilePaths[0],
@@ -102,6 +103,16 @@ Page({
               console.error(err);
             }
           })
+          */
+          uploadImgs(token, tempFilePaths).then(imgs=>{
+            uploadedImgs = uploadedImgs.concat(imgs);
+            console.log(uploadedImgs);
+            that.setData({uploadedImgs});
+            successMsg('上传成功');
+          }, err=>{
+            failMsg(err);
+            console.error(err);
+          });
         },
         fail: function (err) {
           console.error(err);
