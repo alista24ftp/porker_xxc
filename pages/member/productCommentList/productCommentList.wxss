@@ -3,3 +3,9 @@
   display: flex;
   justify-content: center;
 }
+.comment-pics .item {margin-left: 30rpx;}
+.commented .content {padding: 22rpx 22rpx 22rpx 30rpx;}
+.commented .date {padding: 22rpx 22rpx 22rpx 30rpx;}
+
+.order-item .bd .goodInfo{display: flex; height: 80%; flex-direction: column; justify-content: space-between;}
+.order-item{border-bottom: 1px solid #eee;}

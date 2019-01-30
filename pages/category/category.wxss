@@ -8,7 +8,7 @@
 .navLeft{
     width: 30%;
     /*border-right: 1px solid #ccc; */
-    background: #ccc;
+    background: #eee;
     height: 100%;
     position: fixed;
 }
@@ -18,11 +18,23 @@
     text-align: center;
     line-height: 98rpx;
     height: 98rpx;
-    border-bottom: 1px solid #ccc; 
+    border-bottom: 1px solid #eee; 
 }
 .navLeft .active{
     box-sizing: border-box;
     background: #fff;
+    position: relative;
+}
+.navLeft .active:after{
+  background: #e21a81;
+  width: 10rpx;
+  height: 30rpx;
+  display: block;
+  position: absolute;
+  top:50%;
+  left: 0;
+  content: "";
+  margin-top: -15rpx;
 }
 .navRight{
     width:70%;

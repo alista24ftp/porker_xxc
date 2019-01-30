@@ -1,9 +1,22 @@
 /* pages/member/mobileVerify/mobileVerify.wxss */
+.btn-login {background: #b4282d; border: 1px solid #b4282d; color: #fff;}
 .disabled {
   border: 1px solid #d9d9d9;
   background-color: #d9d9d9;
+  margin-top: 60rpx;
 }
 
 .disabled .ben-login-txt {
   color: #ffffff;
 }
+.ben-login-txt {
+  color: #ffffff;
+}
+
+
+.inputBox {position: relative;}
+.login-form .scode .utip {position: absolute; right: 210rpx;height: 80rpx;line-height: 80rpx;}
+.inputBox {height: 80rpx;}
+.login-form .scode .j-inputtext {height: 80rpx;}
+.login-form .hd {margin-bottom: 40rpx;}
+.login-form .scode .j-inputtext {border-bottom: 1px solid #eee;}

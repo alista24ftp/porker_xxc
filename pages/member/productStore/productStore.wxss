@@ -5,7 +5,7 @@
   align-items: center;
   height: 100rpx;
   background-color: #fff;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #eee;
   overflow: hidden;
 }
 
@@ -20,6 +20,7 @@
 
 .m-cartGroup .item {
   user-select: none;
+  border-bottom: 1px solid #eee;
 }
 
 .m-cartGroup .item:last-child {

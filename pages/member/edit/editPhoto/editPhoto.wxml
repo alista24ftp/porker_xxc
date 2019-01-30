@@ -3,7 +3,7 @@
     <view class="g-row">
         <view class="img-form">
             <view class="img-wrap">
-              <image src="{{fullPhotoLink}}"></image>
+              <image src="{{fullPhotoLink}}" mode='widthFix'></image>
             </view>
             <view class="btn-upload-img">
                 <view class="upload-txt " bindtap="chooseImg">

@@ -1,7 +1,7 @@
 <!--pages/product/productSearchList/productSearchList.wxml-->
 <!--pages/product/productList/productList.wxml-->
 <view class="container">
-    <view class="m-indexHd" style="height: 162rpx;">
+    <view class="m-indexHd" style="height: 102rpx;">
         <view class="m-hd g-row">
             <view class="m-indextop">
                 <view class="top-line">
@@ -38,7 +38,7 @@
                                 <!-- /react-text -->
                             </view>
                         </view>
-                        <view class="desc"></view>
+                        <!-- <view class="desc"></view> -->
                         <view class="name">{{item.goods_name}}</view>
                         <view class="price">
                             <!-- react-text: 4126 -->￥

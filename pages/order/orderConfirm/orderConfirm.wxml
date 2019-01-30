@@ -8,9 +8,6 @@
                     <view class="g-top g-row">
                         <i class="icon tg-icon ion-ios-arrow-back" bindtap="goBack"></i>
                         <text class="topBarTitle">订单确认</text>
-                        <view class="right" bindtap="goHome">
-                            <i class="icon tg-icon ion-ios-home-outline"></i>
-                        </view>
                     </view>
                 </view>
             </view>
@@ -20,7 +17,7 @@
     <view class="m-shipAddress ma-layort">
         <view class="u-icon u-address-bg">
         </view>
-        <view class="item">
+        <view class="item" bindtap="editAddr">
             <view class="left">
             </view>
             <view class="middle">
@@ -32,7 +29,7 @@
                     {{address}}
                 </view>
             </view>
-            <view class="right" bindtap="editAddr">
+            <view class="right">
                 <i class="icon icon-right ion-ios-arrow-right"></i>
             </view>
         </view>
@@ -110,10 +107,12 @@
                                     <text class="line1">{{item.goods.goods_name}}</text>
                                     <text class="count">x{{item.cart_num}}</text>
                                 </view>
-                                <!--<text class="line2">咖啡 M(170/88A)</text>-->
-                                <text class="line2">{{item.sku.item_name}}</text>
-                                <!--<text class="line3">￥258.00</text>-->
-                                <text class="line3">￥{{item.sku.sku_price}}</text>
+                                <view class='dis_flex'>
+                                  <!--<text class="line2">咖啡 M(170/88A)</text>-->
+                                  <text class="line2">{{item.sku.item_name}}</text>
+                                  <!--<text class="line3">￥258.00</text>-->
+                                  <text class="line3">￥{{item.sku.sku_price}}</text>
+                                </view>
                             </view>
                         </view>
                     </view>
@@ -132,8 +131,10 @@
                                 <text class="count">x{{product.quantity}}</text>
                             </view>
                             <!--<text class="line2">咖啡 M(170/88A)</text>-->
-                            <text class="line2">{{product.item_name}}</text>
-                            <text class="line3">￥{{product.sku_price}}</text>
+                            <view class='dis_flex'>
+                              <text class="line2">{{product.item_name}}</text>
+                              <text class="line3">￥{{product.sku_price}}</text>
+                            </view>
                         </view>
                     </view>
                 </view>

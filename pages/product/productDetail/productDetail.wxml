@@ -56,30 +56,27 @@
                 </view> -->
                 <view class="name">{{product.goods_name}}</view>
                 <view class="desc"></view>
-                <view class="price">￥{{product.goods_newprice}}</view>
-            </view>
-            <view class="comment collet">
-                <view class="wrap" bindtap="fav" data-id="{{product.goods_id}}">
-                    <i class="icon ion-ios-star{{isFav ? ' isfav-icon' : '-outline'}}"></i>
-                    <view wx:if="{{isFav == ''}}" class="more">
-                        <text>收藏</text>
-                    </view>
-                    <view wx:else class="more isfav" >
-                        <text>已收藏</text>
-                    </view>
+                <view class='dis_flex'>
+                  <view class="price">￥{{product.goods_newprice}}</view>
+                  <view class="comment collet">
+                      <view><button open-type='share'><text class='icon ion-android-share'></text></button></view>
+                      <view class="wrap" bindtap="fav" data-id="{{product.goods_id}}">
+                          <i class="iconfont icon-{{isFav ? 'mn_xingxing_fill' : 'mn_xingxing'}}"></i>
+                      </view>
+                  </view>
                 </view>
             </view>
         </view>
     </view>
 
-    <view class="dt-section-2">
-        <view class="m-listItem">
+    <view class="dt-section-2" style='padding-bottom:0;'>
+        <view class="m-listItem" bindtap="selectSku">
             <view class="left">
                 <text class="txt">请选择规格数量</text>
             </view>
             <view class="middle" wx:if="{{sku != false}}">{{sku.item_name}}; {{sku.quantity}}件</view>
             <view class="middle" wx:else></view>
-            <view class="right" bindtap="selectSku">
+            <view class="right">
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
@@ -107,14 +104,15 @@
         -->
     </view>
 
-    <view class="dt-section-2 dt-section-3 dt-comment">
+    <view class="dt-section-2 dt-section-3 dt-comment"  bindtap="seeComments">
         <view class="m-listItem">
             <view class="left">
                 <!--<text class="txt">用户评价(999)</text>-->
                 <text class="txt">用户评价({{comments.com.sums}})</text>
             </view>
             <view class="middle"></view>
-            <view class="right" bindtap="seeComments" wx:if="{{comments.com.sums > 0}}">
+            <!--<view class="right" bindtap="seeComments" wx:if="{{comments.com.sums > 0}}">-->
+            <view class="right" wx:if="{{comments.com.sums > 0}}">
                 <i class="icon ion-ios-arrow-right"></i>
             </view>
         </view>
@@ -122,7 +120,8 @@
           <view wx:if="{{shownComment !== false}}">
             <view class="comment-hd">
                 <view class="link">
-                    <image class="avatar" src="/images/center/headportrait.png" alt=""></image>
+                    <!--<image class="avatar" src="/images/center/headportrait.png" alt=""></image>-->
+                    <image class="avatar" src="{{shownComment.user_photo}}" alt=""></image>
                     <!--<text class="name">匿名***</text>-->
                     <text class="name">{{shownComment.name}}</text>
                 </view>

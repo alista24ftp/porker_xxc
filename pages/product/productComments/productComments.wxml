@@ -8,7 +8,8 @@
     
       <view class="comment-hd">
           <view class="link">
-              <image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>
+              <!--<image class="avatar" src="https://img02.camel.com.cn/image/headportrait345.png" alt=""></image>-->
+              <image class="avatar" src="{{item.user_photo}}" alt=""></image>
               <!--<text class="name">匿名***</text>-->
               <text class="name">{{item.name}}</text>
           </view>

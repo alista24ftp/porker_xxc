@@ -1,1 +1,2 @@
 /* pages/product/productSearchList/productSearchList.wxss */
+.m-goods-grid .list .item .name{margin-bottom: 15rpx;}

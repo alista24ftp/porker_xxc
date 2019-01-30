@@ -5,3 +5,5 @@
   align-items: center;
 }
 
+.m-goods-grid .list .item .name{margin-bottom: 15rpx;}
+.m-goods-grid .pic{border:1px solid #eee; width: calc(100% - 2px);}

@@ -1,1 +1,17 @@
 /**index.wxss**/
+.zw-title {
+  display: flex;
+  align-items: center;
+}
+.zw-proul2{background: #eee;}
+.zw-proli-info{width: calc(100% - 40rpx); background: #fff; padding: 0 20rpx;}
+.zw-proli-info>view:first-of-type{padding-top: 10rpx;}
+.zw-proli2 {
+  width:365rpx;
+  margin-left:20rpx;
+  margin-bottom:20rpx;
+}
+.zw-proli2 image {
+  width: 365rpx;
+  height: 365rpx;
+}

@@ -1,10 +1,17 @@
 /* pages/center/center.wxss */
+.m-profile{flex-direction: column;}
 .m-profile .please-login {
   font-size: 37rpx;
   color: #fff;
 }
+.m-profile .nickname{line-height: 60rpx;}
+.m-profile .avatar {margin: 0;}
 
 .m-profile .memberPoints {
   color: #b4a078;
   font-size: 27rpx;
 }
+
+.m-uc-wraptit {border-bottom: 1px solid #eee;}
+
+.m-uc-wrap:last-of-type{padding-bottom: 10rpx;}

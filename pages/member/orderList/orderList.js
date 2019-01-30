@@ -24,27 +24,77 @@ Page({
     });
   },
 
+  deleteOrder: function(e){
+    let orderSn = e.currentTarget.dataset.sn;
+    getToken().then(token=>{
+      wx.showModal({
+        title: '确认删除此订单',
+        content: '您确认要删除此订单吗?',
+        confirmText: '是',
+        cancelText: '否',
+        success: function(res){
+          if(res.confirm){
+            wx.request({
+              url: ApiHost + '/xcc/home/orderDel',
+              method: 'POST',
+              data: {
+                token,
+                order_sn: orderSn
+              },
+              success: function(res){
+                console.log(res);
+                if(res.data.code == 200){
+                  if(res.data.type == 1){
+                    console.log('订单删除成功');
+                    wx.redirectTo({
+                      url: '/pages/member/orderList/orderList?id=0',
+                      success: function (res) {
+                        successMsg('订单删除成功');
+                      }
+                    });
+                  }else if(res.data.type == 2){
+                    failMsg('删除订单失败');
+                  }else{
+                    failMsg('删除参数错误');
+                  }
+                }else{
+                  failMsg('订单删除异常');
+                }
+              },
+              fail: function(err){
+                console.error(err);
+                failMsg('订单删除失败');
+              }
+            });
+          }
+        }
+      });
+    }, err=>{
+      goLogin();
+    });
+  },
+
   /**
-   * 删除订单:
+   * 关闭订单:
    * 如果订单未付款, 点击取消时会取消指定订单
    * 
    * 接口 /xcc/home/orderClose: 取消订单
    * @param {number} order_id - 指定订单的订单id
    * @param {string} token - 登录令牌
-   * @callback success: 删除操作完成
+   * @callback success: 取消操作完成
    * @return {number} res.data.code - 200 操作状态OK, 400 操作状态异常
-   * @return {number} res.data.type - 1 删除成功, 2 删除失败
+   * @return {number} res.data.type - 1 取消成功, 2 取消失败
    * 成功即重新加载页面
-   * @callback fail: 删除失败
+   * @callback fail: 取消失败
    */
   cancelOrder: function(e){
     let orderId = e.currentTarget.dataset.id;
     getToken().then(token=>{
       wx.showModal({
-        title: '确认删除此订单',
-        content: '您确定要删除此订单吗?',
-        confirmText: '删除',
-        cancelText: '取消',
+        title: '确认取消此订单',
+        content: '您确定要取消此订单吗?',
+        confirmText: '是',
+        cancelText: '否',
         success: function (res) {
           if (res.confirm) {
             wx.request({
@@ -58,29 +108,29 @@ Page({
                 console.log(res);
                 if(res.data.code == 200){
                   if (res.data.type == 1) {
-                    console.log('订单删除成功');
+                    console.log('订单取消成功');
                     wx.redirectTo({
                       url: '/pages/member/orderList/orderList?id=1',
                       success: function(res){
-                        successMsg('订单删除成功');
+                        successMsg('订单取消成功');
                       }
                     });
                   } else if (res.data.type == 2) {
-                    console.error('订单删除失败');
-                    failMsg('订单删除失败');
+                    console.error('订单取消失败');
+                    failMsg('订单取消失败');
                   } else if (res.data.type == 3) {
-                    console.error('订单删除参数错误');
-                    failMsg('删除参数错误');
+                    console.error('订单取消参数错误');
+                    failMsg('取消时参数错误');
                   }
                 }else{
-                  console.error('订单删除状态异常');
-                  failMsg('订单删除异常');
+                  console.error('订单取消状态异常');
+                  failMsg('订单取消异常');
                 }
                 
               },
               fail: function (err) {
                 console.error(err);
-                failMsg('订单删除失败');
+                failMsg('订单取消失败');
               }
             });
           }
@@ -124,7 +174,11 @@ Page({
   pay: function (e) {
     let that = this;
     let order_sn = e.currentTarget.dataset.sn;
-    console.log(that.data);
+    let pay_id = e.currentTarget.dataset.id;
+    if(pay_id!=5){
+      failMsg('请在原渠道支付');
+      return false;
+    }
     getToken().then(token => {
       wx.request({
         url: ApiHost + '/xcc/order/againPay',

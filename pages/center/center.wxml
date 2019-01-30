@@ -69,21 +69,25 @@
                   <navigator url="/pages/member/orderList/orderList?id=6">
                     <image class="menu-icon" src="/images/center/zwuc_icon5.png" alt=""></image>
                     <!--<text class="txt">退款/售后</text>-->
-                    <text class="txt">已退款</text>
+                    <text class="txt">退款</text>
+                    <text class="red-dot" wx:if="{{refundCount > 0}}">{{refundCount}}</text>
                   </navigator>
               </view>
               <view class="item">
                   <navigator url="/pages/member/orderList/orderList?id=5">
-                    <image class="menu-icon" src="/images/center/zwuc_icon5.png" alt=""></image>
+                    <image class="menu-icon" src="/images/center/zwuc_icon1_2.png" style='width:40rpx; height:36rpx; margin:4rpx 0;' alt=""></image>
                     <text class="txt">交易完成</text>
+                    <text class="red-dot" wx:if="{{orderCompleteCount > 0}}">{{orderCompleteCount}}</text>
                   </navigator>
               </view>
               <view class="item">
                   <navigator url="/pages/member/orderList/orderList?id=0">
-                    <image class="menu-icon" src="/images/center/zwuc_icon5.png" alt=""></image>
+                    <image class="menu-icon" src="/images/center/zwuc_icon1_3.png" style='width:40rpx; height:36rpx; margin:4rpx 0;' alt=""></image>
                     <text class="txt">订单关闭</text>
+                    <text class="red-dot" wx:if="{{orderClosedCount > 0}}">{{orderClosedCount}}</text>
                   </navigator>
               </view>
+              <view class="item"></view>
             </view>
         </view>
     </view>
@@ -150,7 +154,7 @@
     </view>
 
     <view wx:if="{{!loggedIn}}">
-      请登录
+      
     </view>
     <!--
     <view wx:if="{{!loggedIn}}">

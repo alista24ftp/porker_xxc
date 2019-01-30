@@ -26,7 +26,7 @@ Page({
     
     this.setData({
       newName,
-      allowProceed
+      allowProceed: allowProceed.status
     });
   },
 

@@ -12,7 +12,17 @@ Page({
       duration: 500,
       circular: true
     },
-
+  onShareAppMessage(res) {
+    let that=this;
+    if (res.from === 'button') {
+      // 来自页面内转发按钮
+      console.log(res.target)
+    }
+    return {
+      title: that.data.product.goods_name,
+      path: '/pages/product/productDetail/productDetail?pid='+that.data.product.goods_id
+    }
+  },
     onLoad: function(options){
       let prodId = options.pid;
       let that = this;
@@ -58,6 +68,8 @@ Page({
                     }
                   }
                 }
+
+                page.user_photo = formatImg(page.user_photo);
                 return page;
               });
               console.log(pages);

@@ -235,7 +235,7 @@ Page({
             console.log(res);
             if(res.data.code == 200){
               if(res.data.type == 1){
-                successMsg('下单成功');
+                //successMsg('下单成功');
                 wx.requestPayment(
                   {
                     timeStamp: res.data.data.timeStamp,
@@ -243,15 +243,11 @@ Page({
                     package: res.data.data.package,
                     signType: res.data.data.signType,
                     paySign: res.data.data.paySign,
-                    success: function (res) {
-                      console.log(res);
+                    complete: function (res) {
                       if (res.errMsg == "requestPayment:ok") {
                         //支付成功
-                        wx.reLaunch({
-                          url: '/pages/center/center',
-                          success: function (res) {
-                            successMsg('支付成功');
-                          }
+                        wx.switchTab({
+                          url: '/pages/center/center'
                         });
                       }
                     },

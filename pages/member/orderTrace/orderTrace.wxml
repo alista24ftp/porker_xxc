@@ -42,7 +42,7 @@
                     -->
                     <view wx:for="{{trackingInfo.data}}" wx:for-index="idx">
                       <view class="item {{idx == 0 ? 'active' : ''}}">
-                          <i class="icon icon-dot ion-ios-location-outline"></i>
+                          <i class="icon icon-dot iconfont icon-weibiaoti-"></i>
                           <view class="detail">
                               <view class="desc">{{item.context}}</view>
                               <view class="time">{{item.time}}</view>

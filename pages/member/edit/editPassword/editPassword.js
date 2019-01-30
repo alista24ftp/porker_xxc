@@ -26,7 +26,7 @@ Page({
 
     this.setData({
       newPassword,
-      allowProceed
+      allowProceed: allowProceed.status
     });
   },
 

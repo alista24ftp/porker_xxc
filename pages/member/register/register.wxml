@@ -31,7 +31,7 @@
         <view class="infos">
           
             <view class="item">
-                <text class="label">帐号名</text>
+                <text class="label">呢称</text>
                 <view class="right">
                    <input type="text" name="username" class="txtInput" value="" placeholder="请输入账号名" />
                 </view>
@@ -94,7 +94,7 @@
             <view class="left">取消</view>
             <view class="right" bindtap="submitReg">注册</view>
           -->
-          <button class="left" form-type="reset">取消</button>
+          <!-- <button class="left" form-type="reset">取消</button> -->
           <button class="right" form-type="submit" disabled="{{disabled}}">注册</button>
         </view>
       </form>

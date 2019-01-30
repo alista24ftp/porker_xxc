@@ -1,1 +1,2 @@
 /* pages/member/account/account.wxss */
+.accoutn-bind .item {height: 120rpx;}

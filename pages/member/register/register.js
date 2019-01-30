@@ -63,7 +63,8 @@ Page({
     //console.log(e);
     let phoneNum = e.target.dataset.phone;
     let that = this;
-    if(validatePhone(phoneNum)){
+    let validPhone = validatePhone(phoneNum);
+    if(validPhone.status){
       wx.request({
         url: ApiHost + '/xcc/Login/verificationCode',
         method: 'POST',
@@ -72,7 +73,7 @@ Page({
         },
         success: function (res) {
           console.log(res);
-          if (res.data.code == 200) {
+          if (res.data.code == 200 && res.data.type==1) {
             //console.log(res.data.data);
             successMsg('验证码发送成功');
             that.setData({
@@ -82,7 +83,7 @@ Page({
             });
           } else {
             console.error(res);
-            failMsg('无法获取验证码');
+            failMsg('发送失败稍后再发');
           }
         },
         fail: function (err) {
@@ -92,7 +93,7 @@ Page({
       });
     }else{
       console.error('手机号不正确');
-      failMsg('手机号不正确');
+      failMsg(validPhone.errMsg);
     }
     
   },
@@ -101,7 +102,8 @@ Page({
     //console.log(e);
     let inputInfo = e.detail.value;
     let that = this;
-    if(validateSubmit(inputInfo.username, inputInfo.phone, inputInfo.verify, inputInfo.pwd) && inputInfo.verify == that.data.verifyCode){
+    let validSubmit = validateSubmit(inputInfo.username, inputInfo.phone, inputInfo.verify, inputInfo.pwd);
+    if(validSubmit.status && inputInfo.verify == that.data.verifyCode){
       console.log(that.data.userImg);
       wx.request({
         url: ApiHost + '/xcc/Login/register',
@@ -162,9 +164,11 @@ Page({
           }
         }
       });
+    } else if (inputInfo.verify != that.data.verifyCode){
+      failMsg('验证码不正确');
     }else{
       console.error('注册验证错误, 请检查注册输入信息');
-      failMsg('注册验证错误');
+      failMsg(validSubmit.errMsg);
     }
   },
 

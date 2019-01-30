@@ -4,7 +4,7 @@
   min-height:90rpx;
   line-height:90rpx;
   margin-left:22rpx;
-  border-bottom:1px solid #d9d9d9;
+  border-bottom:0px solid #d9d9d9;
   padding-right:22rpx;
   align-items:center;
 
@@ -63,6 +63,8 @@
   display: block;
   font-size: 26rpx;
   text-align: center;
+  padding: 0 20rpx;
+  line-height: 36rpx;
 }
 
 .rec-item .rec-item-price {
@@ -72,9 +74,20 @@
 }
 
 .isfav {
-  background-color: #faf60c;
+  background-color: #b4282d;
 }
 
-.m-detailBase .collet .isfav-icon {
-  color: #ebe705;
+.m-detailBase .collet .iconfont{font-size: 44rpx;}
+.m-detailBase .collet .icon-mn_xingxing_fill {
+  color: #b4282d;
 }
+
+
+.dis_flex{display: flex; justify-content: space-between;}
+
+.m-detailBase .collet text.icon{padding-right: 40rpx; color: #b4282d;}
+.m-detailBase .collet button{background: none;}
+.m-detailBase .collet button:after{border: none;}
+
+.m-detailBase .info .name{font-size: 34rpx;}
+.m-detailBase .price{font-size: 44rpx;}

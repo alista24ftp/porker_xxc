@@ -174,6 +174,8 @@ Page({
         failMsg('金额必须大于0');
       }else if(Number(amount) - Number(that.data.order.order_price) > eps){
         failMsg('金额超过总金额');
+      }else if(!imgs || imgs == ''){
+        failMsg('必须传图片');
       }else{
         wx.request({
           url: ApiHost + '/xcc/order/refund',

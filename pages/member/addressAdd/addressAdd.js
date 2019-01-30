@@ -114,8 +114,9 @@ Page({
     let addrInfo = e.detail.value;
     let {provIndex, cityIndex, distIndex} = this.data;
     let that = this;
-    //if (validateSubmit(addrInfo.add_name, addrInfo.add_phone, addrInfo.province, addrInfo.city, addrInfo.dist, addrInfo.add_street, addrInfo.add_default)){
-    if(validateSubmit(addrInfo.add_name, addrInfo.add_phone, provIndex, cityIndex, distIndex, addrInfo.add_street, addrInfo.add_default)){
+    //let validSubmit = validateSubmit(addrInfo.add_name,addrInfo.add_phone,addrInfo.province,addrInfo.city,addrInfo.dist,addrInfo.add_street,addrInfo.add_default);
+    let validSubmit = validateSubmit(addrInfo.add_name, addrInfo.add_phone, provIndex, cityIndex, distIndex, addrInfo.add_street, addrInfo.add_default);
+    if(validSubmit.status){
       getToken().then(token=>{
         let reqData = {
           token: token,
@@ -170,7 +171,7 @@ Page({
       
     }else{
       console.error('提交地址验证错误, 请检查地址输入信息');
-      failMsg('地址验证失败');
+      failMsg(validSubmit.errMsg);
     }
   },
 

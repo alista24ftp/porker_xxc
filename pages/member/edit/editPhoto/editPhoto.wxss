@@ -12,14 +12,15 @@
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;
-  border: 1px solid #f23030;
+  border: 1px solid #b4282d;
+  background: #b4282d;
   margin-top: 37rpx;
   border-radius: 3px;
 }
 
 .upload-txt {
   height: 40rpx;
-  color: #f23030;
+  color: #fff;
   font-size: 30rpx;
 }
 
@@ -42,14 +43,14 @@
   height: 80rpx;
   line-height: 80rpx;
   text-align: center;
-  border: 1px solid #777575;
+  border: 1px solid #eee;
   margin-top: 37rpx;
   border-radius: 3px;
-  background-color: #777575;
+  background-color: #eee;
 }
 
 .disabled .edit-txt {
   height: 40rpx;
-  color: #ffffff;
+  color: #333;
   font-size: 30rpx;
 }

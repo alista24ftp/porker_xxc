@@ -15,3 +15,9 @@
   font-size: 24rpx;
   text-align: center;
 }
+
+
+.verify{background: none; margin-right: 30rpx;}
+.verify:after{border: 0;}
+
+.orderRFT{width: 80%; margin: 80rpx 10% 0; display: block; position: none; bottom: auto;}

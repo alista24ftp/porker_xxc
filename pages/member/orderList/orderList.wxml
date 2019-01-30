@@ -6,6 +6,7 @@
             <view class="hd">
                 <!--<text class="orderId">订单编号：201710091414371189</text>-->
                 <text class="orderId">订单编号：{{item.order_sn}}</text>
+                <text class="od-cancel" bindtap="deleteOrder" data-sn="{{item.order_sn}}" wx:if="{{type==0}}">订单删除</text>
                 <text class="od-cancel" bindtap="cancelOrder" data-id="{{item.order_id}}" wx:if="{{type == 1}}">关闭订单</text>
                 <text class="od-cancel" bindtap="traceOrder" data-id="{{item.order_id}}" wx:if="{{type == 3}}">查看物流</text>
             </view>
@@ -47,7 +48,10 @@
                             <text class="p4" wx:if="{{type==3}}">未收货</text>
                             <text class="p4" wx:if="{{type==4}}">未评价</text>
                             <text class="p4" wx:if="{{type==5}}">已购买</text>
-                            <text class="p4" wx:if="{{type==6}}">已退款</text>
+                            <!--<text class="p4" wx:if="{{type==6}}">已退款</text>-->
+                            <text class="p4" wx:if="{{item.or_status==1}}">申请中</text>
+                            <text class="p4" wx:if="{{item.or_status==2}}">退款同意</text>
+                            <text class="p4" wx:if="{{item.or_status==3}}">退款拒绝</text>
                         </view>
                     </view>
                 </view>
@@ -66,7 +70,7 @@
                     <!--<navigator url="../orderTrace/orderTrace"><text class="w-button">追踪物流</text></navigator>-->
                     <!--<view bindtap="comment"><text class="w-button">评价</text></view>-->
                     <text class="w-button btn-refund" bindtap="refund" wx:if="{{type==2 || type == 3}}" data-sn="{{item.order_sn}}">退款</text>
-                    <text class="w-button btn-topay" wx:if="{{type==1}}" bindtap="pay" data-sn="{{item.order_sn}}">去付款</text>
+                    <text class="w-button btn-topay" wx:if="{{type==1}}" bindtap="pay" data-id="{{item.pay_id}}" data-sn="{{item.order_sn}}">去付款</text>
                     <text class="w-button btn-topay" wx:if="{{type==2}}">提醒发货</text>
                     <text class="w-button btn-topay" wx:if="{{type==3}}" bindtap="confirmRecv" data-id="{{item.order_id}}">确认收货</text>
                     <text class="w-button btn-topay" wx:if="{{type==4}}" bindtap="comment" data-id="{{item.order_id}}">去评价</text>

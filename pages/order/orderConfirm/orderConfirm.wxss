@@ -23,5 +23,15 @@
 }
 
 .ma-layort .textarea {
+  display: block;
   font-size: 27rpx;
+  width: calc(100% - 60rpx); padding: 22rpx;
 }
+.imgWrap{margin-right: 10rpx;}
+
+.dis_flex{display: flex; justify-content: space-between;}
+.m-cartGroup .cnt{height: 160rpx; display: flex; flex-direction: column; justify-content: space-between;}
+.m-cartGroup .cnt .dis_flex .line2{margin-bottom: 0; display: flex; align-items:flex-end; }
+.m-cartGroup .cnt .dis_flex .line3{display: flex; align-items:flex-end; }
+.ma-plist .m-cartGroup .xbox {align-items: flex-start;}
+.m-cartGroup .cnt .line1 {line-height: 40rpx;}

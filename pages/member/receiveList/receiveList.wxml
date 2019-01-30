@@ -8,21 +8,20 @@
               <view class="sel-addr" wx:if="{{showSel}}" bindtap="chooseAddress" data-index="{{idx}}">
                     <i class="icon ion-ios-circle-outline"></i>
               </view>
-              <view class="item-left" bindtap="editAddress" data-index="{{idx}}">
-                
+             <view class="item-left" bindtap="editAddress" data-index="{{idx}}">
                 <view class="left">
                     <view class="uname">
                         {{item.add_name}}
                     </view>
-                    <span class="default" wx:if="{{item.add_default == 1}}">默认</span>
-                </view>
-                <view class="middle">
                     <view class="phone">
                         {{item.add_phone}}
                     </view>
+                </view>
+                <view class="middle">
                     <view class="addr">
                         {{item.province}}-{{item.city}}-{{item.dist}}，{{item.add_street}}
                     </view>
+                    <span class="default" wx:if="{{item.add_default == 1}}">默认</span>
                 </view>
               </view>
                 <view class="right">

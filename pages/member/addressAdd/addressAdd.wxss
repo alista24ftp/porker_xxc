@@ -4,7 +4,7 @@
     text-align: center;
     padding-top: 40rpx;
     padding-bottom: 40rpx;
-    border-bottom: 1px solid #394567;
+    border-bottom: 1px solid #eee;
 }
 
 .addr-info .infos {
@@ -17,6 +17,7 @@
     align-items: center;
     height: 90rpx;
     border-bottom: 1px solid #f3f3f3;
+    padding: 0 30rpx;
 }
 
 .addr-info .infos .item .label {
@@ -46,20 +47,25 @@
 
 .form-buttons {
     height: 100rpx;
-    line-height: 100rpx;
+    line-height: 104rpx;
     display: flex;
     position: fixed;
     bottom: 0;
     width: 100%;
     background-color: #fff;
+    border-top: 1px solid #c7c7c7;
 }
 
+.form-buttons button{border-radius: 0;}
+.form-buttons button:after{border: 0;}
 .form-buttons .left {
     flex: 1;
     height: 100rpx;
     line-height: 100rpx;
     text-align: center;
     font-size: 28rpx;
+    background: #fff;
+    
 }
 
 .form-buttons .right {
@@ -70,4 +76,38 @@
     color: #fff;
     font-size: 28rpx;
     text-align: center;
+}
+
+
+
+radio .wx-radio-input{ 
+  /* 自定义样式.... */
+    height: 32rpx; 
+    width: 32rpx;
+    margin-top: -4rpx;
+    border-radius: 50%;
+    border: 2rpx solid #999;
+    background: transparent;
+ }
+ 
+ 
+ 
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+radio .wx-radio-input.wx-radio-input-checked{
+   background: #b4282d;
+   border:2rpx solid #b4282d;
+}
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+radio .wx-radio-input.wx-radio-input-checked::before{
+   border:2rpx solid #b4282d;
+   border-radius: 50%;/* 圆角 */
+   width: 32rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+   height: 32rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+   line-height: 32rpx;
+   text-align: center;
+   font-size:20rpx; /* 对勾大小 30rpx */
+   color:#fff; /* 对勾颜色 白色 */
+   background: #b4282d;
+   transform:translate(-50%, -50%) scale(1);
+   -webkit-transform:translate(-50%, -50%) scale(1);
 }

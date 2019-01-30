@@ -11,3 +11,5 @@
 .empty-tracking {
   text-align: center;
 }
+.deliveryDetail .item:last-child{border-bottom: 1px solid #eee;}
+.deliveryDetail view .item{border-bottom: 0; padding: 30rpx 30rpx 30rpx 10rpx;}

@@ -56,14 +56,20 @@ Page({
                 awaitPayCount: res.data.data[1],
                 awaitShipCount: res.data.data[2],
                 awaitRecvCount: res.data.data[3],
-                awaitComCount: res.data.data[4]
+                awaitComCount: res.data.data[4],
+                orderCompleteCount: res.data.data[5],
+                refundCount: res.data.data[6],
+                orderClosedCount: res.data.data[0]
               });
             }else{
               that.setData({
                 awaitPayCount: 0,
                 awaitShipCount: 0,
                 awaitRecvCount: 0,
-                awaitComCount: 0
+                awaitComCount: 0,
+                orderCompleteCount: 0,
+                refundCount: 0,
+                orderClosedCount: 0
               });
             }
           },
@@ -73,7 +79,10 @@ Page({
               awaitPayCount: 0,
               awaitShipCount: 0,
               awaitRecvCount: 0,
-              awaitComCount: 0
+              awaitComCount: 0,
+              orderCompleteCount: 0,
+              refundCount: 0,
+              orderClosedCount: 0
             });
           }
         });

@@ -26,7 +26,7 @@ Page({
 
     this.setData({
       newEmail,
-      allowProceed
+      allowProceed: allowProceed.status
     });
   },
 

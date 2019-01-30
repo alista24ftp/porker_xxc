@@ -49,7 +49,7 @@
                                 <!-- /react-text -->
                             </view>
                         </view>
-                        <view class="desc"></view>
+                        <!-- <view class="desc"></view> -->
                         <view class="name">{{item.goods_name}}</view>
                         <view class="price">
                             <!-- react-text: 4126 -->￥

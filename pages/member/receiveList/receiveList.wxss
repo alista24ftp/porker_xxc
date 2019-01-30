@@ -1,5 +1,5 @@
 /* pages/member/receiveList/receiveList.wxss */
-.m-shipAddress .item {
+/* .m-shipAddress .item {
     display: block;
     padding: 32rpx 0 24rpx 30rpx;
 }
@@ -51,13 +51,21 @@
 .orderReceiveList .m-shipAddress .defualtItem {
     position: relative;
     margin-left: 75rpx;
-}
+} */
+.m-shipAddress .item{display: flex; justify-content: space-between;}
+.m-shipAddress .item .left {display: flex; width: 100%;}
+.m-shipAddress .item .middle{padding-left: 0;}
+.default{margin-top: 10rpx;}
+.uname{margin-right: 20rpx;}
 
 .sel-addr {
   display: flex;
   margin-right: 20rpx;
+  align-items: center;
 }
 
 .sel-addr .ion-ios-circle-outline {
-  font-size: 70rpx;
+  font-size: 40rpx;
 }
+
+.orderReceiveList .w-button {font-size: 32rpx; height: 100rpx; line-height: 100rpx;}
